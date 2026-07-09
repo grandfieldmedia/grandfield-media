@@ -1,0 +1,82 @@
+---
+interface Props {
+  course: { resources?: any[]; purchaseUrl: string; };
+}
+const { course } = Astro.props;
+const defaultResources = [
+  { num: "01", title: "SAP Integration Suite Interview Questions — 200+ Q&A", description: "The flagship question bank: 200 questions in short-answer format for rapid revision, plus 200 in long-answer format that show you how experienced consultants explain concepts with clarity and confidence.", items: ["Short answers for quick recall, long answers for depth", "Organized by topic across the full Integration Suite", "Tagged by difficulty so you revise in the right order"] },
+  { num: "02", title: "Top 50 Must-Know Interview Questions", description: "The questions that appear again and again in real interviews — condensed into the 50 you absolutely cannot walk in without. If you only have 48 hours before the interview, start here.", items: ["Condensed expert answers you can rehearse quickly", "Memory anchors that make answers stick", "Covers the highest-frequency interview topics first"] },
+  { num: "03", title: "Quick Revision Cheat Sheet", description: "A dense, scannable reference for last-minute preparation — key concepts, comparisons and syntax in tight tables you can review on your phone in the waiting room.", items: ["Comparison tables for commonly confused concepts", "Groovy script snippets in clean code blocks", "Designed for the final 30 minutes before you walk in"] },
+  { num: "04", title: "50 Real-Time Project Scenario Questions", description: "The round-two killers. Real project situations — the kind that separate candidates who memorized definitions from candidates who sound like they've delivered projects.", items: ["Scenario-based questions across 6 real-world categories", "Learn to answer with project context, not textbook theory", "Prepares you for the hardest part of the interview"] }
+];
+const resources = course.resources || defaultResources;
+const normalResources = resources.filter(r => !r.isWide);
+const wideResource = resources.find(r => r.isWide);
+---
+
+<section class="resources" id="inside">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">What's inside</span>
+      <h2>Five resources. One complete interview system.</h2>
+      <p>Every document is professionally structured with difficulty tags, clickable navigation and clean formatting — built for fast revision the night before your interview.</p>
+    </div>
+    <div class="res-grid">
+      {normalResources.map((res) => (
+        <div class="res-card">
+          <span class="res-num">RESOURCE {res.num}</span>
+          <h3>{res.title}</h3>
+          <p>{res.description}</p>
+          {res.items && <ul>{res.items.map(item => <li>{item}</li>)}</ul>}
+        </div>
+      ))}
+      {wideResource && (
+        <div class="res-card wide">
+          <div>
+            <span class="res-num">RESOURCE {wideResource.num}</span><span class="res-badge-new">2026 UPDATE</span>
+            <h3 style="margin-top:14px">AI Capabilities with SAP Integration Suite</h3>
+            <p style="margin-top:10px">Interviewers are already asking about AI in the integration landscape. This bonus guide covers the AI capabilities in SAP Integration Suite so you can answer the questions most candidates haven't even prepared for — and instantly stand out.</p>
+          </div>
+          <div style="text-align:center">
+            <a class="btn btn-primary" href={course.purchaseUrl} style="white-space:nowrap">Get All 5 Resources</a>
+            <p class="btn-note" style="color:#AFC6E2">Instant access after purchase</p>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .resources { background: var(--sky); padding: 72px 0; }
+  .res-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .res-card { background: #fff; border-radius: 14px; padding: 30px; border: 1px solid #fff; box-shadow: 0 4px 18px rgba(10, 27, 51, 0.06); position: relative; }
+  .res-num { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--blue); background: var(--sky); padding: 5px 10px; border-radius: 6px; display: inline-block; margin-bottom: 16px; }
+  .res-card h3 { font-family: var(--display); font-size: 19px; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+  .res-card p { font-size: 15px; color: var(--slate); margin-bottom: 12px; }
+  .res-card ul { margin-top: 12px; padding-left: 0; list-style: none; }
+  .res-card li { font-size: 14.5px; color: var(--slate); padding-left: 24px; position: relative; margin-bottom: 7px; }
+  .res-card li::before { content: ""; position: absolute; left: 0; top: 7px; width: 12px; height: 12px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3" stroke="%231E9E6A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat; }
+  .res-card.wide { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; gap: 26px; align-items: center; background: linear-gradient(120deg, #0F2C55, #0A1B33); color: #fff; border: none; padding: 32px; }
+  .res-card.wide h3 { color: #fff; }
+  .res-card.wide p { color: #C6D6EA; }
+  .res-card.wide .res-num { background: rgba(90, 170, 240, 0.15); color: #8FC4F5; }
+  .res-badge-new { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; color: #fff; background: var(--green); padding: 4px 9px; border-radius: 5px; margin-left: 8px; vertical-align: middle; }
+  
+  @media (max-width: 920px) {
+    .resources { padding: 56px 0; }
+    .res-grid { grid-template-columns: 1fr; gap: 16px; }
+    .res-card.wide { grid-template-columns: 1fr; }
+  }
+  
+  @media (max-width: 520px) {
+    .res-card { padding: 24px; }
+    .res-card h3 { font-size: 17px; }
+    .res-card p { font-size: 14px; }
+    .res-card li { font-size: 14px; padding-left: 22px; }
+  }
+  
+  @media (max-width: 380px) {
+    .res-card { padding: 22px; }
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+// Grandfield Media Verification Page
+// A professional single-page website for bank and payment processor verification
+
+interface Props {
+  title?: string;
+}
+
+const siteTitle = "Grandfield Media | Digital Media Company Creating & Selling Digital Assets";
+const siteDescription = "Grandfield Media creates, owns, and sells digital assets including courses, books, templates, and software. Learn about our AI-powered media company.";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{siteTitle}</title>
+    <meta name="description" content={siteDescription} />
+    <meta name="keywords" content="grandfield media, digital media company, digital assets, create own sell, AI media, online courses, ebooks" />
+
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content={siteTitle} />
+    <meta property="og:description" content={siteDescription} />
+    <meta property="og:url" content="https://grandfieldmedia.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Grandfield Media" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={siteTitle} />
+    <meta name="twitter:description" content={siteDescription} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://grandfieldmedia.com" />
+
+    <!-- Verification & Trust -->
+    <meta name="author" content="Grandfield Media" />
+    <meta name="copyright" content="Copyright © 2026 Grandfield Media" />
+    <meta name="language" content="English" />
+
+    <!-- JSON-LD Schema Markup for Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Grandfield Media",
+      "description": "A digital media company that creates, owns, and sells digital assets",
+      "url": "https://grandfieldmedia.com",
+      "email": "contact@grandfieldmedia.com",
+      "sameAs": ["https://twitter.com/grandfieldmedia", "https://linkedin.com/company/grandfieldmedia", "https://youtube.com/@grandfieldmedia"],
+      "logo": "https://grandfieldmedia.com/logo.svg",
+      "areaServed": "Worldwide",
+      "contactPoint": {"@type": "ContactPoint", "contactType": "Customer Service", "email": "contact@grandfieldmedia.com"},
+      "knows": {"@type": "Thing", "name": "Digital Asset Creation"}
+    }
+    </script>
+  </head>
+  <body class="bg-white text-slate-900">
+    <header class="border-b border-slate-200 bg-white sticky top-0 z-50 shadow-sm">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex items-center justify-between">
+          <a href="#" class="flex items-center gap-3 group">
+            <img src="/logo.svg" alt="Grandfield Media Logo" class="w-10 h-10 rounded-lg" width="40" height="40" />
+            <div>
+              <h1 class="text-xl font-bold text-slate-900">Grandfield Media</h1>
+              <p class="text-xs text-slate-500">Digital Assets Company</p>
+            </div>
+          </a>
+          <nav class="hidden md:flex gap-8">
+            <a href="#what-we-do" class="text-sm font-medium text-slate-600 hover:text-gold-600 transition-colors">Services</a>
+            <a href="#connect" class="text-sm font-medium text-slate-600 hover:text-gold-600 transition-colors">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <section class="relative bg-gradient-to-b from-white via-slate-50 to-white py-20 sm:py-32">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center animate-fade-in">
+          <div class="inline-block mb-6">
+            <span class="px-4 py-2 rounded-full bg-gold-50 text-gold-600 text-sm font-semibold">Welcome to Grandfield Media</span>
+          </div>
+          <h2 class="text-5xl sm:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
+            We Create, Own, and Sell<span class="block text-gold-600 mt-2">Digital Assets</span>
+          </h2>
+          <p class="text-xl text-slate-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Grandfield Media is a digital media company dedicated to creating, owning, and monetizing digital assets through innovative AI-powered solutions.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="#what-we-do" class="inline-block px-8 py-3 bg-gold-600 text-white font-semibold rounded-lg hover:bg-gold-700 transition-colors shadow-lg hover:shadow-xl">Learn About Us</a>
+            <a href="#connect" class="inline-block px-8 py-3 border-2 border-gold-600 text-gold-600 font-semibold rounded-lg hover:bg-gold-50 transition-colors">Get In Touch</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="what-we-do" class="py-20 sm:py-32 bg-slate-900 text-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-16">
+          <h2 class="text-4xl sm:text-5xl font-bold mb-6">What We Do</h2>
+          <p class="text-lg text-slate-300 leading-relaxed">
+            Grandfield Media is a digital media company that creates, owns, and sells digital assets. We leverage AI technology to develop, publish, and monetize a diverse portfolio of digital products and services for a global audience.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div class="bg-slate-800 rounded-xl p-8 border border-slate-700"><h3 class="text-xl font-bold mb-2">Books & eBooks</h3><p class="text-slate-400">Digital publications covering diverse topics and niches.</p></div>
+          <div class="bg-slate-800 rounded-xl p-8 border border-slate-700"><h3 class="text-xl font-bold mb-2">Online Courses</h3><p class="text-slate-400">Comprehensive educational programs for skill development.</p></div>
+          <div class="bg-slate-800 rounded-xl p-8 border border-slate-700"><h3 class="text-xl font-bold mb-2">Templates & Tools</h3><p class="text-slate-400">Ready-to-use resources for productivity and growth.</p></div>
+          <div class="bg-slate-800 rounded-xl p-8 border border-slate-700"><h3 class="text-xl font-bold mb-2">Prompt Packs</h3><p class="text-slate-400">Curated AI prompt collections for enhancement.</p></div>
+          <div class="bg-slate-800 rounded-xl p-8 border border-slate-700"><h3 class="text-xl font-bold mb-2">Software & Apps</h3><p class="text-slate-400">Custom software solutions for various needs.</p></div>
+          <div class="bg-slate-800 rounded-xl p-8 border border-slate-700"><h3 class="text-xl font-bold mb-2">Digital Downloads</h3><p class="text-slate-400">Instant digital products available for purchase.</p></div>
+        </div>
+        <div class="mt-16 p-8 bg-slate-800 rounded-xl border border-slate-700">
+          <h3 class="text-2xl font-bold mb-4">Our Business Model</h3>
+          <p class="text-slate-300">At Grandfield Media, we create original, high-quality digital assets using cutting-edge AI technology. We own all intellectual property, maintain complete control, and monetize directly through multiple channels. This sustainable model allows us to serve a global audience profitably.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="connect" class="py-20 sm:py-32 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-16">
+          <h2 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">Connect With Us</h2>
+          <p class="text-lg text-slate-600">We'd love to hear from you. Reach out for partnerships, inquiries, or investments.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-12">
+          <div class="space-y-8">
+            <div class="flex gap-4">
+              <div class="flex-shrink-0">
+                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-gold-500 text-white">
+                  <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-lg font-medium text-slate-900">Email</h3>
+                <a href="mailto:contact@grandfieldmedia.com" class="text-gold-600 hover:text-gold-700 font-medium">contact@grandfieldmedia.com</a>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium text-slate-900 mb-4">Follow Us</h3>
+              <div class="flex gap-4">
+                <a href="https://twitter.com/grandfieldmedia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-slate-100 text-slate-600 hover:bg-gold-500 hover:text-white transition-colors" title="Twitter">
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 3.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 01.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 01.77 16.107a11.616 11.616 0 006.29 1.84" />
+                  </svg>
+                </a>
+                <a href="https://linkedin.com/company/grandfieldmedia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-slate-100 text-slate-600 hover:bg-gold-500 hover:text-white transition-colors" title="LinkedIn">
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.338 16.338H13.67V12.16c0-.995-.017-2.292-1.194-2.292-1.195 0-1.38.93-1.38 1.891v4.579h-2.674V9.75h2.567v.94h.036c.358-.675 1.228-1.387 2.528-1.387 2.701 0 3.2 1.779 3.2 4.105v4.33zM5.337 8.855a1.55 1.55 0 11-.001-3.1 1.55 1.55 0 01.001 3.1zm1.338 7.483H3.999V9.75h2.676v6.588zM17.988 18H2.012A2.013 2.013 0 010 15.988V2.012A2.013 2.013 0 012.012 0h15.976A2.013 2.013 0 0120 2.012v13.976A2.013 2.013 0 0117.988 18z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+                <a href="https://youtube.com/@grandfieldmedia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-slate-100 text-slate-600 hover:bg-gold-500 hover:text-white transition-colors" title="YouTube">
+                  <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 10.794 22 12 22 12s0 1.206-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-2.920.846-14.626.846-14.626.846s-11.706 0-14.626-.846a2.504 2.504 0 0 1-1.768-1.768C2.002 13.206 2 12 2 12s0-1.206.418-4.814a2.504 2.504 0 0 1 1.768-1.768C5.374 5.572 18.08 5.572 18.08 5.572s11.706 0 14.626.846zM9.375 15.5v-11l6.171 5.5-6.171 5.5z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-8 border border-slate-200">
+            <form class="space-y-6" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+              <div>
+                <label for="name" class="block text-sm font-medium text-slate-900">Name</label>
+                <input type="text" name="name" id="name" required class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-500 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-200" placeholder="Your name" />
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-slate-900">Email</label>
+                <input type="email" name="email" id="email" required class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-500 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-200" placeholder="your@email.com" />
+              </div>
+              <div>
+                <label for="message" class="block text-sm font-medium text-slate-900">Message</label>
+                <textarea name="message" id="message" rows="4" required class="mt-2 block w-full rounded-lg border border-slate-300 px-4 py-2 text-slate-900 placeholder-slate-500 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-200" placeholder="Tell us what you'd like to discuss..."></textarea>
+              </div>
+              <button type="submit" class="w-full px-6 py-3 bg-gold-600 text-white font-semibold rounded-lg hover:bg-gold-700 transition-colors shadow-lg hover:shadow-xl">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-300 border-t border-slate-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div><h3 class="text-white font-bold mb-4">Grandfield Media</h3><p class="text-sm text-slate-400">Creating, owning, and selling digital assets through AI-powered innovation.</p></div>
+          <div><h4 class="text-white font-semibold mb-4">Quick Links</h4><ul class="space-y-2 text-sm"><li><a href="#what-we-do" class="text-slate-400 hover:text-gold-500 transition-colors">What We Do</a></li><li><a href="#connect" class="text-slate-400 hover:text-gold-500 transition-colors">Contact</a></li><li><a href="mailto:contact@grandfieldmedia.com" class="text-slate-400 hover:text-gold-500 transition-colors">Email</a></li></ul></div>
+          <div><h4 class="text-white font-semibold mb-4">Legal</h4><ul class="space-y-2 text-sm"><li><a href="#privacy" class="text-slate-400 hover:text-gold-500 transition-colors">Privacy Policy</a></li><li><a href="#terms" class="text-slate-400 hover:text-gold-500 transition-colors">Terms of Service</a></li><li><a href="#disclaimer" class="text-slate-400 hover:text-gold-500 transition-colors">Disclaimer</a></li></ul></div>
+          <div><h4 class="text-white font-semibold mb-4">Follow Us</h4><div class="flex gap-3"><a href="https://twitter.com/grandfieldmedia" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-gold-500 transition-colors">Twitter</a><a href="https://linkedin.com/company/grandfieldmedia" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-gold-500 transition-colors">LinkedIn</a><a href="https://youtube.com/@grandfieldmedia" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-gold-500 transition-colors">YouTube</a></div></div>
+        </div>
+        <div class="border-t border-slate-800 pt-8">
+          <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
+            <div><p>&copy; 2026 Grandfield Media. All rights reserved.</p></div>
+            <div><p>Email: <a href="mailto:contact@grandfieldmedia.com" class="text-gold-500 hover:text-gold-400">contact@grandfieldmedia.com</a></p></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: system-ui, -apple-system, sans-serif; }
+  a { text-decoration: none; color: inherit; }
+  button { cursor: pointer; }
+  @media print { body { background: white; } a { text-decoration: underline; } }
+</style>

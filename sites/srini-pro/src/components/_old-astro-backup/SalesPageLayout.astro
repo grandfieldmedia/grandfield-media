@@ -1,0 +1,127 @@
+---
+import Topbar from '../components/sales/Topbar.astro';
+import Hero from '../components/sales/Hero.astro';
+import PainSection from '../components/sales/PainSection.astro';
+import Pipeline from '../components/sales/Pipeline.astro';
+import ResourcesSection from '../components/sales/ResourcesSection.astro';
+import VideoSection from '../components/sales/VideoSection.astro';
+import CoverageSection from '../components/sales/CoverageSection.astro';
+import PersonasSection from '../components/sales/PersonasSection.astro';
+import PricingSection from '../components/sales/PricingSection.astro';
+import FAQSection from '../components/sales/FAQSection.astro';
+import FinalCTA from '../components/sales/FinalCTA.astro';
+import Footer from '../components/sales/Footer.astro';
+
+interface Props {
+  course: any;
+}
+
+const { course } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{course.title} | srini.pro</title>
+    <meta name="description" content={course.description}>
+    <meta property="og:title" content={course.title}>
+    <meta property="og:description" content={course.description}>
+    <meta property="og:image" content={course.heroImage}>
+    <meta property="og:url" content={`https://srini.pro/courses/${course.slug}`}>
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R29BZQ94J4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-R29BZQ94J4');
+    </script>
+
+    <!-- Nudgify -->
+    <script>
+        (function(w){
+            var k="nudgify",n=w[k]||(w[k]={});
+            n.uuid="8fd64e94-43ff-49b8-a0e2-67a15d40071a";
+            var d=document,s=d.createElement("script");
+            s.src="https://pixel.nudgify.com/pixel.js";
+            s.async=1;
+            s.charset="utf-8";
+            d.getElementsByTagName("head")[0].appendChild(s)
+        })(window)
+    </script>
+
+    <!-- OptinMonster -->
+    <script>(function(d,u,ac){var s=d.createElement('script');s.type='text/javascript';s.src='https://a.omappapi.com/app/js/api.min.js';s.async=true;s.dataset.user=u;s.dataset.account=ac;d.getElementsByTagName('head')[0].appendChild(s);})(document,380159,403056);</script>
+
+    <style>
+      :root{
+        --ink:#0A1B33;
+        --ink-soft:#16294A;
+        --blue:#0A6ED1;
+        --blue-deep:#0857A6;
+        --sky:#EAF3FC;
+        --paper:#FFFFFF;
+        --paper-soft:#F6FAFE;
+        --slate:#41506A;
+        --line:#D7E4F2;
+        --amber:#F0862B;
+        --amber-deep:#D9711A;
+        --green:#1E9E6A;
+        --display:'Sora',sans-serif;
+        --body:'Inter',sans-serif;
+        --mono:'IBM Plex Mono',monospace;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+      html{scroll-behavior:smooth;overflow-x:hidden}
+      body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+      img{max-width:100%;display:block}
+      a{color:var(--blue);text-decoration:none}
+      .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+      .mono-tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+      
+      .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:700;border-radius:10px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;text-align:center;border:none;text-decoration:none}
+      .btn-primary{background:var(--amber);color:#fff;font-size:18px;padding:18px 38px;box-shadow:0 8px 24px rgba(240,134,43,.35)}
+      .btn-primary:hover{background:var(--amber-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(240,134,43,.4)}
+      .btn-small{background:var(--amber);color:#fff;font-size:15px;padding:11px 22px;border-radius:10px}
+      .btn-small:hover{background:var(--amber-deep)}
+      
+      section{padding:72px 0}
+      .section-head{max-width:720px;margin:0 auto 48px;text-align:center}
+      .section-head .mono-tag{color:var(--blue);display:block;margin-bottom:12px}
+      .section-head h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1.2;letter-spacing:-.01em}
+      .section-head p{color:var(--slate);margin-top:14px;font-size:16.5px}
+      
+      @media (max-width:920px){
+        section{padding:56px 0}
+        .wrap{padding:0 24px}
+      }
+      @media (max-width:520px){
+        .wrap{padding:0 18px}
+      }
+    </style>
+</head>
+<body>
+    <Topbar course={course} />
+    <Hero course={course} />
+    <PainSection course={course} />
+    <Pipeline />
+    <ResourcesSection course={course} />
+    <Pipeline />
+    <VideoSection course={course} />
+    <Pipeline />
+    <CoverageSection course={course} />
+    <PersonasSection course={course} />
+    <PricingSection course={course} />
+    <FAQSection course={course} />
+    <FinalCTA course={course} />
+    <Footer />
+</body>
+</html>

@@ -1,0 +1,53 @@
+<section id="coverage">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">Full coverage</span>
+      <h2>Every topic interviewers pull from — nothing left to chance</h2>
+    </div>
+    <div class="cov-grid">
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#0A6ED1" stroke-width="2"/><circle cx="9" cy="9" r="2.5" fill="#0A6ED1"/></svg>Cloud Integration (CPI)</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="3" stroke="#0A6ED1" stroke-width="2"/><path d="M6 9h6" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>API Management</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 13 9 4l6 9" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Integration Advisor</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h4l2-4 2 8 2-4h2" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Event Mesh</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="5" cy="9" r="2.5" stroke="#0A6ED1" stroke-width="2"/><circle cx="13" cy="9" r="2.5" stroke="#0A6ED1" stroke-width="2"/><path d="M7.5 9h3" stroke="#0A6ED1" stroke-width="2"/></svg>Open Connectors</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5h12M3 9h12M3 13h8" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>B2B Integration</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#0A6ED1" stroke-width="2"/><path d="M3.5 15c.8-2.6 3-4 5.5-4s4.7 1.4 5.5 4" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>Trading Partner Mgmt</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l6 3v4c0 4-2.7 6.3-6 7-3.3-.7-6-3-6-7V5l6-3z" stroke="#0A6ED1" stroke-width="2" stroke-linejoin="round"/></svg>Security & Certificates</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 14V8M9 14V4M13 14v-4" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>SAP BTP Fundamentals</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#0A6ED1" stroke-width="2"/><path d="M9 5v4l3 2" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Monitoring & Ops</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14c2-6 8-6 10-10M9 4h5v5" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Real Project Scenarios</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v3M9 12v3M3 9h3M12 9h3M5 5l2 2M11 11l2 2M13 5l-2 2M7 11l-2 2" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>AI Capabilities (2026)</div>
+    </div>
+    <p class="cov-note">Every question is tagged by difficulty, so you always know what to revise first:</p>
+    <div class="diff-tags">
+      <span class="diff basic">BASIC</span>
+      <span class="diff inter">INTERMEDIATE</span>
+      <span class="diff adv">ADVANCED</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  #coverage { padding: 72px 0; }
+  .cov-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .cov-item { border: 1px solid var(--line); border-radius: 10px; padding: 18px 16px; font-size: 14.5px; font-weight: 600; display: flex; align-items: center; gap: 12px; background: #fff; transition: border-color 0.15s ease, box-shadow 0.15s ease; }
+  .cov-item:hover { border-color: var(--blue); box-shadow: 0 4px 14px rgba(10, 110, 209, 0.12); }
+  .cov-item svg { flex: none; }
+  .cov-note { text-align: center; margin-top: 28px; color: var(--slate); font-size: 15px; }
+  .diff-tags { display: flex; justify-content: center; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+  .diff { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; padding: 6px 12px; border-radius: 6px; }
+  .diff.basic { background: #E7F6EE; color: #177A51; }
+  .diff.inter { background: #FFF3E2; color: #B36A12; }
+  .diff.adv { background: #FDEAEA; color: #B23A3A; }
+  
+  @media (max-width: 920px) {
+    #coverage { padding: 56px 0; }
+    .cov-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .cov-item { padding: 16px 14px; font-size: 13.5px; }
+  }
+  
+  @media (max-width: 520px) {
+    .cov-grid { grid-template-columns: 1fr; gap: 10px; }
+    .cov-item { padding: 14px 12px; font-size: 13px; }
+  }
+</style>

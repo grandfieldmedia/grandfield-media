@@ -1,0 +1,42 @@
+{
+  "slug": "cpi-interview",
+  "title": "SAP Integration Suite Interview Mastery Kit",
+  "subtitle": "Walk into your SAP Integration Suite interview already knowing the answers.",
+  "description": "200+ carefully selected interview questions with expert answers covering CPI, API Management, Event Mesh, B2B, Security, BTP and 50 real-time project scenarios.",
+  "price": 29.99,
+  "pricingModel": "one-time",
+  "heroImage": "https://uploads.teachablecdn.com/attachments/46fe84a71ad54bd0a3da05b03333aebe.png",
+  "videoEmbed": "https://www.youtube.com/embed/Y-qi9hNo9Cw",
+  "purchaseUrl": "https://school.srini.pro/purchase?product_id=6791640&origin=pdp",
+  "painPoints": [
+    {"tag": "Pain 01", "title": "I froze on a question I actually knew.", "description": "Under pressure, unstructured knowledge falls apart."},
+    {"tag": "Pain 02", "title": "The scenario questions killed me.", "description": "Real project scenario questions separate the best candidates."},
+    {"tag": "Pain 03", "title": "I'm from PI/PO. The vocabulary changed.", "description": "You need to translate experience into the new CPI/BTP stack."}
+  ],
+  "resources": [
+    {"num": "01", "title": "200+ Interview Q&A", "description": "Flagship question bank with short and long answers.", "items": ["Short/long answer format", "Organized by topic", "Tagged by difficulty"]},
+    {"num": "02", "title": "Top 50 Must-Know Questions", "description": "Most common interview questions condensed.", "items": ["Expert answers", "Memory anchors", "Highest-frequency topics"]},
+    {"num": "03", "title": "Quick Revision Cheat Sheet", "description": "Scannable reference for last-minute prep.", "items": ["Comparison tables", "Code snippets", "Final 30 minutes prep"]},
+    {"num": "04", "title": "50 Real-Time Project Scenarios", "description": "Real project situations that appear in interviews.", "items": ["Real-world categories", "Project context", "Advanced difficulty"]},
+    {"num": "05", "title": "AI Capabilities with Integration Suite", "description": "New 2026 AI topic coverage.", "isWide": true, "isNew": true}
+  ],
+  "coverage": ["Cloud Integration (CPI)", "API Management", "Integration Advisor", "Event Mesh", "Open Connectors", "B2B Integration", "Trading Partner Mgmt", "Security & Certificates", "SAP BTP Fundamentals", "Monitoring & Ops", "Real Project Scenarios", "AI Capabilities (2026)"],
+  "personas": [
+    {"tag": "Fresher/Beginner", "title": "Breaking into Integration Suite", "description": "See exactly what gets asked and how confident answers sound."},
+    {"tag": "PI/PO Consultant", "title": "Transitioning to Integration Suite", "description": "Map your experience onto CPI, API Management and BTP."},
+    {"tag": "Experienced Consultant", "title": "Aiming for senior roles", "description": "Deep architecture, security, and B2B onboarding coverage."}
+  ],
+  "faq": [
+    {"question": "Is this a video course?", "answer": "Structured course with 5 sections and 8 lessons on school.srini.pro."},
+    {"question": "Will this work for beginners?", "answer": "Yes. Questions tagged Basic/Intermediate/Advanced."},
+    {"question": "Relevant for PI/PO transition?", "answer": "Designed specifically for PI/PO consultants moving to Integration Suite."},
+    {"question": "Pay again for updates?", "answer": "No. One-time payment with lifetime access and free updates."},
+    {"question": "Different from free resources?", "answer": "Structured, curated, expert-answered system vs scattered free content."},
+    {"question": "When do I get access?", "answer": "Immediately after purchase on school.srini.pro."}
+  ],
+  "cta": {
+    "headline": "Your next interview could be days away. Be the candidate who prepared like a professional.",
+    "description": "200+ questions, expert answers, real scenarios, and a cheat sheet for the final hour.",
+    "buttonText": "Get the Interview Mastery Kit"
+  }
+}

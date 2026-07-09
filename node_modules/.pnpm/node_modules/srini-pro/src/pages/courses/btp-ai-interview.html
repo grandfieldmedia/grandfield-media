@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SAP BTP and AI Interview Mastery Kit — 400+ Questions & Real Scenarios | srini.pro</title>
+<meta name="description" content="Master SAP BTP and AI interviews with 400+ expert-answered questions covering Cloud Foundry, Kyma, AI Core, Joule, and 50 real project scenarios. One-time payment, lifetime access, lifetime updates.">
+<meta property="og:title" content="SAP BTP and AI Interview Mastery Kit">
+<meta property="og:description" content="400+ interview questions, expert answers, real project scenarios for BTP and AI. One-time payment. Lifetime access.">
+<meta property="og:image" content="https://uploads.teachablecdn.com/attachments/bdefecd20cad4d4bb5457e81213ed06f.png">
+<meta property="og:url" content="https://srini.pro/courses/btp-ai-interview">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A1B33;
+    --ink-soft:#16294A;
+    --blue:#0A6ED1;
+    --blue-deep:#0857A6;
+    --sky:#EAF3FC;
+    --paper:#FFFFFF;
+    --paper-soft:#F6FAFE;
+    --slate:#41506A;
+    --line:#D7E4F2;
+    --amber:#F0862B;
+    --amber-deep:#D9711A;
+    --green:#1E9E6A;
+    --display:'Sora',sans-serif;
+    --body:'Inter',sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;overflow-x:hidden}
+  body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  img{max-width:100%;display:block}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .mono-tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+
+  /* ---------- Buttons ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:700;border-radius:10px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;text-align:center}
+  .btn-primary{background:var(--amber);color:#fff;font-size:18px;padding:18px 38px;box-shadow:0 8px 24px rgba(240,134,43,.35)}
+  .btn-primary:hover{background:var(--amber-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(240,134,43,.4)}
+  .btn-primary:focus-visible,.btn-small:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+  .btn-small{background:var(--amber);color:#fff;font-size:15px;padding:11px 22px}
+  .btn-small:hover{background:var(--amber-deep)}
+  .btn-note{font-family:var(--body);font-weight:500;font-size:13.5px;color:var(--slate);margin-top:12px}
+
+  /* ---------- Sticky bar ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-family:var(--display);font-weight:800;font-size:19px;color:var(--ink)}
+  .brand span{color:var(--blue)}
+  .topbar-right{display:flex;align-items:center;gap:16px}
+  .topbar-price{font-family:var(--display);font-weight:700;font-size:16px;color:var(--ink)}
+  .topbar-price s{color:var(--slate);font-weight:500;font-size:13px;margin-right:6px}
+
+  /* ---------- Hero ---------- */
+  .hero{background:linear-gradient(180deg,var(--ink) 0%,var(--ink-soft) 100%);color:#fff;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;inset:0;background:radial-gradient(900px 400px at 80% -10%,rgba(10,110,209,.35),transparent 60%);pointer-events:none}
+  .hero-inner{position:relative;z-index:1;padding:76px 0 64px;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+  .hero .eyebrow{color:#8FC4F5;margin-bottom:18px;display:inline-block;border:1px solid rgba(143,196,245,.35);padding:6px 12px;border-radius:6px}
+  .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,4.6vw,52px);line-height:1.12;letter-spacing:-.01em;margin-bottom:20px}
+  .hero h1 em{font-style:normal;color:#5AAAF0}
+  .hero .sub{font-size:18px;color:#C6D6EA;max-width:560px;margin-bottom:30px}
+  .hero-trust{display:flex;flex-wrap:wrap;gap:18px;margin-top:26px}
+  .hero-trust div{display:flex;align-items:center;gap:8px;font-size:14px;color:#AFC6E2;font-weight:500}
+  .hero-trust svg{flex:none}
+  .hero-card{background:#fff;border-radius:16px;padding:26px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+  .hero-card img{border-radius:10px;margin-bottom:18px}
+  .stack-line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line);font-size:14px;color:var(--ink)}
+  .stack-line:last-of-type{border-bottom:none}
+  .stack-line .mono-tag{color:var(--blue);letter-spacing:.04em}
+  .hero-card .price-row{display:flex;align-items:baseline;gap:10px;margin-top:16px}
+  .hero-card .price{font-family:var(--display);font-weight:800;font-size:36px;color:var(--ink)}
+  .hero-card .per{font-size:13px;color:var(--slate)}
+  .hero-card .btn-primary{width:100%;margin-top:14px;font-size:16px;padding:15px}
+
+  /* ---------- Pipeline divider (signature) ---------- */
+  .pipeline{display:flex;align-items:center;justify-content:center;gap:0;padding:0;margin:0 auto;max-width:520px}
+  .pipeline .node{width:12px;height:12px;border-radius:50%;background:var(--blue);flex:none;box-shadow:0 0 0 4px var(--sky)}
+  .pipeline .link{flex:1;height:0;border-top:2px dashed var(--line)}
+  .pipeline-block{padding:56px 24px 0}
+
+  /* Proof video */
+  .video-frame{max-width:840px;margin:0 auto;border-radius:16px;overflow:hidden;box-shadow:0 20px 50px rgba(10,27,51,.18);border:1px solid var(--line)}
+  .video-ratio{position:relative;width:100%;padding-top:56.25%;background:var(--ink)}
+  .video-ratio iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* ---------- Sections ---------- */
+  section{padding:72px 0}
+  .section-head{max-width:720px;margin:0 auto 48px;text-align:center}
+  .section-head .mono-tag{color:var(--blue);display:block;margin-bottom:12px}
+  .section-head h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1.2;letter-spacing:-.01em}
+  .section-head p{color:var(--slate);margin-top:14px;font-size:16.5px}
+
+  /* Pain */
+  .pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .pain-card{background:var(--paper-soft);border:1px solid var(--line);border-radius:14px;padding:28px}
+  .pain-card .mono-tag{color:#C24343;display:block;margin-bottom:12px}
+  .pain-card h3{font-family:var(--display);font-size:18px;font-weight:600;margin-bottom:10px;line-height:1.35}
+  .pain-card p{font-size:15px;color:var(--slate)}
+  .pain-close{text-align:center;margin-top:40px;font-size:17px;color:var(--ink);font-weight:500;max-width:640px;margin-left:auto;margin-right:auto}
+  .pain-close strong{color:var(--blue)}
+
+  /* Resources */
+  .resources{background:var(--sky)}
+  .res-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .res-card{background:#fff;border-radius:14px;padding:30px;border:1px solid #fff;box-shadow:0 4px 18px rgba(10,27,51,.06);position:relative}
+  .res-card .res-num{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--blue);background:var(--sky);padding:5px 10px;border-radius:6px;display:inline-block;margin-bottom:16px}
+  .res-card h3{font-family:var(--display);font-size:19px;font-weight:700;margin-bottom:10px;line-height:1.3}
+  .res-card p{font-size:15px;color:var(--slate)}
+  .res-card ul{margin-top:12px;padding-left:0;list-style:none}
+  .res-card li{font-size:14.5px;color:var(--slate);padding-left:24px;position:relative;margin-bottom:7px}
+  .res-card li::before{content:"";position:absolute;left:0;top:7px;width:12px;height:12px;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12"><path d="M2 6.5 5 9.5 10 3" stroke="%231E9E6A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat}
+  .res-card.wide{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;background:linear-gradient(120deg,#0F2C55,#0A1B33);color:#fff;border:none}
+  .res-card.wide h3{color:#fff}
+  .res-card.wide p{color:#C6D6EA}
+  .res-card.wide .res-num{background:rgba(90,170,240,.15);color:#8FC4F5}
+  .res-badge-new{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:#fff;background:var(--green);padding:4px 9px;border-radius:5px;margin-left:8px;vertical-align:middle}
+
+  /* Coverage */
+  .cov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .cov-item{border:1px solid var(--line);border-radius:10px;padding:18px 16px;font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:12px;background:#fff;transition:border-color .15s ease, box-shadow .15s ease}
+  .cov-item:hover{border-color:var(--blue);box-shadow:0 4px 14px rgba(10,110,209,.12)}
+  .cov-item svg{flex:none}
+  .cov-note{text-align:center;margin-top:28px;color:var(--slate);font-size:15px}
+  .diff-tags{display:flex;justify-content:center;gap:10px;margin-top:16px;flex-wrap:wrap}
+  .diff{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;padding:6px 12px;border-radius:6px}
+  .diff.basic{background:#E7F6EE;color:#177A51}
+  .diff.inter{background:#FFF3E2;color:#B36A12}
+  .diff.adv{background:#FDEAEA;color:#B23A3A}
+
+  /* Personas */
+  .personas{background:var(--paper-soft)}
+  .per-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .per-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:30px}
+  .per-card .mono-tag{color:var(--blue);display:block;margin-bottom:14px}
+  .per-card h3{font-family:var(--display);font-size:18px;font-weight:700;margin-bottom:10px}
+  .per-card p{font-size:15px;color:var(--slate)}
+
+  /* Pricing */
+  .pricing{background:linear-gradient(180deg,var(--ink) 0%,#0D2242 100%);color:#fff}
+  .price-box{max-width:640px;margin:0 auto;background:#fff;color:var(--ink);border-radius:18px;padding:44px 40px;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+  .price-box .mono-tag{color:var(--blue);text-align:center;display:block;margin-bottom:8px}
+  .price-box h3{font-family:var(--display);font-size:24px;font-weight:800;text-align:center;margin-bottom:26px}
+  .value-list{list-style:none;margin-bottom:26px}
+  .value-list li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15px}
+  .value-list li span:first-child{color:var(--ink);font-weight:500}
+  .value-list li span:last-child{font-family:var(--mono);font-size:13px;color:var(--slate);flex:none}
+  .price-final{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-bottom:6px;flex-wrap:wrap;text-align:center}
+  .price-final .amount{font-family:var(--display);font-size:52px;font-weight:800}
+  .price-final .terms{color:var(--slate);font-size:14px}
+  .price-box .btn-primary{width:100%;margin-top:18px}
+  .guarantee{display:flex;gap:14px;align-items:flex-start;background:var(--sky);border-radius:12px;padding:18px;margin-top:24px}
+  .guarantee svg{flex:none;margin-top:2px}
+  .guarantee p{font-size:14px;color:var(--ink-soft)}
+  .guarantee strong{color:var(--ink)}
+
+  /* FAQ */
+  .faq{max-width:760px;margin:0 auto}
+  details{border:1px solid var(--line);border-radius:12px;margin-bottom:12px;background:#fff}
+  summary{cursor:pointer;padding:20px 24px;font-family:var(--display);font-weight:600;font-size:16.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";font-family:var(--mono);font-size:20px;color:var(--blue);transition:transform .2s ease;flex:none}
+  details[open] summary::after{transform:rotate(45deg)}
+  details p{padding:0 24px 20px;color:var(--slate);font-size:15px}
+
+  /* Final CTA */
+  .final-cta{text-align:center;background:var(--sky)}
+  .final-cta h2{font-family:var(--display);font-weight:800;font-size:clamp(26px,3.6vw,40px);max-width:700px;margin:0 auto 16px;line-height:1.2}
+  .final-cta p{color:var(--slate);max-width:560px;margin:0 auto 30px;font-size:17px}
+
+  footer{background:var(--ink);color:#8CA3C4;padding:36px 0;font-size:14px}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+  footer a{color:#B9CCE6}
+  footer a:hover{color:#fff}
+
+  @media (max-width:920px){
+    .hero-inner{grid-template-columns:1fr;padding:56px 0 48px}
+    .pain-grid,.per-grid{grid-template-columns:1fr}
+    .res-grid{grid-template-columns:1fr}
+    .res-card.wide{grid-template-columns:1fr}
+    .cov-grid{grid-template-columns:repeat(2,1fr)}
+    .topbar-price s{display:none}
+    section{padding:56px 0}
+  }
+  @media (max-width:520px){
+    .cov-grid{grid-template-columns:1fr}
+    .topbar-price{display:none}
+    .price-box{padding:32px 22px}
+    .wrap{padding:0 18px}
+  }
+  @media (max-width:380px){
+    .btn-primary{font-size:16px;padding:16px 20px;width:100%}
+    .hero-card{padding:20px}
+    .hero .eyebrow{font-size:11px;padding:5px 10px}
+    .hero-trust{gap:12px}
+    .hero-trust div{font-size:13px}
+    .pain-card,.res-card,.per-card{padding:22px}
+    .price-box{padding:26px 18px}
+    .price-final .amount{font-size:42px}
+    summary{padding:16px 18px;font-size:15.5px}
+    details p{padding:0 18px 18px}
+    section{padding:44px 0}
+    .footer-inner{flex-direction:column;align-items:flex-start;text-align:left}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .btn,.cov-item{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="/" class="brand" style="text-decoration:none">srini<span>.pro</span></a>
+    <div class="topbar-right">
+      <div class="topbar-price">$29.99 <span style="font-size:12px;font-weight:500;color:var(--slate)">one-time</span></div>
+      <a class="btn btn-small" href="https://school.srini.pro/l/pdp/sap-btp-and-ai-interview-mastery-kit">Get the Kit</a>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="eyebrow mono-tag">SAP BTP & AI · Interview Mastery Kit</span>
+      <h1>Master SAP BTP and AI interviews with <em>400+ expert answers</em></h1>
+      <p class="sub">800 carefully curated interview questions covering Cloud Foundry, Kyma, CAP, RAP, SAP AI Core, Joule, generative AI, security, and 100 real-time project scenarios. Everything you need to ace both tracks and get hired.</p>
+      <a class="btn btn-primary" href="https://school.srini.pro/l/pdp/sap-btp-and-ai-interview-mastery-kit">Get Instant Access — $29.99</a>
+      <div class="hero-trust">
+        <div><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 6.5 12 13 4.5" stroke="#5AE0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>One-time payment</div>
+        <div><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 6.5 12 13 4.5" stroke="#5AE0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Lifetime access</div>
+        <div><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 6.5 12 13 4.5" stroke="#5AE0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Lifetime updates free</div>
+        <div><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5 6.5 12 13 4.5" stroke="#5AE0A0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Instant download</div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <img src="https://uploads.teachablecdn.com/attachments/bdefecd20cad4d4bb5457e81213ed06f.png" alt="SAP BTP and AI Interview Mastery Kit cover" loading="eager">
+      <div class="stack-line"><span>400 BTP Interview Q&amp;A (Short + Long)</span><span class="mono-tag">PDF</span></div>
+      <div class="stack-line"><span>400 AI Interview Q&amp;A (Short + Long)</span><span class="mono-tag">PDF</span></div>
+      <div class="stack-line"><span>Top 50 Must-Know BTP Questions</span><span class="mono-tag">PDF</span></div>
+      <div class="stack-line"><span>Top 50 Must-Know AI Questions</span><span class="mono-tag">PDF</span></div>
+      <div class="stack-line"><span>100 Real-Time Project Scenarios</span><span class="mono-tag">PDF</span></div>
+      <div class="price-row"><span class="price">$29.99</span><span class="per">one-time · lifetime access</span></div>
+      <a class="btn btn-primary" href="https://school.srini.pro/l/pdp/sap-btp-and-ai-interview-mastery-kit">Buy Now</a>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">The real problem</span>
+      <h2>BTP and AI skills matter. But can you explain them under pressure?</h2>
+      <p>Most candidates know Cloud Foundry and Kyma concepts. Few can articulate them like experienced consultants. And fewer still can handle AI architecture questions that interviewers are starting to ask in 2026.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <span class="mono-tag">Pain 01</span>
+        <h3>"I know BTP, but I can't explain it."</h3>
+        <p>Technical knowledge doesn't equal interview readiness. Under pressure, you need structured, consultant-level answers that show depth and confidence — not nervous technical explanations.</p>
+      </div>
+      <div class="pain-card">
+        <span class="mono-tag">Pain 02</span>
+        <h3>"AI questions blindsided me."</h3>
+        <p>Interviewers are asking about SAP AI Core, Joule, generative AI, and how they integrate with BTP. If you haven't rehearsed these, you'll stumble on questions you didn't expect.</p>
+      </div>
+      <div class="pain-card">
+        <span class="mono-tag">Pain 03</span>
+        <h3>"Real scenarios were harder than I thought."</h3>
+        <p>Definitions work in round one. Round two asks about architecture decisions, security design, and real project trade-offs. You need scenario practice before you walk in.</p>
+      </div>
+    </div>
+    <p class="pain-close">This kit fixes all three: <strong>800 BTP &amp; AI questions, expert answers, and 100 real scenarios</strong> — organized for rapid mastery of both tracks.</p>
+  </div>
+</section>
+
+<div class="pipeline-block"><div class="pipeline"><span class="node"></span><span class="link"></span><span class="node"></span><span class="link"></span><span class="node"></span><span class="link"></span><span class="node"></span></div></div>
+
+<section class="resources" id="inside">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">What's inside</span>
+      <h2>Five resources. Two complete tracks. One interview system.</h2>
+      <p>BTP and AI questions, answers, and scenarios organized separately so you can master one track, then the other — or integrate both into your preparation strategy.</p>
+    </div>
+    <div class="res-grid">
+      <div class="res-card">
+        <span class="res-num">RESOURCE 01</span>
+        <h3>400 BTP Interview Questions — Short &amp; Long Answers</h3>
+        <p>Cloud Foundry, Kyma, CAP, RAP, destinations, security, role collections, identity services, APIs, monitoring, deployment. 200 short-answer questions for quick recall, 200 long-answer questions showing consultant-level depth.</p>
+        <ul>
+          <li>Covers all BTP fundamentals and advanced topics</li>
+          <li>Short answers for rapid revision, long answers for depth</li>
+          <li>Tagged by difficulty for structured learning</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <span class="res-num">RESOURCE 02</span>
+        <h3>400 AI Interview Questions — Short &amp; Long Answers</h3>
+        <p>SAP AI Core, SAP AI Launchpad, Joule, generative AI applications, responsible AI, prompt engineering. Same structure: 200 short-answer for quick recall, 200 long-answer for depth and confidence.</p>
+        <ul>
+          <li>AI fundamentals through advanced generative AI</li>
+          <li>Practical Joule and AI Core scenarios</li>
+          <li>Prepared for cutting-edge 2026 interview questions</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <span class="res-num">RESOURCE 03</span>
+        <h3>Top 50 Must-Know BTP Questions</h3>
+        <p>The questions that appear in nearly every BTP interview. Condensed into 50 high-frequency topics with expert answers you can rehearse and anchor into memory before the interview.</p>
+        <ul>
+          <li>Highest-frequency BTP topics first</li>
+          <li>Expert answers with memory anchors</li>
+          <li>Perfect for 48-hour intensive prep</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <span class="res-num">RESOURCE 04</span>
+        <h3>Top 50 Must-Know AI Questions</h3>
+        <p>Practical AI questions interviewers expect. SAP AI fundamentals, Joule usage, generative AI strategy, responsible AI. 50 questions that will separate you from candidates who only know BTP.</p>
+        <ul>
+          <li>AI-specific high-frequency questions</li>
+          <li>Joule and AI Launchpad deep-dive</li>
+          <li>Stand out in 2026 interviews</li>
+        </ul>
+      </div>
+      <div class="res-card wide">
+        <div>
+          <span class="res-num">RESOURCE 05</span>
+          <h3 style="margin-top:14px">100 Real-Time Project Scenario Questions (50 BTP + 50 AI)</h3>
+          <p style="margin-top:10px">Real project situations across both domains. The scenarios that separate candidates who memorized answers from consultants who've delivered. Cloud migrations, security implementations, AI integrations, and more — scenarios you need to sound experienced.</p>
+        </div>
+        <div style="text-align:center">
+          <a class="btn btn-primary" href="https://school.srini.pro/l/pdp/sap-btp-and-ai-interview-mastery-kit" style="white-space:nowrap">Get All 5 Resources</a>
+          <p class="btn-note" style="color:#AFC6E2">Instant access after purchase</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pipeline-block"><div class="pipeline"><span class="node"></span><span class="link"></span><span class="node"></span><span class="link"></span><span class="node"></span><span class="link"></span><span class="node"></span></div></div>
+
+<section id="coverage">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">Full coverage</span>
+      <h2>BTP and AI topics — everything interviewers pull from</h2>
+    </div>
+    <div class="cov-grid">
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#0A6ED1" stroke-width="2"/><circle cx="9" cy="9" r="2.5" fill="#0A6ED1"/></svg>Cloud Foundry</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="3" stroke="#0A6ED1" stroke-width="2"/><path d="M6 9h6" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>Kyma</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 13 9 4l6 9" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>CAP &amp; RAP</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 9h4l2-4 2 8 2-4h2" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Destinations</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="5" cy="9" r="2.5" stroke="#0A6ED1" stroke-width="2"/><circle cx="13" cy="9" r="2.5" stroke="#0A6ED1" stroke-width="2"/><path d="M7.5 9h3" stroke="#0A6ED1" stroke-width="2"/></svg>AI Core &amp; Launchpad</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 5h12M3 9h12M3 13h8" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>Joule</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="6" r="3" stroke="#0A6ED1" stroke-width="2"/><path d="M3.5 15c.8-2.6 3-4 5.5-4s4.7 1.4 5.5 4" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>Identity &amp; Security</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l6 3v4c0 4-2.7 6.3-6 7-3.3-.7-6-3-6-7V5l6-3z" stroke="#0A6ED1" stroke-width="2" stroke-linejoin="round"/></svg>Generative AI</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5 14V8M9 14V4M13 14v-4" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>Monitoring &amp; Ops</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#0A6ED1" stroke-width="2"/><path d="M9 5v4l3 2" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Real Project Scenarios</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14c2-6 8-6 10-10M9 4h5v5" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Architecture Decisions</div>
+      <div class="cov-item"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v3M9 12v3M3 9h3M12 9h3M5 5l2 2M11 11l2 2M13 5l-2 2M7 11l-2 2" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round"/></svg>AI Integration</div>
+    </div>
+    <p class="cov-note">Every question tagged by difficulty — master the track at your pace:</p>
+    <div class="diff-tags">
+      <span class="diff basic">BASIC</span>
+      <span class="diff inter">INTERMEDIATE</span>
+      <span class="diff adv">ADVANCED</span>
+    </div>
+  </div>
+</section>
+
+<div class="pipeline-block" style="padding-top:0"><div class="pipeline"><span class="node"></span><span class="link"></span><span class="node"></span><span class="link"></span><span class="node"></span><span class="link"></span><span class="node"></span></div></div>
+
+<section class="personas" id="who">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">Who this is for</span>
+      <h2>BTP and AI are becoming essential. Prepare for both tracks now.</h2>
+    </div>
+    <div class="per-grid">
+      <div class="per-card">
+        <span class="mono-tag">BTP Developers</span>
+        <h3>Master BTP to land senior roles</h3>
+        <p>You've built on Cloud Foundry and CAP. This kit teaches you how to articulate your experience like a consultant and handle advanced architecture questions interviewers ask for senior roles.</p>
+      </div>
+      <div class="per-card">
+        <span class="mono-tag">Integration Consultants</span>
+        <h3>Add AI to your expertise</h3>
+        <p>You know CPI and BTP fundamentals. Now add AI fluency to your profile. The 400 AI questions prepare you to discuss generative AI, Joule, and AI Core with confidence — a rare skill in 2026.</p>
+      </div>
+      <div class="per-card">
+        <span class="mono-tag">Career Changers</span>
+        <h3>Break into SAP BTP &amp; AI</h3>
+        <p>You're learning BTP and AI at the same time. This kit organizes both tracks separately so you can master each, with scenarios showing how they work together in real projects.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="section-head" style="color:#fff">
+      <span class="mono-tag" style="color:#8FC4F5">Simple pricing</span>
+      <h2 style="color:#fff">Master 2 tracks. One price. Lifetime access.</h2>
+      <p style="color:#B9CCE6">800 questions covering both BTP and AI. Less than an hour of consulting rates. Prepared for a career that pays better.</p>
+    </div>
+    <div class="price-box">
+      <span class="mono-tag">Everything included</span>
+      <h3>SAP BTP &amp; AI Interview Mastery Kit</h3>
+      <ul class="value-list">
+        <li><span>400 BTP Interview Questions (Short + Long)</span><span>PDF</span></li>
+        <li><span>400 AI Interview Questions (Short + Long)</span><span>PDF</span></li>
+        <li><span>Top 50 BTP &amp; 50 AI Must-Know Questions</span><span>PDF</span></li>
+        <li><span>100 Real-Time Project Scenario Questions</span><span>PDF</span></li>
+        <li><span>All future updates to both tracks</span><span>FREE</span></li>
+      </ul>
+      <div class="price-final">
+        <span class="amount">$29.99</span>
+        <span class="terms">one-time · no subscription</span>
+      </div>
+      <a class="btn btn-primary" href="https://school.srini.pro/l/pdp/sap-btp-and-ai-interview-mastery-kit">Get Instant Access</a>
+      <div class="guarantee">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2l8 3.5v5c0 5-3.5 8-8 9.5-4.5-1.5-8-4.5-8-9.5v-5L11 2z" stroke="#0A6ED1" stroke-width="2" stroke-linejoin="round"/><path d="M7.5 11l2.5 2.5 4.5-5" stroke="#0A6ED1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <p><strong>Lifetime access, lifetime updates.</strong> Pay once and every future update to both BTP and AI tracks is yours free, forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="mono-tag">Questions</span>
+      <h2>Frequently asked questions</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Can I focus on just BTP or just AI?</summary>
+        <p>Yes. The kit organizes BTP and AI questions separately, with their own 50 must-know sections and 50 scenario questions each. Master one track, then the other — or study both in parallel.</p>
+      </details>
+      <details>
+        <summary>I'm new to both BTP and AI. Will this work?</summary>
+        <p>Yes. All questions are tagged Basic, Intermediate, Advanced. Start with Basic BTP, move to Intermediate, then tackle AI. The long-answer format teaches concepts, not just answers.</p>
+      </details>
+      <details>
+        <summary>Are the AI questions really current for 2026?</summary>
+        <p>Yes. This kit covers SAP AI Core, Joule, generative AI applications, and responsible AI — the exact topics interviewers are asking about now. It's built for the 2026 market.</p>
+      </details>
+      <details>
+        <summary>Do I get updates when new AI topics emerge?</summary>
+        <p>Yes. One-time payment, lifetime free updates. When SAP adds new AI capabilities or when interview questions evolve, those updates appear in your account at no extra cost.</p>
+      </details>
+      <details>
+        <summary>Can I use this if I already know BTP?</summary>
+        <p>Absolutely. Skip the Basic BTP questions and jump straight to Intermediate and Advanced. Focus on the 50 must-know questions and 50 scenarios, plus all the AI content for a new skill.</p>
+      </details>
+      <details>
+        <summary>How soon do I get access?</summary>
+        <p>Immediately. After purchase, you get instant access to all 5 resources on school.srini.pro.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>BTP and AI interviews are happening now. Be the candidate who prepared for both.</h2>
+    <p>800 questions, expert answers, 100 real scenarios — everything for less than a single certification exam practice kit.</p>
+    <a class="btn btn-primary" href="https://school.srini.pro/l/pdp/sap-btp-and-ai-interview-mastery-kit">Get Both Tracks — $29.99</a>
+    <p class="btn-note">One-time payment · Lifetime access · Lifetime updates free · Instant access</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <div>© 2026 SriniPro · <a href="https://srini.pro">srini.pro</a></div>
+    <div>
+      <a href="https://school.srini.pro/p/terms">Terms of Use</a> ·
+      <a href="https://school.srini.pro/p/privacy">Privacy Policy</a> ·
+      <a href="https://srini.pro/contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

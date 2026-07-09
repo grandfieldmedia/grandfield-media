@@ -1,0 +1,95 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{`${title} | Srini.pro`}</title>
+  <meta name="description" content={description} />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R29BZQ94J4"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-R29BZQ94J4');
+  </script>
+
+  <!-- OptinMonster -->
+  <script is:inline define:vars={{ omUser: 380159, omAccount: 403056 }}>
+    (function(d,u,ac) {
+      var s = d.createElement('script');
+      s.type = 'text/javascript';
+      s.src = 'https://a.omappapi.com/app/js/api.min.js';
+      s.async = true;
+      s.dataset.user = u;
+      s.dataset.account = ac;
+      d.getElementsByTagName('head')[0].appendChild(s);
+    })(document, omUser, omAccount);
+  </script>
+</head>
+<body class="font-sans text-gray-900 bg-white">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <a href="/" class="text-2xl font-bold text-blue-600">Srini.pro</a>
+        </div>
+        <div class="hidden md:flex space-x-8">
+          <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
+          <a href="/kits" class="text-gray-600 hover:text-gray-900">Kits</a>
+          <a href="/free-courses" class="text-gray-600 hover:text-gray-900">Free Courses</a>
+          <a href="/mastery-courses" class="text-gray-600 hover:text-gray-900">Mastery</a>
+          <a href="/about" class="text-gray-600 hover:text-gray-900">About</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="font-bold mb-4">Srini.pro</h3>
+          <p class="text-gray-400">Srini.pro helps you learn SAP Process Orchestration, SAP CPI, SAP BTP, and SAP AI through practical, self-paced online courses designed by an industry expert with 20+ years of experience.</p>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Quick Links</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="/terms" class="hover:text-white">Terms of Service</a></li>
+            <li><a href="/privacy" class="hover:text-white">Privacy Policy</a></li>
+            <li><a href="/disclaimer" class="hover:text-white">Disclaimer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Contact</h3>
+          <p class="text-gray-400">Email: contact@srini.pro</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>Copyright &copy; 2026 - Srini.Pro - All Rights Reserved by RSTT Services.<br/>
+SAP is a registered trademarks of respective owners.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

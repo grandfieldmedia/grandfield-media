@@ -1,0 +1,299 @@
+---
+// src/pages/kits.astro
+import { getCollection } from 'astro:content';
+
+// Later: can fetch kit data from a collection or JSON
+// For now, defining kits directly
+const kits = [
+  {
+    id: 'cpi-interview',
+    title: 'SAP Integration Suite Interview Kit',
+    subtitle: 'Master SAP Integration Suite Interviews',
+    description: 'Comprehensive interview prep with 200+ real questions, cheat sheets, and scenarios from actual projects.',
+    price: 29.99,
+    badge: 'Most Popular',
+    image: '/images/cpi-hero.jpg',
+    link: '/courses/cpi-interview',
+    buttonText: 'Find Out More',
+    details: [
+      '200+ Interview Questions',
+      'Real Project Scenarios',
+      'Cheat Sheets & Notes',
+      'Lifetime Access',
+      'Instant Updates'
+    ]
+  },
+  {
+    id: 'btp-ai-interview',
+    title: 'SAP BTP and AI Interview Mastery Kit',
+    subtitle: 'Master 800+ Real Interview Questions',
+    description: 'Ace your BTP and AI interviews with 400 BTP questions + 400 AI questions, real project scenarios, and expert explanations.',
+    price: 29.99,
+    badge: null,
+    image: '/images/btp-ai-hero.jpg',
+    link: '/courses/btp-ai-interview',
+    buttonText: 'Find Out More',
+    details: [
+      '400 BTP Q&A + 400 AI Q&A',
+      'Real Project Scenarios',
+      'Top 50 Curated Questions',
+      'Lifetime Access',
+      'Instant Updates'
+    ]
+  },
+  {
+    id: 'cpi-certificate',
+    title: 'SAP Integration Suite Certificate Mastery Kit',
+    subtitle: 'C_CPI_2506 Certification Prep',
+    description: 'Prepare for your SAP Integration Suite certification with 492+ practice questions, detailed explanations, and complete exam coverage.',
+    price: 29.99,
+    badge: null,
+    image: '/images/cpi-cert-hero.jpg',
+    link: '/courses/cpi-certificate',
+    buttonText: 'Find Out More',
+    details: [
+      '292 Foundation Q&A',
+      '200 Predicted Exam Questions',
+      'Topic-wise Organization',
+      'Lifetime Access',
+      'Instant Updates'
+    ]
+  },
+  {
+    id: 'btp-certificate',
+    title: 'SAP BTP Certificate Mastery Kit',
+    subtitle: 'P_BTPA Solution Architect',
+    description: 'Master the P_BTPA certification with 400+ architecture questions covering design, integration, security, and governance.',
+    price: 29.99,
+    badge: null,
+    image: '/images/btp-cert-hero.jpg',
+    link: '/courses/btp-certificate',
+    buttonText: 'Find Out More',
+    details: [
+      '200 Foundation Q&A',
+      '200 Predicted Exam Questions',
+      'Architecture Coverage',
+      'Lifetime Access',
+      'Instant Updates'
+    ]
+  },
+  {
+    id: 'ai-certificate',
+    title: 'SAP AI Certificate Mastery Kit',
+    subtitle: 'C_AIG Generative AI Developer',
+    description: 'Get certified as an SAP Generative AI Developer with 400+ questions on Joule, AI Core, prompt engineering, and responsible AI.',
+    price: 29.99,
+    badge: null,
+    image: '/images/ai-cert-hero.jpg',
+    link: '/courses/ai-certificate',
+    buttonText: 'Find Out More',
+    details: [
+      '200 Foundation Q&A',
+      '200 Predicted Exam Questions',
+      'Joule & AI Core Coverage',
+      'Lifetime Access',
+      'Instant Updates'
+    ]
+  }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Interview & Certification Kits | srini.pro</title>
+    <meta name="description" content="Master interview and certification exams with our focused, practical kits.">
+    <meta property="og:title" content="Interview & Certification Kits">
+    <meta property="og:description" content="Master interview and certification exams with our focused, practical kits.">
+    <meta property="og:url" content="https://srini.pro/kits">
+
+    <!-- Proxima Nova Font -->
+    <link rel="stylesheet" href="https://use.typekit.net/nwi1uks.css">
+
+    <style>
+      :root{
+        --ink:#0A1B33;
+        --ink-soft:#16294A;
+        --blue:#0A6ED1;
+        --blue-deep:#0857A6;
+        --sky:#EAF3FC;
+        --paper:#FFFFFF;
+        --paper-soft:#F6FAFE;
+        --slate:#41506A;
+        --line:#D7E4F2;
+        --amber:#F0862B;
+        --amber-deep:#D9711A;
+        --green:#1E9E6A;
+        --display:'Sora',sans-serif;
+        --body:'Inter',sans-serif;
+        --mono:'IBM Plex Mono',monospace;
+      }
+      *{margin:0;padding:0;box-sizing:border-box}
+      html{scroll-behavior:smooth;overflow-x:hidden}
+      body{font-family:var(--body);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+      img{max-width:100%;display:block}
+      a{color:var(--blue);text-decoration:none}
+      .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+      /* Site Navigation (matches home page nav exactly) */
+      .site-nav{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05);border-bottom:1px solid #E5E7EB}
+      .site-nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;display:flex;justify-content:space-between;align-items:center;height:64px}
+      .site-nav-brand{font-size:24px;font-weight:700;color:#2563EB;text-decoration:none;font-family:var(--body)}
+      .site-nav-links{display:flex;align-items:center;gap:32px}
+      .site-nav-links a{font-size:16px;color:#4B5563;text-decoration:none;font-family:var(--body);transition:color .2s ease}
+      .site-nav-links a:hover{color:#111827}
+      @media (max-width:767px){
+        .site-nav-links{display:none}
+        .site-nav-inner{padding:0 24px}
+      }
+      .mono-tag{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+
+      /* Buttons */
+      .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--display);font-weight:700;border-radius:10px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;text-align:center;border:none;text-decoration:none}
+      .btn-primary{background:var(--amber);color:#fff;font-size:18px;padding:18px 38px;box-shadow:0 8px 24px rgba(240,134,43,.35)}
+      .btn-primary:hover{background:var(--amber-deep);transform:translateY(-2px);box-shadow:0 12px 28px rgba(240,134,43,.4)}
+      .btn-secondary{background:var(--amber);color:#fff;font-size:16px;padding:14px 32px;border-radius:8px}
+      .btn-secondary:hover{background:var(--amber-deep);transform:translateY(-2px)}
+
+      /* Custom Styles for Kits Page */
+
+      /* Hero Section */
+      .hero{background:linear-gradient(135deg, var(--ink) 0%, var(--ink-soft) 100%);color:#fff;padding:96px 0;text-align:center}
+      .hero h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,5vw,48px);line-height:1.2;margin-bottom:16px;letter-spacing:-.01em}
+      .hero p{font-size:18px;color:rgba(255,255,255,.85);max-width:600px;margin:0 auto 40px}
+      .hero-tag{display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--amber);margin-bottom:16px}
+
+      /* Kits Grid */
+      .kits-section{padding:72px 0;background:var(--paper-soft)}
+      .kits-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px;margin-top:48px}
+
+      .kit-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .2s ease, box-shadow .2s ease}
+      .kit-card:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(10,110,209,.1)}
+
+      .kit-card-image{width:100%;height:200px;background:linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:clamp(18px,3vw,26px);font-family:var(--display);font-weight:700;text-align:center;padding:16px}
+
+      .kit-card-body{padding:32px}
+      .kit-card-badge{display:inline-block;background:var(--amber);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;padding:6px 12px;border-radius:6px;margin-bottom:12px;text-transform:uppercase}
+
+      .kit-card h3{font-family:var(--display);font-weight:700;font-size:clamp(32px,4vw,42px);line-height:1.3;margin-bottom:8px;color:var(--ink)}
+      .kit-card-subtitle{font-size:14px;color:var(--slate);margin-bottom:16px}
+      .kit-card p{color:var(--slate);font-size:15px;margin-bottom:20px;line-height:1.6}
+
+      .kit-features{list-style:none;margin-bottom:24px}
+      .kit-features li{font-size:14px;color:var(--slate);padding:8px 0;padding-left:24px;position:relative}
+      .kit-features li:before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:700}
+
+      .kit-card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--line)}
+      .kit-price{font-family:var(--display);font-weight:700;font-size:24px;color:var(--ink)}
+      .kit-price-label{font-size:12px;color:var(--slate);display:block;font-weight:400}
+
+      .section-head{max-width:720px;margin:0 auto 48px;text-align:center}
+      .section-head .mono-tag{color:var(--blue);display:block;margin-bottom:12px}
+      .section-head h2{font-family:var(--display);font-weight:700;font-size:clamp(36px,4.5vw,52px);line-height:1.2;letter-spacing:-.01em}
+      .section-head p{color:var(--slate);margin-top:14px;font-size:16.5px}
+
+      /* Footer */
+      footer{background:var(--ink);color:#8CA3C4;padding:36px 0;font-size:14px}
+      .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+      footer a{color:#B9CCE6}
+      footer a:hover{color:#fff}
+
+      section{padding:72px 0}
+
+      @media (max-width:920px){
+        section{padding:56px 0}
+        .hero{padding:72px 0}
+      }
+      @media (max-width:520px){
+        .wrap{padding:0 18px}
+        .kits-grid{grid-template-columns:1fr;gap:24px}
+        .kit-card-body{padding:24px}
+        .hero{padding:48px 0}
+        .hero h1{font-size:28px}
+      }
+      @media (max-width:380px){
+        .topbar-inner{height:56px}
+        .brand{font-size:16px}
+      }
+    </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a href="/" class="site-nav-brand">Srini.pro</a>
+      <div class="site-nav-links">
+        <a href="/">Home</a>
+        <a href="/kits">Kits</a>
+        <a href="/free-courses">Free Courses</a>
+        <a href="/mastery-courses">Mastery</a>
+        <a href="/about">About</a>
+      </div>
+    </div>
+  </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-tag">Interview & Certification</div>
+        <h1>Master Your Exams & Interviews</h1>
+        <p>Focused, practical kits designed to help you ace interviews and certifications. Real questions. Real scenarios. Real results.</p>
+      </div>
+    </section>
+
+    <!-- Kits Grid Section -->
+    <section class="kits-section">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="mono-tag">Available Kits</span>
+          <h2>Interview & Certification Kits</h2>
+          <p>Choose the kit that matches your goals</p>
+        </div>
+
+        <div class="kits-grid">
+          {kits.map((kit) => (
+            <div class="kit-card">
+              <div class="kit-card-image">
+                {kit.title}
+              </div>
+              <div class="kit-card-body">
+                {kit.badge && <div class="kit-card-badge">{kit.badge}</div>}
+                <h3>{kit.title}</h3>
+                <div class="kit-card-subtitle">{kit.subtitle}</div>
+                <p>{kit.description}</p>
+
+                <ul class="kit-features">
+                  {kit.details.map((detail) => (
+                    <li>{detail}</li>
+                  ))}
+                </ul>
+
+                <div class="kit-card-footer">
+                  <div>
+                    <span class="kit-price-label">One-time price</span>
+                    <span class="kit-price">${kit.price}</span>
+                  </div>
+                  <a href={kit.link} class="btn btn-secondary">{kit.buttonText}</a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div class="wrap footer-inner">
+        <div>© 2026 SriniPro · <a href="https://srini.pro">srini.pro</a></div>
+        <div>
+          <a href="https://school.srini.pro/p/terms">Terms of Use</a> ·
+          <a href="https://school.srini.pro/p/privacy">Privacy Policy</a> ·
+          <a href="https://srini.pro/contact">Contact</a>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>
