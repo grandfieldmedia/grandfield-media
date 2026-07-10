@@ -1,0 +1,45 @@
+---
+export const prerender = true;
+import Layout from '../layouts/Layout.astro';
+import Prose from '@grandfield/shared-ui/components/Prose.astro';
+import CallToAction from '@grandfield/shared-ui/components/CallToAction.astro';
+---
+
+<Layout title="About" description="Grandfield Careers makes practical resume, interview, and career templates — professional tools to help you get hired.">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-4xl font-bold text-primary sm:text-5xl">About Grandfield Careers</h1>
+    <div class="mt-8">
+      <Prose>
+        <p>
+          Grandfield Careers exists to make the job search feel less overwhelming.
+          We build clean, ready-to-use resume templates, interview prep kits, and
+          career guides — professional tools that help you put your best foot forward.
+        </p>
+        <h2>What we do</h2>
+        <p>
+          We create practical digital products you can download and use right away:
+          ATS-friendly resume templates, cover-letter frameworks, interview
+          question banks, and career-growth checklists designed for real job seekers.
+        </p>
+        <h2>What we don't do</h2>
+        <p>
+          We don't give personalized career, legal, or recruiting advice. Everything
+          here is educational and template-based — tools to help you present your
+          own experience and make your own decisions.
+        </p>
+        <h2>Why templates</h2>
+        <p>
+          A blank page is the hardest part of any application. We obsess over clear
+          structure and proven examples so you spend less time formatting and more
+          time landing interviews.
+        </p>
+      </Prose>
+    </div>
+  </section>
+
+  <CallToAction
+    title="Ready to get hired?"
+    subtitle="Browse our resume templates and interview prep kits."
+    actions={[{ text: 'Browse Products', href: '/products' }]}
+  />
+</Layout>

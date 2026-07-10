@@ -1,0 +1,39 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import ProductSalesLayout from '@grandfield/shared-ui/layouts/ProductSalesLayout.astro';
+import { isStripeConfigured } from '@grandfield/shared-backend';
+import { getProductBySlug, toSummary } from '../../lib/products';
+
+const { slug } = Astro.params;
+const product = slug ? await getProductBySlug(slug) : null;
+
+if (!product) {
+  return new Response('Product not found', { status: 404 });
+}
+
+const checkoutEnabled = isStripeConfigured();
+
+// Generic benefits/FAQ for a career template (per-product content can move to a
+// content collection later; kept here so the sales page is complete now).
+const benefits = [
+  { title: 'ATS-friendly', description: 'Formatted to pass applicant tracking systems and reach a human.' },
+  { title: 'Fill-in-the-blank', description: 'Clear prompts and examples — no staring at a blank page.' },
+  { title: 'Yours to keep', description: 'One-time purchase, instant download, no subscription.' },
+];
+const faqs = [
+  { question: 'What format is it?', answer: 'A digital download you can use instantly after purchase.' },
+  { question: 'Do I need special software?', answer: 'No — it works with common tools like Word, Google Docs, or any PDF reader.' },
+  { question: 'Is this career advice?', answer: 'No. It’s an educational template to help you present your own experience.' },
+  { question: 'Can I get a refund?', answer: 'See our refund policy — contact us within 14 days if it isn’t as described.' },
+];
+---
+
+<Layout title={product.name} description={product.description ?? 'A Grandfield Careers digital download.'} ogType="product">
+  <ProductSalesLayout
+    product={toSummary(product)}
+    benefits={benefits}
+    faqs={faqs}
+    checkoutEnabled={checkoutEnabled}
+  />
+</Layout>

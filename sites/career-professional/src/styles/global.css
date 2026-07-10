@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Scan the shared-ui package so its utility classes are generated here. */
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Careers brand theme — professional blue + emerald (growth). */
+@theme {
+  --color-primary: #1e3a8a; /* blue-800 */
+  --color-primary-light: #2563eb; /* blue-600 */
+  --color-accent: #059669; /* emerald-600 */
+  --color-accent-light: #10b981; /* emerald-500 */
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

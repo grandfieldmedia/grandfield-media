@@ -18,6 +18,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "@grandfield/admin", "exec", "astro", "dev", "--port", "4331"],
       "port": 4331
+    },
+    {
+      "name": "career-professional",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "site-career-professional", "exec", "astro", "dev", "--port", "4332"],
+      "port": 4332
     }
   ]
 }
