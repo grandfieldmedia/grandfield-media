@@ -5,9 +5,26 @@ import SlideInPopup from '../components/SlideInPopup.astro';
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
+  ogType?: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const SITE_NAME = 'Srini.pro';
+const DEFAULT_DESCRIPTION =
+  'Learn SAP Process Orchestration, SAP CPI, SAP BTP and SAP AI through practical, self-paced online courses from an SAP Integration Architect with 20+ years of experience.';
+
+const {
+  title,
+  description = DEFAULT_DESCRIPTION,
+  ogImage = '/images/logo-full-cropped.png',
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = `${title} | ${SITE_NAME}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
 <!DOCTYPE html>
@@ -15,11 +32,42 @@ const { title, description } = Astro.props;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{`${title} | Srini.pro`}</title>
+  <title>{fullTitle}</title>
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+  <meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+  <meta name="theme-color" content="#2563eb" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/logo-srini-pro-300x300.png" />
+  <link rel="apple-touch-icon" href="/images/logo-srini-pro-300x300.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:site_name" content={SITE_NAME} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:image" content={ogImageURL} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={fullTitle} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+
+  <!-- Structured Data -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Srini.pro',
+    url: 'https://srini.pro',
+    logo: 'https://srini.pro/images/logo-srini-pro-300x300.png',
+    description: DEFAULT_DESCRIPTION,
+    founder: { '@type': 'Person', name: 'Srinivas Vanamala' }
+  })} />
   
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind is compiled at build time via @astrojs/tailwind -->
   
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-R29BZQ94J4"></script>
