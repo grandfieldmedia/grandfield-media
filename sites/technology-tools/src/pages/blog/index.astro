@@ -1,0 +1,46 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import BlogPostCard from '@grandfield/shared-ui/components/BlogPostCard.astro';
+
+const posts = (await getCollection('posts'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const categories = [...new Set(posts.map((p) => p.data.category))];
+---
+
+<Layout title="Blog" description="Practical, no-jargon money guides on budgeting, saving, and organizing your finances.">
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <header class="mb-12 max-w-2xl">
+      <h1 class="text-4xl font-bold text-primary sm:text-5xl">Blog</h1>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+        Practical money guides — no jargon, no financial advice. Just tools and habits you can use.
+      </p>
+    </header>
+
+    {categories.length > 1 && (
+      <div class="mb-10 flex flex-wrap gap-2">
+        {categories.map((c) => (
+          <a href={`/blog/category/${c.toLowerCase()}`} class="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-600 hover:border-accent hover:text-accent dark:border-slate-700">
+            {c}
+          </a>
+        ))}
+      </div>
+    )}
+
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((p) => (
+        <BlogPostCard
+          title={p.data.title}
+          description={p.data.description}
+          href={`/blog/${p.id}`}
+          pubDate={p.data.pubDate}
+          category={p.data.category}
+          image={p.data.image}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>

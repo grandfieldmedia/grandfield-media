@@ -1,0 +1,13 @@
+---
+import '../styles/global.css';
+import PageLayout from '@grandfield/shared-ui/layouts/PageLayout.astro';
+import type { PageMeta } from '@grandfield/shared-ui/types';
+import { siteConfig } from '../site.config';
+
+type Props = PageMeta;
+const meta = Astro.props;
+---
+
+<PageLayout site={siteConfig} {...meta}>
+  <slot />
+</PageLayout>

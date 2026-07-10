@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Family brand theme. */
+@theme {
+  --color-primary: #86198f;
+  --color-primary-light: #a21caf;
+  --color-accent: #f59e0b;
+  --color-accent-light: #fbbf24;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

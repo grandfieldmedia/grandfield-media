@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Events brand theme. */
+@theme {
+  --color-primary: #be123c;
+  --color-primary-light: #e11d48;
+  --color-accent: #d97706;
+  --color-accent-light: #f59e0b;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

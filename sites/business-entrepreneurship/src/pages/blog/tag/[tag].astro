@@ -1,0 +1,41 @@
+---
+export const prerender = true;
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import BlogPostCard from '@grandfield/shared-ui/components/BlogPostCard.astro';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('posts')).filter((p) => !p.data.draft);
+  const tags = [...new Set(posts.flatMap((p) => p.data.tags))];
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Layout title={`#${tag}`} description={`Money guides tagged ${tag}.`}>
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <a href="/blog" class="text-sm font-medium text-accent hover:underline">&larr; All posts</a>
+    <h1 class="mt-6 text-4xl font-bold text-primary">Tagged: #{tag}</h1>
+    <div class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {posts.map((p) => (
+        <BlogPostCard
+          title={p.data.title}
+          description={p.data.description}
+          href={`/blog/${p.id}`}
+          pubDate={p.data.pubDate}
+          category={p.data.category}
+          image={p.data.image}
+        />
+      ))}
+    </div>
+  </section>
+</Layout>

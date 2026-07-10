@@ -1,9 +1,9 @@
 ---
-title: 'How to Start a Simple Budget (Without a Spreadsheet Headache)'
-description: 'A no-jargon, five-step walkthrough for building your first budget in an afternoon — and actually sticking with it.'
+title: "How to Start a Simple Budget (Without a Spreadsheet Headache)"
+description: "A no-jargon, five-step walkthrough for building your first budget in an afternoon — and actually sticking with it."
 pubDate: 2026-07-08
-category: 'Budgeting'
-tags: ['budgeting', 'getting-started', 'money-basics']
+category: "Budgeting"
+tags: ["budgeting", "getting-started", "money-basics"]
 ---
 
 Budgeting has a reputation for being complicated. It isn't. At its core, a budget

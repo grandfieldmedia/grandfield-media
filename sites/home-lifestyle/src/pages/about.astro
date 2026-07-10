@@ -1,0 +1,24 @@
+---
+export const prerender = true;
+import Layout from '../layouts/Layout.astro';
+import Prose from '@grandfield/shared-ui/components/Prose.astro';
+import CallToAction from '@grandfield/shared-ui/components/CallToAction.astro';
+import { siteConfig } from '../site.config';
+---
+
+<Layout title="About" description={siteConfig.description}>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-4xl font-bold text-primary sm:text-5xl">About {siteConfig.brand}</h1>
+    <div class="mt-8">
+      <Prose>
+        <p>{siteConfig.description}</p>
+        <h2>What we do</h2>
+        <p>We create practical, ready-to-use digital downloads you can put to work right away — clear, well-designed templates and guides with no fluff and no subscriptions.</p>
+        <h2>Educational use</h2>
+        <p>Everything here is educational and template-based. Our products are tools to help you take action and make your own decisions — they are not professional advice.</p>
+      </Prose>
+    </div>
+  </section>
+
+  <CallToAction title="Ready to get started?" subtitle="Browse our products." actions={[{ text: 'Browse Products', href: '/products' }]} />
+</Layout>

@@ -1,9 +1,9 @@
 ---
-title: 'Why an Emergency Fund Comes Before Everything Else'
-description: 'Before investing, before aggressive debt payoff — a small cash buffer is what keeps one bad week from becoming a bad year.'
+title: "Why an Emergency Fund Comes Before Everything Else"
+description: "Before investing, before aggressive debt payoff — a small cash buffer is what keeps one bad week from becoming a bad year."
 pubDate: 2026-07-10
-category: 'Saving'
-tags: ['saving', 'emergency-fund', 'money-basics']
+category: "Saving"
+tags: ["saving", "emergency-fund", "money-basics"]
 ---
 
 If you only build one financial habit this year, make it a small emergency fund.

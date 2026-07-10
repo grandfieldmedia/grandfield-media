@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Learning brand theme. */
+@theme {
+  --color-primary: #3730a3;
+  --color-primary-light: #4f46e5;
+  --color-accent: #0891b2;
+  --color-accent-light: #06b6d4;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

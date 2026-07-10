@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+import Layout from '../../layouts/Layout.astro';
+import Prose from '@grandfield/shared-ui/components/Prose.astro';
+const updated = 'July 10, 2026';
+---
+
+<Layout title="Terms of Service" description="The terms for using Grandfield Learning." noindex={true}>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-4xl font-bold text-primary">Terms of Service</h1>
+    <p class="mt-2 text-sm text-slate-500">Last updated: {updated}</p>
+    <div class="mt-8">
+      <Prose>
+        <p><em>This is a starter template — have it reviewed before launch.</em></p>
+        <h2>Digital products</h2>
+        <p>Grandfield Learning sells digital downloads (templates, guides, and printables).
+          After purchase you receive a link to download your file. Products are for
+          personal use unless stated otherwise.</p>
+        <h2>Educational use</h2>
+        <p>All content and products are for general educational purposes. Results depend on your own effort and study habits.</p>
+        <h2>License</h2>
+        <p>You may use purchased files for your personal use. You may not resell or
+          redistribute them.</p>
+        <h2>Contact</h2>
+        <p>Questions? Email <a href="mailto:hello@grandfieldlearning.com">hello@grandfieldlearning.com</a>.</p>
+      </Prose>
+    </div>
+  </section>
+</Layout>

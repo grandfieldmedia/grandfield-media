@@ -1,9 +1,9 @@
 ---
-title: 'How to Make Letter Practice Actually Fun'
-description: 'Learning the alphabet doesn’t have to be a battle. A few playful tweaks turn tracing sheets into a game kids ask for.'
+title: "How to Make Letter Practice Actually Fun"
+description: "Learning the alphabet doesn't have to be a battle. A few playful tweaks turn tracing sheets into a game kids ask for."
 pubDate: 2026-07-10
-category: 'Early Learning'
-tags: ['early-learning', 'alphabet', 'ages-3-6']
+category: "Early Learning"
+tags: ["early-learning", "alphabet", "ages-3-6"]
 ---
 
 For a lot of kids, "let's practice letters" lands with a groan. But a few small

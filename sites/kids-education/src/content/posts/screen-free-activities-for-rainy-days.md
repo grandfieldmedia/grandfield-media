@@ -1,9 +1,9 @@
 ---
-title: '10 Screen-Free Activities to Save a Rainy Day'
-description: 'When the weather keeps everyone inside, these simple printable and hands-on activities keep little ones happy and learning.'
+title: "10 Screen-Free Activities to Save a Rainy Day"
+description: "When the weather keeps everyone inside, these simple printable and hands-on activities keep little ones happy and learning."
 pubDate: 2026-07-09
-category: 'Activities'
-tags: ['activities', 'screen-free', 'ages-3-6']
+category: "Activities"
+tags: ["activities", "screen-free", "ages-3-6"]
 ---
 
 Rainy days don't have to mean screen time all day. Here are ten easy, screen-free

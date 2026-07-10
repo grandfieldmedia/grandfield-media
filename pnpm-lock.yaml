@@ -62,16 +62,46 @@ importers:
 
   sites/business-entrepreneurship:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -124,16 +154,46 @@ importers:
 
   sites/events-celebrations:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -152,32 +212,92 @@ importers:
 
   sites/health-wellness:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
 
   sites/home-lifestyle:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -230,16 +350,46 @@ importers:
 
   sites/learning-education:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -292,16 +442,46 @@ importers:
 
   sites/relationships-family:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
@@ -320,16 +500,46 @@ importers:
 
   sites/technology-tools:
     dependencies:
+      '@astrojs/mdx':
+        specifier: ^7.0.2
+        version: 7.0.2(@astrojs/markdown-satteri@0.3.3)(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))
+      '@astrojs/rss':
+        specifier: ^4.0.19
+        version: 4.0.19
+      '@astrojs/sitemap':
+        specifier: ^3.7.3
+        version: 3.7.3
+      '@astrojs/vercel':
+        specifier: ^11.0.2
+        version: 11.0.2(astro@7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0))(react@19.2.7)(rollup@4.62.2)
+      '@fontsource-variable/inter':
+        specifier: ^5.2.8
+        version: 5.2.8
+      '@grandfield/shared-backend':
+        specifier: workspace:*
+        version: link:../../packages/shared-backend
+      '@grandfield/shared-ui':
+        specifier: workspace:*
+        version: link:../../packages/shared-ui
+      '@tailwindcss/typography':
+        specifier: ^0.5.20
+        version: 0.5.20(tailwindcss@4.3.2)
+      '@tailwindcss/vite':
+        specifier: ^4.3.2
+        version: 4.3.2(vite@8.1.4(@types/node@26.1.1)(esbuild@0.28.1)(jiti@2.7.0)(yaml@2.9.0))
       astro:
-        specifier: ^4.0.0
-        version: 4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3)
+        specifier: ^7.0.7
+        version: 7.0.7(@astrojs/markdown-remark@7.2.1)(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.2)(@types/node@26.1.1)(@vercel/functions@3.7.5)(jiti@2.7.0)(rollup@4.62.2)(yaml@2.9.0)
+      astro-icon:
+        specifier: ^1.1.5
+        version: 1.1.5
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
     devDependencies:
-      '@astrojs/tailwind':
-        specifier: ^6.0.0
-        version: 6.0.2(astro@4.16.19(@types/node@26.1.1)(lightningcss@1.32.0)(rollup@4.62.2)(typescript@5.9.3))(tailwindcss@3.4.19(yaml@2.9.0))
       tailwindcss:
-        specifier: ^3.4.0
-        version: 3.4.19(yaml@2.9.0)
+        specifier: ^4.3.2
+        version: 4.3.2
       typescript:
         specifier: ^5.0.0
         version: 5.9.3

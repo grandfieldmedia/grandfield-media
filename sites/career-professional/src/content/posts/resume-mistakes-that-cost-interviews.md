@@ -1,9 +1,9 @@
 ---
-title: '5 Resume Mistakes That Quietly Cost You Interviews'
-description: 'Small formatting and wording slips can get your resume filtered out before a human ever sees it. Here are five to fix today.'
+title: "5 Resume Mistakes That Quietly Cost You Interviews"
+description: "Small formatting and wording slips can get your resume filtered out before a human ever sees it. Here are five to fix today."
 pubDate: 2026-07-09
-category: 'Resumes'
-tags: ['resume', 'job-search', 'get-hired']
+category: "Resumes"
+tags: ["resume", "job-search", "get-hired"]
 ---
 
 Most resumes aren't rejected because the candidate isn't qualified — they're

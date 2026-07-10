@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Life brand theme. */
+@theme {
+  --color-primary: #9a3412;
+  --color-primary-light: #c2410c;
+  --color-accent: #4d7c0f;
+  --color-accent-light: #65a30d;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

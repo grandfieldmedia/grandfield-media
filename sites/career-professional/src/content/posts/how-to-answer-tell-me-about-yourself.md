@@ -1,9 +1,9 @@
 ---
-title: 'How to Answer "Tell Me About Yourself" (Without Rambling)'
-description: 'The most common interview opener trips up great candidates. A simple three-part structure keeps your answer sharp and memorable.'
+title: "How to Answer \"Tell Me About Yourself\" (Without Rambling)"
+description: "The most common interview opener trips up great candidates. A simple three-part structure keeps your answer sharp and memorable."
 pubDate: 2026-07-10
-category: 'Interviews'
-tags: ['interview', 'job-search', 'get-hired']
+category: "Interviews"
+tags: ["interview", "job-search", "get-hired"]
 ---
 
 It's the first question in almost every interview, and it sinks a surprising
