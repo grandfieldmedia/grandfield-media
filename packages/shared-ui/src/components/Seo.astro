@@ -1,0 +1,49 @@
+---
+import type { SiteConfig, PageMeta } from '../types';
+
+interface Props {
+  site: SiteConfig;
+  meta?: PageMeta;
+}
+
+const { site, meta = {} } = Astro.props;
+
+const title = meta.title ? `${meta.title} | ${site.brand}` : `${site.brand} — ${site.tagline}`;
+const description = meta.description ?? site.description;
+const ogType = meta.ogType ?? 'website';
+const noindex = meta.noindex ?? false;
+
+const canonical = new URL(Astro.url.pathname, site.url);
+const ogImage = new URL(meta.ogImage ?? site.logo ?? '/og-default.png', site.url);
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.brand,
+  url: site.url,
+  description: site.description,
+  ...(site.logo ? { logo: new URL(site.logo, site.url).href } : {}),
+};
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={site.brand} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Organization structured data -->
+<script type="application/ld+json" is:inline set:html={JSON.stringify(orgSchema)} />

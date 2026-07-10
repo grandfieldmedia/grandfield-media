@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Scan the shared-ui package so its utility classes are generated here. */
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Money brand theme — navy + gold. Each niche site defines its own. */
+@theme {
+  --color-primary: #0a2540; /* deep navy */
+  --color-primary-light: #16416b;
+  --color-accent: #c9a227; /* gold */
+  --color-accent-light: #e0be55;
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

@@ -1,0 +1,44 @@
+---
+export const prerender = true;
+import Layout from '../layouts/Layout.astro';
+import Prose from '@grandfield/shared-ui/components/Prose.astro';
+import CallToAction from '@grandfield/shared-ui/components/CallToAction.astro';
+---
+
+<Layout title="About" description="Grandfield Money makes simple, practical budgeting and money templates — plain-language tools, not financial advice.">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-4xl font-bold text-primary sm:text-5xl">About Grandfield Money</h1>
+    <div class="mt-8">
+      <Prose>
+        <p>
+          Grandfield Money exists to make managing money feel simple. We build
+          clean, ready-to-use budgeting templates, planners, and trackers — plus
+          plain-language guides that skip the jargon.
+        </p>
+        <h2>What we do</h2>
+        <p>
+          We create practical digital tools you can download and use right away:
+          budget templates, savings trackers, and money-organization systems
+          designed for real life, not finance experts.
+        </p>
+        <h2>What we don't do</h2>
+        <p>
+          We don't give financial, investment, or tax advice. Everything here is
+          educational and template-based — tools to help you organize your own
+          money and make your own decisions.
+        </p>
+        <h2>Why "get used"</h2>
+        <p>
+          The best budget is the one you actually stick with. We obsess over
+          simplicity so our tools end up used, not abandoned in a downloads folder.
+        </p>
+      </Prose>
+    </div>
+  </section>
+
+  <CallToAction
+    title="Ready to get organized?"
+    subtitle="Browse our budgeting templates and trackers."
+    actions={[{ text: 'Browse Products', href: '/products' }]}
+  />
+</Layout>

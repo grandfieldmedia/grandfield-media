@@ -1,0 +1,28 @@
+---
+import type { ProductSummary } from '../types';
+import { formatPrice } from '../utils';
+
+/**
+ * Embeddable product promo — drop into any blog post to funnel readers to a
+ * product's sales page. Prop-driven so it works across all niche sites.
+ */
+interface Props {
+  product: ProductSummary;
+  basePath?: string;
+  cta?: string;
+}
+
+const { product, basePath = '/products', cta = 'Get it now' } = Astro.props;
+const href = `${basePath}/${product.slug}`;
+---
+
+<aside class="not-prose my-8 flex flex-col gap-4 rounded-xl border border-accent/40 bg-accent/5 p-6 sm:flex-row sm:items-center sm:justify-between">
+  <div>
+    <p class="text-xs font-semibold uppercase tracking-wide text-accent">Recommended</p>
+    <h3 class="mt-1 text-lg font-semibold text-primary">{product.name}</h3>
+    {product.description && <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">{product.description}</p>}
+  </div>
+  <a href={href} class="shrink-0 rounded-lg bg-primary px-6 py-3 text-center font-semibold text-white transition hover:bg-primary-light">
+    {cta} · {formatPrice(product.price)}
+  </a>
+</aside>

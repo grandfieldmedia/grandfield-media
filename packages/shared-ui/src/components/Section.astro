@@ -1,0 +1,17 @@
+---
+interface Props {
+  as?: string;
+  class?: string;
+  /** Tailwind background utility, e.g. 'bg-primary' or 'bg-slate-50'. */
+  bg?: string;
+  id?: string;
+}
+
+const { as: Tag = 'section', class: className = '', bg = '', id } = Astro.props;
+---
+
+<Tag id={id} class:list={[bg]}>
+  <div class:list={['mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8', className]}>
+    <slot />
+  </div>
+</Tag>

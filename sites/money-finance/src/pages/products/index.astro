@@ -1,0 +1,27 @@
+---
+export const prerender = true;
+import Layout from '../../layouts/Layout.astro';
+// NOTE: this catalog will be wired to the Supabase `products` table (filtered by
+// site_id = 'money-finance') in the checkout pass. For now it shows an empty state.
+---
+
+<Layout title="Products" description="Budgeting templates, planners, and trackers from Grandfield Money.">
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <header class="mb-12 max-w-2xl">
+      <h1 class="text-4xl font-bold text-primary sm:text-5xl">Products</h1>
+      <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">
+        Simple budgeting templates, planners, and trackers — instant download, yours to keep.
+      </p>
+    </header>
+
+    <div class="rounded-2xl border border-dashed border-slate-300 p-16 text-center dark:border-slate-700">
+      <h2 class="text-xl font-semibold text-primary">First product launching soon</h2>
+      <p class="mx-auto mt-3 max-w-md text-slate-600 dark:text-slate-400">
+        We're putting the finishing touches on our first budgeting template. Want to be notified? Read the blog in the meantime.
+      </p>
+      <a href="/blog" class="mt-8 inline-block rounded-lg bg-primary px-8 py-3 font-semibold text-white transition hover:bg-primary-light">
+        Read the Blog
+      </a>
+    </div>
+  </section>
+</Layout>

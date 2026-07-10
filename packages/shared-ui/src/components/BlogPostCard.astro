@@ -1,0 +1,33 @@
+---
+import { formatDate } from '../utils';
+
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  pubDate: Date | string;
+  category?: string;
+  image?: string;
+}
+
+const { title, description, href, pubDate, category, image } = Astro.props;
+---
+
+<article class="group flex flex-col overflow-hidden rounded-xl border border-slate-200 transition hover:border-accent hover:shadow-md dark:border-slate-800">
+  {image && (
+    <a href={href} class="aspect-[16/9] overflow-hidden bg-slate-100 dark:bg-slate-800">
+      <img src={image} alt={title} class="h-full w-full object-cover transition group-hover:scale-105" />
+    </a>
+  )}
+  <div class="flex flex-1 flex-col p-6">
+    <div class="mb-2 flex items-center gap-3 text-xs text-slate-500">
+      {category && <span class="rounded-full bg-accent/15 px-2 py-0.5 font-medium text-accent">{category}</span>}
+      <time>{formatDate(pubDate)}</time>
+    </div>
+    <h3 class="text-lg font-semibold text-primary">
+      <a href={href} class="hover:underline">{title}</a>
+    </h3>
+    <p class="mt-2 flex-1 text-sm text-slate-600 dark:text-slate-400">{description}</p>
+    <a href={href} class="mt-4 text-sm font-medium text-accent hover:underline">Read more &rarr;</a>
+  </div>
+</article>

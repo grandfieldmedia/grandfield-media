@@ -1,0 +1,32 @@
+---
+import type { Testimonial } from '../types';
+import Section from './Section.astro';
+
+interface Props {
+  title?: string;
+  items: Testimonial[];
+  bg?: string;
+}
+
+const { title = 'What people say', items, bg = 'bg-slate-50 dark:bg-slate-900' } = Astro.props;
+---
+
+<Section bg={bg}>
+  <h2 class="mb-12 text-center text-3xl font-bold text-primary sm:text-4xl">{title}</h2>
+  <div class="grid gap-8 md:grid-cols-3">
+    {items.map((t) => (
+      <figure class="flex flex-col rounded-xl bg-white p-8 shadow-sm dark:bg-slate-950">
+        <blockquote class="flex-1 text-slate-700 dark:text-slate-300">&ldquo;{t.quote}&rdquo;</blockquote>
+        <figcaption class="mt-6 flex items-center gap-3">
+          {t.avatar
+            ? <img src={t.avatar} alt={t.name} class="h-10 w-10 rounded-full object-cover" />
+            : <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-semibold text-white">{t.name.charAt(0)}</span>}
+          <div>
+            <div class="text-sm font-semibold text-primary">{t.name}</div>
+            {t.role && <div class="text-xs text-slate-500">{t.role}</div>}
+          </div>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+</Section>

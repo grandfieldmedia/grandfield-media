@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "srini-pro",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "srini-pro", "run", "dev"],
+      "port": 4321
+    },
+    {
+      "name": "money-finance",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "site-money-finance", "exec", "astro", "dev", "--port", "4330"],
+      "port": 4330
+    }
+  ]
+}

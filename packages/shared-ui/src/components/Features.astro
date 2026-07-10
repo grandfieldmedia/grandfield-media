@@ -1,0 +1,35 @@
+---
+import type { FeatureItem } from '../types';
+import Section from './Section.astro';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  items: FeatureItem[];
+  bg?: string;
+}
+
+const { title, subtitle, items, bg = '' } = Astro.props;
+---
+
+<Section bg={bg}>
+  {(title || subtitle) && (
+    <div class="mx-auto mb-12 max-w-2xl text-center">
+      {title && <h2 class="text-3xl font-bold text-primary sm:text-4xl">{title}</h2>}
+      {subtitle && <p class="mt-4 text-lg text-slate-600 dark:text-slate-400">{subtitle}</p>}
+    </div>
+  )}
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {items.map((item) => (
+      <div class="rounded-xl border border-slate-200 p-8 transition hover:border-accent dark:border-slate-800">
+        <div class="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-accent/15 text-accent">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-primary">{item.title}</h3>
+        <p class="mt-2 text-slate-600 dark:text-slate-400">{item.description}</p>
+      </div>
+    ))}
+  </div>
+</Section>

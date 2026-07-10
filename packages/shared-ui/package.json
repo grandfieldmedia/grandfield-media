@@ -1,0 +1,14 @@
+{
+  "name": "@grandfield/shared-ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./types": "./src/types.ts",
+    "./utils": "./src/utils.ts",
+    "./*": "./src/*"
+  },
+  "peerDependencies": {
+    "astro": ">=6"
+  }
+}
