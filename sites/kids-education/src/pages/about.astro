@@ -1,0 +1,44 @@
+---
+export const prerender = true;
+import Layout from '../layouts/Layout.astro';
+import Prose from '@grandfield/shared-ui/components/Prose.astro';
+import CallToAction from '@grandfield/shared-ui/components/CallToAction.astro';
+---
+
+<Layout title="About" description="Grandfield Kids makes fun, printable activity sheets, coloring pages, and workbooks for ages 3–10 — screen-free learning kids enjoy.">
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-4xl font-bold text-primary sm:text-5xl">About Grandfield Kids</h1>
+    <div class="mt-8">
+      <Prose>
+        <p>
+          Grandfield Kids exists to make screen-free learning easy and fun. We
+          create bright, ready-to-print activity sheets, coloring pages, and
+          educational workbooks that keep children engaged — and give parents and
+          teachers a break from the screen.
+        </p>
+        <h2>What we make</h2>
+        <p>
+          Printable packs for ages 3–10: alphabet and number practice, coloring
+          pages, mazes, matching games, and early-reading and math workbooks —
+          organized by age and subject so it's easy to find the right fit.
+        </p>
+        <h2>How it works</h2>
+        <p>
+          Buy once, download instantly, and print as many copies as you need at
+          home or in a single classroom. No subscriptions, no apps.
+        </p>
+        <h2>Safe & simple</h2>
+        <p>
+          Everything is designed to be age-appropriate and easy for little hands.
+          Adult supervision is always recommended for young children.
+        </p>
+      </Prose>
+    </div>
+  </section>
+
+  <CallToAction
+    title="Ready for some fun?"
+    subtitle="Browse our activity packs and coloring pages."
+    actions={[{ text: 'Browse Printables', href: '/products' }]}
+  />
+</Layout>

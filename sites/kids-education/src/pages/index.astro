@@ -1,0 +1,50 @@
+---
+export const prerender = true;
+import Layout from '../layouts/Layout.astro';
+import Features from '@grandfield/shared-ui/components/Features.astro';
+import CallToAction from '@grandfield/shared-ui/components/CallToAction.astro';
+
+const features = [
+  { title: 'Print & play', description: 'Download, print at home, and hand it over — no prep, no screens required.' },
+  { title: 'Made for little learners', description: 'Bright, age-appropriate activities for ages 3–10 that keep kids engaged.' },
+  { title: 'Yours forever', description: 'One-time purchase, instant download, print as many times as you like.' },
+];
+---
+
+<Layout title="Home">
+  <!-- Hero -->
+  <section class="bg-primary text-white">
+    <div class="mx-auto max-w-6xl px-4 py-24 text-center sm:px-6 lg:px-8">
+      <p class="mb-4 text-sm font-semibold uppercase tracking-wider text-accent">Grandfield Kids</p>
+      <h1 class="mx-auto max-w-3xl text-4xl font-bold leading-tight sm:text-5xl">
+        Fun printable activities that kids actually enjoy.
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-violet-100">
+        Coloring pages, activity sheets, and educational workbooks for ages 3–10 — screen-free learning you can print in seconds.
+      </p>
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href="/products" class="rounded-lg bg-accent px-8 py-3 font-semibold text-primary transition hover:bg-accent-light">
+          Browse Printables
+        </a>
+        <a href="/blog" class="rounded-lg border border-white/30 px-8 py-3 font-semibold text-white transition hover:bg-white/10">
+          Read the Blog
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Features
+    title="Learning that feels like play"
+    subtitle="Every pack is designed to be printed at home and enjoyed straight away — no screens, no setup."
+    items={features}
+  />
+
+  <CallToAction
+    title="Keep the kids happily busy today"
+    subtitle="Browse activity packs, coloring pages, and workbooks — instant download, print anytime."
+    actions={[
+      { text: 'Browse Printables', href: '/products' },
+      { text: 'Read the Blog', href: '/blog', primary: false },
+    ]}
+  />
+</Layout>

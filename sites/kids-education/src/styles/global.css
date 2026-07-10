@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/* Scan the shared-ui package so its utility classes are generated here. */
+@source '../../../../packages/shared-ui/src/**/*.astro';
+
+/* Grandfield Kids brand theme — playful violet + sunny amber. */
+@theme {
+  --color-primary: #6d28d9; /* violet-700 */
+  --color-primary-light: #8b5cf6; /* violet-500 */
+  --color-accent: #f59e0b; /* amber-500 */
+  --color-accent-light: #fbbf24; /* amber-400 */
+
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}

@@ -1,0 +1,39 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import ProductSalesLayout from '@grandfield/shared-ui/layouts/ProductSalesLayout.astro';
+import { isStripeConfigured } from '@grandfield/shared-backend';
+import { getProductBySlug, toSummary } from '../../lib/products';
+
+const { slug } = Astro.params;
+const product = slug ? await getProductBySlug(slug) : null;
+
+if (!product) {
+  return new Response('Product not found', { status: 404 });
+}
+
+const checkoutEnabled = isStripeConfigured();
+
+// Generic benefits/FAQ for a printable kids pack (per-product content can move to
+// a content collection later; kept here so the sales page is complete now).
+const benefits = [
+  { title: 'Print & play', description: 'Print at home in seconds — no prep and no screens needed.' },
+  { title: 'Age-appropriate', description: 'Designed for little learners with bright, simple, engaging activities.' },
+  { title: 'Print again anytime', description: 'One-time purchase, instant download, reprint as often as you like.' },
+];
+const faqs = [
+  { question: 'What format is it?', answer: 'A print-ready PDF you can download instantly after purchase.' },
+  { question: 'Do I need special software?', answer: 'No — any PDF reader and a home printer work.' },
+  { question: 'What ages is it for?', answer: 'Our packs are designed for ages 3–10; check each product for its age range.' },
+  { question: 'Can I get a refund?', answer: 'See our refund policy — contact us within 14 days if it isn’t as described.' },
+];
+---
+
+<Layout title={product.name} description={product.description ?? 'A Grandfield Kids printable download.'} ogType="product">
+  <ProductSalesLayout
+    product={toSummary(product)}
+    benefits={benefits}
+    faqs={faqs}
+    checkoutEnabled={checkoutEnabled}
+  />
+</Layout>

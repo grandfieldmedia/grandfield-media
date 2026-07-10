@@ -4,6 +4,7 @@
     "jsxImportSource": "astro",
     "strictNullChecks": true,
     "resolveJsonModule": true,
+    "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

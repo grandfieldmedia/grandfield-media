@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+import Layout from '../../layouts/Layout.astro';
+import Prose from '@grandfield/shared-ui/components/Prose.astro';
+const updated = 'July 10, 2026';
+---
+
+<Layout title="Refund Policy" description="Grandfield Kids's refund policy for digital products." noindex={true}>
+  <section class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="text-4xl font-bold text-primary">Refund Policy</h1>
+    <p class="mt-2 text-sm text-slate-500">Last updated: {updated}</p>
+    <div class="mt-8">
+      <Prose>
+        <p><em>This is a starter template — have it reviewed before launch.</em></p>
+        <h2>Digital goods</h2>
+        <p>Because our products are instantly-delivered digital downloads, all
+          sales are generally final. However, we want you to be happy with your
+          purchase.</p>
+        <h2>Requesting a refund</h2>
+        <p>If a product is faulty, or not as described, contact us within 14 days
+          of purchase at <a href="mailto:hello@grandfieldkids.com">hello@grandfieldkids.com</a>
+          and we'll make it right — including a refund where appropriate.</p>
+        <h2>Processing</h2>
+        <p>Approved refunds are returned to your original payment method via
+          Stripe, typically within 5–10 business days.</p>
+      </Prose>
+    </div>
+  </section>
+</Layout>

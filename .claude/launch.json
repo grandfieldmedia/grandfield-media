@@ -24,6 +24,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "site-career-professional", "exec", "astro", "dev", "--port", "4332"],
       "port": 4332
+    },
+    {
+      "name": "kids-education",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "site-kids-education", "exec", "astro", "dev", "--port", "4333"],
+      "port": 4333
     }
   ]
 }
