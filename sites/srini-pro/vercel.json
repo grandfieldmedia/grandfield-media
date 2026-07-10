@@ -23,6 +23,11 @@
       "source": "/go/learn-cloud-computing",
       "destination": "https://school.srini.pro/l/pdp/learn-cloud-computing",
       "permanent": false
+    },
+    {
+      "source": "/go/sap-po-mastery",
+      "destination": "https://school.srini.pro/l/pdp/sap-po-mastery",
+      "permanent": false
     }
   ]
 }
