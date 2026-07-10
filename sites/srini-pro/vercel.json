@@ -2,5 +2,27 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "astro",
   "buildCommand": "astro build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/go/sap-btp-basics",
+      "destination": "https://school.srini.pro/l/pdp/sap-btp-basics",
+      "permanent": false
+    },
+    {
+      "source": "/go/sap-integration-suite-basics",
+      "destination": "https://school.srini.pro/l/pdp/sap-integration-suite-basics",
+      "permanent": false
+    },
+    {
+      "source": "/go/learn-api-rest-json-basics",
+      "destination": "https://school.srini.pro/l/pdp/learn-api-rest-and-json-basics",
+      "permanent": false
+    },
+    {
+      "source": "/go/learn-cloud-computing",
+      "destination": "https://school.srini.pro/l/pdp/learn-cloud-computing",
+      "permanent": false
+    }
+  ]
 }
