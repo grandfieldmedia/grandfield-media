@@ -1,0 +1,70 @@
+---
+// Site-wide announcement bar. Our own popup, replacing the previous third-party campaign script.
+// Edit the defaults below (or pass props from the layout) to change the message/CTA.
+interface Props {
+  message?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  /** Unique key so a dismissal is remembered per-campaign. Bump it to re-show the bar. */
+  storageKey?: string;
+}
+
+const {
+  message = 'New! SAP PO Mastery is now available.',
+  ctaText = 'View PO Mastery Course',
+  ctaHref = '/sap-po-mastery',
+  storageKey = 'announcement-sap-po-mastery',
+} = Astro.props;
+---
+
+<div
+  id="announcement-bar"
+  data-storage-key={storageKey}
+  class="relative bg-gray-900 text-white"
+>
+  <div class="max-w-7xl mx-auto px-10 sm:px-12 lg:px-16 py-2.5">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-x-4 gap-y-2 text-center">
+      <p class="text-sm sm:text-base font-semibold leading-snug">
+        <span class="font-bold tracking-wide">ANNOUNCEMENT:</span>
+        <span aria-hidden="true">🚀</span> {message}
+      </p>
+      <a
+        href={ctaHref}
+        class="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+      >
+        {ctaText}
+        <span aria-hidden="true">&rarr;</span>
+      </a>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    data-dismiss
+    aria-label="Dismiss announcement"
+    class="absolute right-3 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded text-lg leading-none text-gray-400 transition-colors hover:text-white"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('announcement-bar');
+    if (!bar) return;
+    var key = 'srinipro:' + (bar.dataset.storageKey || 'announcement');
+    try {
+      if (localStorage.getItem(key) === '1') {
+        bar.remove();
+        return;
+      }
+    } catch (e) {}
+    var btn = bar.querySelector('[data-dismiss]');
+    if (btn) {
+      btn.addEventListener('click', function () {
+        try { localStorage.setItem(key, '1'); } catch (e) {}
+        bar.remove();
+      });
+    }
+  })();
+</script>

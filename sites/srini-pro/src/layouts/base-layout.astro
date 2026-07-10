@@ -1,4 +1,6 @@
 ---
+import AnnouncementBar from '../components/AnnouncementBar.astro';
+
 interface Props {
   title: string;
   description?: string;
@@ -26,21 +28,11 @@ const { title, description } = Astro.props;
     gtag('js', new Date());
     gtag('config', 'G-R29BZQ94J4');
   </script>
-
-  <!-- OptinMonster -->
-  <script is:inline define:vars={{ omUser: 380159, omAccount: 403056 }}>
-    (function(d,u,ac) {
-      var s = d.createElement('script');
-      s.type = 'text/javascript';
-      s.src = 'https://a.omappapi.com/app/js/api.min.js';
-      s.async = true;
-      s.dataset.user = u;
-      s.dataset.account = ac;
-      d.getElementsByTagName('head')[0].appendChild(s);
-    })(document, omUser, omAccount);
-  </script>
 </head>
 <body class="font-sans text-gray-900 bg-white">
+  <!-- Announcement Bar (site-wide) -->
+  <AnnouncementBar />
+
   <!-- Navigation -->
   <nav class="bg-white shadow-sm border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
