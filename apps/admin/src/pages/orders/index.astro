@@ -1,0 +1,68 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { formatPrice } from '@grandfield/shared-backend';
+import { getOrders, getSiteIds, type OrderFilters } from '../../lib/db';
+
+const params = Astro.url.searchParams;
+const filters: OrderFilters = {
+  siteId: params.get('site') ?? undefined,
+  status: params.get('status') ?? undefined,
+};
+
+const [orders, sites] = await Promise.all([getOrders(filters, 200), getSiteIds()]);
+const statuses = ['pending', 'completed', 'refunded', 'failed'];
+
+function fmtDate(iso: string) {
+  return new Date(iso).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+}
+---
+
+<AdminLayout title="Orders">
+  <form method="GET" class="mb-6 flex flex-wrap items-end gap-3">
+    <div>
+      <label class="block text-xs font-medium text-slate-500">Niche</label>
+      <select name="site" class="mt-1 rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <option value="">All niches</option>
+        {sites.map((s) => <option value={s} selected={filters.siteId === s}>{s}</option>)}
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-500">Status</label>
+      <select name="status" class="mt-1 rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <option value="">Any</option>
+        {statuses.map((s) => <option value={s} selected={filters.status === s}>{s}</option>)}
+      </select>
+    </div>
+    <button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Filter</button>
+  </form>
+
+  <div class="rounded-xl bg-white shadow-sm">
+    {orders.length === 0 ? (
+      <p class="px-6 py-12 text-center text-sm text-slate-500">No orders match these filters.</p>
+    ) : (
+      <table class="w-full text-sm">
+        <thead class="text-left text-xs uppercase text-slate-400">
+          <tr>
+            <th class="px-6 py-3 font-medium">Date</th>
+            <th class="px-6 py-3 font-medium">Email</th>
+            <th class="px-6 py-3 font-medium">Niche</th>
+            <th class="px-6 py-3 font-medium">Amount</th>
+            <th class="px-6 py-3 font-medium">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {orders.map((o) => (
+            <tr class="hover:bg-slate-50">
+              <td class="px-6 py-3 text-slate-500">{fmtDate(o.created_at)}</td>
+              <td class="px-6 py-3"><a href={`/orders/${o.id}`} class="text-accent hover:underline">{o.email}</a></td>
+              <td class="px-6 py-3 text-slate-600">{o.site_id}</td>
+              <td class="px-6 py-3">{formatPrice(o.amount)}</td>
+              <td class="px-6 py-3 text-slate-600">{o.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

@@ -1,0 +1,21 @@
+{
+  "name": "@grandfield/admin",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^11.0.2",
+    "@grandfield/shared-backend": "workspace:*",
+    "@supabase/ssr": "^0.12.0",
+    "@supabase/supabase-js": "^2.110.2",
+    "@tailwindcss/vite": "^4.3.2",
+    "astro": "^7.0.7",
+    "dotenv": "^17.4.2",
+    "tailwindcss": "^4.3.2"
+  }
+}

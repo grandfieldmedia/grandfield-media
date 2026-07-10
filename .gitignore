@@ -5,3 +5,6 @@ dist/
 build/ 
 .DS_Store 
 pnpm-lock.yaml 
+
+# Astro generated cache
+.astro/

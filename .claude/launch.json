@@ -12,6 +12,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "site-money-finance", "exec", "astro", "dev", "--port", "4330"],
       "port": 4330
+    },
+    {
+      "name": "admin",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@grandfield/admin", "exec", "astro", "dev", "--port", "4331"],
+      "port": 4331
     }
   ]
 }
