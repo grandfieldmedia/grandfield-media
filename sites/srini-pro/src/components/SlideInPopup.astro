@@ -1,0 +1,119 @@
+---
+// Site-wide slide-in popup (bottom-right), our own replacement for the previous
+// third-party scroll-triggered campaign. Shows once the visitor scrolls past
+// `scrollThreshold` of the page; dismissal is remembered via localStorage.
+interface Props {
+  heading?: string;
+  image?: string;
+  imageAlt?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  dismissText?: string;
+  /** Fraction of the page (0-1) scrolled before the popup appears. */
+  scrollThreshold?: number;
+  /** Bump to re-show the popup to visitors who dismissed a previous version. */
+  storageKey?: string;
+}
+
+const {
+  heading = 'Pssst... 🎁 Grab my Paid SAP BTP Course FREE. Limited-time offer!!',
+  image = '/images/course-sap-btp.png',
+  imageAlt = 'SAP BTP Basics course',
+  ctaText = '🎁 Get Free Access',
+  ctaHref = '/free-courses',
+  dismissText = "No thanks, I don't want to learn",
+  scrollThreshold = 0.6,
+  storageKey = 'slidein-sap-btp-free',
+} = Astro.props;
+---
+
+<div
+  id="slide-in-popup"
+  data-storage-key={storageKey}
+  data-threshold={scrollThreshold}
+  class="fixed bottom-4 right-4 z-[9999] hidden w-[350px] max-w-[calc(100vw-2rem)] translate-y-6 opacity-0 transition-all duration-300 ease-out"
+>
+  <div class="relative rounded-lg border-2 border-[#4787ff] bg-white p-5 shadow-xl">
+    <button
+      type="button"
+      data-dismiss
+      aria-label="Close"
+      class="absolute -right-3 -top-3 flex h-8 w-8 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500 shadow transition-colors hover:text-gray-900"
+    >
+      <span aria-hidden="true" class="text-xl leading-none">&times;</span>
+    </button>
+
+    <p class="mb-3 text-center text-lg font-bold leading-tight" style="color:#28324e;">
+      {heading}
+    </p>
+
+    <img
+      src={image}
+      alt={imageAlt}
+      width="306"
+      height="172"
+      loading="lazy"
+      class="mb-4 w-full rounded"
+    />
+
+    <a
+      href={ctaHref}
+      class="block w-full rounded-md bg-blue-600 px-4 py-3 text-center text-base font-semibold text-white transition-colors hover:bg-blue-500"
+    >
+      {ctaText}
+    </a>
+
+    <button
+      type="button"
+      data-dismiss
+      class="mt-3 block w-full text-center text-sm text-gray-500 transition-colors hover:text-gray-700"
+    >
+      {dismissText}
+    </button>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var el = document.getElementById('slide-in-popup');
+    if (!el) return;
+    var key = 'srinipro:' + (el.dataset.storageKey || 'slidein');
+    try {
+      if (localStorage.getItem(key) === '1') {
+        el.remove();
+        return;
+      }
+    } catch (e) {}
+
+    var threshold = parseFloat(el.dataset.threshold || '0.6');
+    var shown = false;
+
+    function reveal() {
+      if (shown) return;
+      shown = true;
+      el.classList.remove('hidden');
+      void el.offsetWidth; // force reflow so the transition runs
+      el.classList.remove('translate-y-6', 'opacity-0');
+      window.removeEventListener('scroll', onScroll);
+    }
+
+    function onScroll() {
+      var scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollable <= 0) return;
+      if (window.scrollY / scrollable >= threshold) reveal();
+    }
+
+    function dismiss() {
+      try { localStorage.setItem(key, '1'); } catch (e) {}
+      el.classList.add('translate-y-6', 'opacity-0');
+      setTimeout(function () { el.remove(); }, 300);
+    }
+
+    el.querySelectorAll('[data-dismiss]').forEach(function (b) {
+      b.addEventListener('click', dismiss);
+    });
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>

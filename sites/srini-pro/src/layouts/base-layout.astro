@@ -1,5 +1,6 @@
 ---
 import AnnouncementBar from '../components/AnnouncementBar.astro';
+import SlideInPopup from '../components/SlideInPopup.astro';
 
 interface Props {
   title: string;
@@ -83,5 +84,8 @@ SAP is a registered trademarks of respective owners.</p>
       </div>
     </div>
   </footer>
+
+  <!-- Slide-in Popup (site-wide, appears on scroll) -->
+  <SlideInPopup />
 </body>
 </html>
