@@ -48,9 +48,54 @@ const { title, description } = Astro.props;
           <a href="/mastery-courses" class="text-gray-600 hover:text-gray-900">Mastery</a>
           <a href="/about" class="text-gray-600 hover:text-gray-900">About</a>
         </div>
+
+        <!-- Mobile menu toggle -->
+        <button
+          id="mobile-menu-toggle"
+          type="button"
+          class="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          aria-label="Toggle navigation menu"
+          aria-controls="mobile-menu"
+          aria-expanded="false"
+        >
+          <svg data-icon="open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg data-icon="close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile menu panel -->
+      <div id="mobile-menu" class="hidden md:hidden pb-3">
+        <div class="flex flex-col space-y-1">
+          <a href="/" class="block rounded-md px-3 py-2 text-base text-gray-600 hover:bg-gray-100 hover:text-gray-900">Home</a>
+          <a href="/kits" class="block rounded-md px-3 py-2 text-base text-gray-600 hover:bg-gray-100 hover:text-gray-900">Kits</a>
+          <a href="/free-courses" class="block rounded-md px-3 py-2 text-base text-gray-600 hover:bg-gray-100 hover:text-gray-900">Free Courses</a>
+          <a href="/mastery-courses" class="block rounded-md px-3 py-2 text-base text-gray-600 hover:bg-gray-100 hover:text-gray-900">Mastery</a>
+          <a href="/about" class="block rounded-md px-3 py-2 text-base text-gray-600 hover:bg-gray-100 hover:text-gray-900">About</a>
+        </div>
       </div>
     </div>
   </nav>
+
+  <script is:inline>
+    (function () {
+      var btn = document.getElementById('mobile-menu-toggle');
+      var menu = document.getElementById('mobile-menu');
+      if (!btn || !menu) return;
+      var openIcon = btn.querySelector('[data-icon="open"]');
+      var closeIcon = btn.querySelector('[data-icon="close"]');
+      btn.addEventListener('click', function () {
+        var isOpen = !menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        openIcon.classList.toggle('hidden', !isOpen);
+        closeIcon.classList.toggle('hidden', isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    })();
+  </script>
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
