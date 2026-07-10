@@ -1,10 +1,21 @@
-node_modules/ 
-.env.local 
-.vercel/ 
-dist/ 
-build/ 
-.DS_Store 
-pnpm-lock.yaml 
+# Dependencies
+node_modules/
 
-# Astro generated cache
+# Build output
+dist/
+build/
+.vercel/
 .astro/
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Vendor reference clones (not part of the repo; have their own .git)
+_vendor-review/
+
+# OS
+.DS_Store
+
+# NOTE: pnpm-lock.yaml IS committed (required for reproducible Vercel installs).
