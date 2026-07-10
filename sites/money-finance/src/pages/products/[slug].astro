@@ -1,0 +1,39 @@
+---
+export const prerender = false;
+import Layout from '../../layouts/Layout.astro';
+import ProductSalesLayout from '@grandfield/shared-ui/layouts/ProductSalesLayout.astro';
+import { isStripeConfigured } from '@grandfield/shared-backend';
+import { getProductBySlug, toSummary } from '../../lib/products';
+
+const { slug } = Astro.params;
+const product = slug ? await getProductBySlug(slug) : null;
+
+if (!product) {
+  return new Response('Product not found', { status: 404 });
+}
+
+const checkoutEnabled = isStripeConfigured();
+
+// Generic benefits/FAQ for a budgeting template (per-product content can move to
+// a content collection later; kept here so the sales page is complete now).
+const benefits = [
+  { title: 'Ready to use', description: 'Open it and start — no setup, no learning curve.' },
+  { title: 'Plain language', description: 'Built for real life, not finance experts.' },
+  { title: 'Yours to keep', description: 'One-time purchase, instant download, no subscription.' },
+];
+const faqs = [
+  { question: 'What format is it?', answer: 'A digital PDF you can download instantly after purchase.' },
+  { question: 'Do I need special software?', answer: 'No — any PDF reader works.' },
+  { question: 'Is this financial advice?', answer: 'No. This is an educational template to help you organize your own money.' },
+  { question: 'Can I get a refund?', answer: 'See our refund policy — contact us within 14 days if it isn’t as described.' },
+];
+---
+
+<Layout title={product.name} description={product.description ?? 'A Grandfield Money digital download.'} ogType="product">
+  <ProductSalesLayout
+    product={toSummary(product)}
+    benefits={benefits}
+    faqs={faqs}
+    checkoutEnabled={checkoutEnabled}
+  />
+</Layout>

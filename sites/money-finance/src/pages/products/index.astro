@@ -1,11 +1,19 @@
 ---
-export const prerender = true;
+export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
-// NOTE: this catalog will be wired to the Supabase `products` table (filtered by
-// site_id = 'money-finance') in the checkout pass. For now it shows an empty state.
+import ProductCard from '@grandfield/shared-ui/components/ProductCard.astro';
+import { getProducts, toSummary } from '../../lib/products';
+
+let products: Awaited<ReturnType<typeof getProducts>> = [];
+let loadError = false;
+try {
+  products = await getProducts();
+} catch {
+  loadError = true;
+}
 ---
 
-<Layout title="Products" description="Budgeting templates, planners, and trackers from Grandfield Money.">
+<Layout title="Products" description="Budgeting templates, planners, and trackers from Grandfield Money — instant download, yours to keep.">
   <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
     <header class="mb-12 max-w-2xl">
       <h1 class="text-4xl font-bold text-primary sm:text-5xl">Products</h1>
@@ -14,14 +22,24 @@ import Layout from '../../layouts/Layout.astro';
       </p>
     </header>
 
-    <div class="rounded-2xl border border-dashed border-slate-300 p-16 text-center dark:border-slate-700">
-      <h2 class="text-xl font-semibold text-primary">First product launching soon</h2>
-      <p class="mx-auto mt-3 max-w-md text-slate-600 dark:text-slate-400">
-        We're putting the finishing touches on our first budgeting template. Want to be notified? Read the blog in the meantime.
-      </p>
-      <a href="/blog" class="mt-8 inline-block rounded-lg bg-primary px-8 py-3 font-semibold text-white transition hover:bg-primary-light">
-        Read the Blog
-      </a>
-    </div>
+    {products.length > 0 ? (
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {products.map((p) => <ProductCard product={toSummary(p)} />)}
+      </div>
+    ) : (
+      <div class="rounded-2xl border border-dashed border-slate-300 p-16 text-center dark:border-slate-700">
+        <h2 class="text-xl font-semibold text-primary">
+          {loadError ? 'Products are temporarily unavailable' : 'First product launching soon'}
+        </h2>
+        <p class="mx-auto mt-3 max-w-md text-slate-600 dark:text-slate-400">
+          {loadError
+            ? 'Please check back in a moment.'
+            : "We're putting the finishing touches on our first budgeting template. Read the blog in the meantime."}
+        </p>
+        <a href="/blog" class="mt-8 inline-block rounded-lg bg-primary px-8 py-3 font-semibold text-white transition hover:bg-primary-light">
+          Read the Blog
+        </a>
+      </div>
+    )}
   </section>
 </Layout>
