@@ -10,6 +10,7 @@ export const siteConfig: SiteConfig = {
   description:
     'Grandfield Business makes practical, ready-to-use business plan templates, pitch decks, and operations tools — everything a founder needs to start and run a small business without the guesswork.',
   contactEmail: 'hello@grandfieldbusiness.com',
+  logo: '/logo.png',
 
   nav: [
     { text: 'Home', href: '/' },

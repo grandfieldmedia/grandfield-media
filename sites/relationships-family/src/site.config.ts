@@ -10,6 +10,7 @@ export const siteConfig: SiteConfig = {
   description:
     'Grandfield Family makes practical family organizers, communication guides, chore and routine charts, and connection activities that help busy families stay organized and close.',
   contactEmail: 'hello@grandfieldfamily.com',
+  logo: '/logo.png',
 
   nav: [
     { text: 'Home', href: '/' },

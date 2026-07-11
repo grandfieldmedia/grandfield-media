@@ -14,6 +14,7 @@ export const siteConfig: SiteConfig = {
   description:
     'Grandfield Kids makes fun, ready-to-print activity sheets, coloring pages, and educational workbooks for ages 3–10 — screen-free learning that keeps kids engaged.',
   contactEmail: 'hello@grandfieldkids.com',
+  logo: '/logo.png',
 
   nav: [
     { text: 'Home', href: '/' },

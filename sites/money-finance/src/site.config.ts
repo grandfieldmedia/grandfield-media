@@ -14,6 +14,7 @@ export const siteConfig: SiteConfig = {
   description:
     'Grandfield Money makes simple, ready-to-use budgeting and planning templates, trackers, and money-education guides — no jargon, no financial advice, just tools that help you take control of your money.',
   contactEmail: 'hello@grandfieldmoney.com',
+  logo: '/logo.png',
 
   nav: [
     { text: 'Home', href: '/' },

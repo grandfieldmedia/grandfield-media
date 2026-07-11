@@ -14,6 +14,7 @@ export const siteConfig: SiteConfig = {
   description:
     'Grandfield Careers makes practical, ready-to-use resume templates, interview prep kits, and career-growth guides — clear, professional tools that help you land the job.',
   contactEmail: 'hello@grandfieldcareers.com',
+  logo: '/logo.png',
 
   nav: [
     { text: 'Home', href: '/' },
