@@ -34,7 +34,17 @@ export interface SocialStats {
   total: number;
   qaPassed: number;
   qaFailed: number;
+  today: number;
   brands: number;
+}
+
+export interface BrandSummary {
+  id: string;
+  name: string;
+  niche: string | null;
+  total: number;
+  qaPassed: number;
+  lastAt: string | null;
 }
 
 export async function getBrands(): Promise<Brand[]> {
@@ -62,10 +72,31 @@ export async function getPosts(f: PostFilters = {}, limit = 50): Promise<SocialP
 
 export async function getSocialStats(f: PostFilters = {}): Promise<SocialStats> {
   const [posts, brands] = await Promise.all([getPosts(f, 1000), getBrands()]);
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
   return {
     total: posts.length,
     qaPassed: posts.filter((p) => p.status === 'qa_passed' || p.status === 'published').length,
     qaFailed: posts.filter((p) => p.status === 'qa_failed').length,
+    today: posts.filter((p) => new Date(p.created_at) >= startOfToday).length,
     brands: brands.length,
   };
+}
+
+/** Per-brand rollup for the dashboard summary (all brands, newest-first activity). */
+export async function getBrandSummary(): Promise<BrandSummary[]> {
+  const [posts, brands] = await Promise.all([getPosts({}, 2000), getBrands()]);
+  return brands
+    .map((b) => {
+      const bp = posts.filter((p) => p.brand_id === b.id); // already ordered newest-first
+      return {
+        id: b.id,
+        name: b.name,
+        niche: b.niche,
+        total: bp.length,
+        qaPassed: bp.filter((p) => p.status === 'qa_passed' || p.status === 'published').length,
+        lastAt: bp[0]?.created_at ?? null,
+      };
+    })
+    .sort((a, b) => b.total - a.total);
 }
