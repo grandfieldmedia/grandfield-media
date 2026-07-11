@@ -9,14 +9,33 @@ const { site } = Astro.props;
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
   href === '/' ? path === '/' : path.startsWith(href);
+
+// Wordmark: "Grandfield" (muted) + niche word (primary). Falls back gracefully.
+const words = site.brand.split(' ');
+const lead = words.length > 1 ? words.slice(0, -1).join(' ') : '';
+const niche = words[words.length - 1];
+// The Grandfield 3x3 grid mark: 8 light cells + 1 accent cell (top-right).
+const cells = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const accentCell = 2; // top-right
 ---
 
 <header class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/90 backdrop-blur dark:border-slate-800 dark:bg-slate-950/90">
   <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-    <a href="/" class="flex items-center gap-2 text-lg font-bold text-primary">
-      {site.logo
-        ? <img src={site.logo} alt={site.brand} class="h-8 w-auto" />
-        : <span>{site.brand}</span>}
+    <a href="/" class="flex items-center gap-2.5" aria-label={site.brand}>
+      {site.logo ? (
+        <img src={site.logo} alt={site.brand} class="h-9 w-auto" />
+      ) : (
+        <>
+          <span class="grid grid-cols-3 gap-[3px] rounded-[10px] bg-primary p-[7px]" aria-hidden="true">
+            {cells.map((c) => (
+              <span class:list={['h-[6px] w-[6px] rounded-[2px]', c === accentCell ? 'bg-accent' : 'bg-white/85']}></span>
+            ))}
+          </span>
+          <span class="text-lg font-bold leading-none text-primary">
+            {lead && <span class="font-semibold text-slate-500 dark:text-slate-400">{lead}&nbsp;</span>}{niche}
+          </span>
+        </>
+      )}
     </a>
 
     <nav class="hidden items-center gap-8 md:flex">

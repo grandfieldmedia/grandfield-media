@@ -20,7 +20,11 @@ const metaPixel = site.analytics?.metaPixelId;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    {site.favicon && <link rel="icon" href={site.favicon} />}
+
+    <!-- Favicon (per-site SVG grid mark) + PNG fallbacks -->
+    <link rel="icon" type="image/svg+xml" href={site.favicon ?? '/favicon.svg'} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <Seo site={site} meta={meta} />
 
