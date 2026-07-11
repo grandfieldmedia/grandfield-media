@@ -10,6 +10,11 @@ import tailwindcss from '@tailwindcss/vite';
 // (In production, Vercel injects these env vars at runtime.)
 loadEnv({ path: fileURLToPath(new URL('../../.env.local', import.meta.url)) });
 
+// Per-app override for local dev: apps/admin/.env.local wins if present
+// (e.g. to point the admin at the DEV database). Gitignored, so it's absent in
+// production — a no-op on Vercel, where env vars are injected at runtime.
+loadEnv({ path: fileURLToPath(new URL('./.env.local', import.meta.url)), override: true });
+
 // Grandfield Media — shared admin panel for all 10 niche sites.
 export default defineConfig({
   output: 'server',
