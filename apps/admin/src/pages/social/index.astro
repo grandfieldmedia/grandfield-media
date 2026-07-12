@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 import AdminLayout from '../../layouts/AdminLayout.astro';
-import { getPosts, getBrands, getSocialStats, getBrandSummary, type PostFilters } from '../../lib/social';
+import { getPosts, getBrands, getSocialStats, getBrandSummary, getPostLog, type PostFilters } from '../../lib/social';
 
 const params = Astro.url.searchParams;
 const filters: PostFilters = {
@@ -11,14 +11,25 @@ const filters: PostFilters = {
 };
 
 const LIMIT = 50;
-const [posts, brands, stats, brandSummary] = await Promise.all([
+const [posts, brands, stats, brandSummary, postLog] = await Promise.all([
   getPosts(filters, LIMIT),
   getBrands(),
   getSocialStats(filters),
   getBrandSummary(),
+  getPostLog(),
 ]);
 
 const brandName = (id: string) => brands.find((b) => b.id === id)?.name ?? '—';
+
+// Did each content_item actually go to LinkedIn? post_log tells us (published vs draft).
+const pubMap = new Map(postLog.map((pl) => [pl.content_item_id, pl.status]));
+function pubState(p: { id: string; status: string }) {
+  const s = pubMap.get(p.id);
+  if (s === 'published') return { label: 'Published', cls: 'bg-green-100 text-green-700' };
+  if (s === 'draft') return { label: 'Draft', cls: 'bg-amber-100 text-amber-700' };
+  if (p.status === 'qa_failed') return { label: 'Blocked', cls: 'bg-red-100 text-red-700' };
+  return { label: 'Not sent', cls: 'bg-slate-100 text-slate-500' };
+}
 
 const laneLabel: Record<string, string> = {
   run1_assets: 'Assets',
@@ -156,6 +167,7 @@ const cards = [
               <span class="font-semibold text-primary">{brandName(p.brand_id)}</span>
               <span class="rounded-full bg-slate-100 px-2 py-0.5 text-slate-600">{laneLabel[p.lane ?? ''] ?? p.lane ?? '—'}</span>
               <span class={`rounded-full px-2 py-0.5 ${statusColor[p.status] ?? 'bg-slate-100 text-slate-600'}`}>{p.status}</span>
+              <span class={`rounded-full px-2 py-0.5 font-medium ${pubState(p).cls}`}>{pubState(p).label}</span>
               {p.topic && <span class="font-medium text-slate-600">{p.topic}</span>}
               <span class="hidden max-w-sm truncate text-slate-400 md:inline">— {snippet(p)}</span>
               <span class="ml-auto whitespace-nowrap text-slate-400">{fmtDate(p.created_at)}</span>

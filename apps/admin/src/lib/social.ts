@@ -55,6 +55,13 @@ export interface Control {
   updated_at: string | null;
 }
 
+export interface PostLogEntry {
+  content_item_id: string | null;
+  status: string;
+  postiz_post_id: string | null;
+  published_at: string | null;
+}
+
 export async function getBrands(): Promise<Brand[]> {
   const { data, error } = await social()
     .from('brands')
@@ -76,6 +83,15 @@ export async function getPosts(f: PostFilters = {}, limit = 50): Promise<SocialP
   const { data, error } = await q;
   if (error) throw error;
   return (data ?? []) as SocialPost[];
+}
+
+/** All post_log rows — tells whether a content_item was actually published (or drafted). */
+export async function getPostLog(): Promise<PostLogEntry[]> {
+  const { data, error } = await social()
+    .from('post_log')
+    .select('content_item_id, status, postiz_post_id, published_at');
+  if (error) throw error;
+  return (data ?? []) as PostLogEntry[];
 }
 
 export async function getSocialStats(f: PostFilters = {}): Promise<SocialStats> {
