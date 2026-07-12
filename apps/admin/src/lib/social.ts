@@ -62,6 +62,19 @@ export interface PostLogEntry {
   published_at: string | null;
 }
 
+export interface Asset {
+  id: string;
+  brand_id: string;
+  asset_type: string | null;
+  name: string;
+  url: string | null;
+  price_cents: number | null;
+  description: string | null;
+  priority_score: number;
+  status: string;
+  created_at: string;
+}
+
 export async function getBrands(): Promise<Brand[]> {
   const { data, error } = await social()
     .from('brands')
@@ -83,6 +96,47 @@ export async function getPosts(f: PostFilters = {}, limit = 50): Promise<SocialP
   const { data, error } = await q;
   if (error) throw error;
   return (data ?? []) as SocialPost[];
+}
+
+/** Assets = the products Run 1/2 promote. Managed here in the admin (the registry). */
+export async function getAssets(brandId?: string): Promise<Asset[]> {
+  let q = social()
+    .from('assets')
+    .select('id, brand_id, asset_type, name, url, price_cents, description, priority_score, status, created_at')
+    .order('created_at', { ascending: false });
+  if (brandId) q = q.eq('brand_id', brandId);
+  const { data, error } = await q;
+  if (error) throw error;
+  return (data ?? []) as Asset[];
+}
+
+export async function createAsset(a: {
+  brand_id: string;
+  name: string;
+  asset_type?: string;
+  url?: string;
+  price_cents?: number | null;
+  description?: string;
+}) {
+  const { error } = await social().from('assets').insert({
+    brand_id: a.brand_id,
+    name: a.name,
+    asset_type: a.asset_type ?? null,
+    url: a.url ?? null,
+    price_cents: a.price_cents ?? null,
+    description: a.description ?? null,
+    status: 'live',
+  });
+  if (error) throw error;
+}
+
+/** Flip an asset between promoting (live) and paused. */
+export async function setAssetStatus(id: string, status: string) {
+  const { error } = await social()
+    .from('assets')
+    .update({ status, updated_at: new Date().toISOString() })
+    .eq('id', id);
+  if (error) throw error;
 }
 
 /** All post_log rows — tells whether a content_item was actually published (or drafted). */
