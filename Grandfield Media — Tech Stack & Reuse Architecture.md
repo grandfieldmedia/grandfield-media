@@ -1,7 +1,7 @@
 # Grandfield Media — Tech Stack & Reuse Architecture
 
 **Decided:** 2026-07-10
-**Status:** Full planning complete. Nothing built yet — awaiting explicit go-ahead. This doc has everything needed to start.
+**Status:** ✅ BUILT (verified 2026-07-12). All architecture in this doc is implemented and deployed: shared-backend + shared-ui packages, shared Supabase schema (products/orders/RLS/Storage), apps/admin, and all 10 niche sites replicating the money-finance shape. Remaining items are business/content, not code — see "Still open" at the bottom.
 
 ## Guiding principle
 Always design for reuse across all 10 niche sites, not just the one being built. Prefer shared, prop/config-driven components over copy-paste-and-edit. A theme or boilerplate is only adopted if it's actually verified (by reading its code) to separate content from structure — not assumed from marketing pages.
@@ -122,12 +122,16 @@ Fixing or extending something happens once in `packages/shared-ui` or `packages/
 - **Lexington Sanity CMS variant:** Opt-in, documented scope doesn't guarantee covering hero/feature/CTA sections, adds a whole CMS as new infra for uncertain benefit.
 
 ## Still open / pending action items
-- Create `develop` branch + connect Vercel project (root dir `sites/money-finance`, `main` → production, `develop` → preview) — instructions given, waiting on user to run them or ask for browser-driven setup.
-- Build our own webhook idempotency handling (no reference implementation found did this correctly).
-- Decide on cookie consent mechanism.
-- Verify Resend sending domain (SPF/DKIM).
-- Confirm Vercel plan on the 2 existing live sites (Hobby forbids commercial use).
-- Set up Google Search Console once the site is live.
-- Add uploaded logo/favicon assets to the codebase once building starts.
-- ShipFast refund: pending response. Alfred refund: pending response.
-- Confirm first product name/price/content before building its sales page.
+**Done (verified 2026-07-12):**
+- ✅ All 10 niche sites built + deployed to Vercel (git-push auto-deploy from `main`; `develop`/preview branch flow not used — deploy straight from `main`).
+- ✅ Webhook idempotency implemented (unique `stripe_session_id` on `orders` is the anchor; webhook verifies signature + dedupes).
+- ✅ Resend sending domain verified (transactional email working).
+- ✅ Logo/favicon + branding applied across all sites.
+
+**Remaining — business/content, not code:**
+- Real product PDFs + `products` rows (currently no live commerce product seeded — first budgeting/planning PDF still to be written/uploaded).
+- Live Stripe keys (swap test-mode keys for live before taking real payments).
+- Decide on cookie consent mechanism (PostHog + Meta Pixel set cookies).
+- Set up Google Search Console per live site.
+- Confirm Vercel plan covers commercial use (Hobby forbids it).
+- ShipFast refund / Alfred refund: external, pending vendor response.
