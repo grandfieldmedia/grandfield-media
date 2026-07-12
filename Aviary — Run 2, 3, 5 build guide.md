@@ -194,13 +194,13 @@ A daily heartbeat that records whether the machine is healthy. Not a posting lan
 ```sql
 insert into social.health_status (component, status, detail, checked_at) values
   ('automation',
-   case when exists (select 1 from social.automation_controls where scope='global' and enabled) then 'ok' else 'broken' end,
+   (case when exists (select 1 from social.automation_controls where scope='global' and enabled) then 'ok' else 'broken' end)::social.component_health,
    'global master switch', now()),
   ('recent_posts',
-   case when (select count(*) from social.post_log where created_at > now() - interval '48 hours') > 0 then 'ok' else 'warn' end,
+   (case when (select count(*) from social.post_log where created_at > now() - interval '48 hours') > 0 then 'ok' else 'warn' end)::social.component_health,
    (select count(*)::text from social.post_log where created_at > now() - interval '48 hours') || ' posts in last 48h', now()),
   ('qa_health',
-   case when (select count(*) from social.content_items where status = 'qa_failed' and created_at > now() - interval '7 days') > 5 then 'warn' else 'ok' end,
+   (case when (select count(*) from social.content_items where status = 'qa_failed' and created_at > now() - interval '7 days') > 5 then 'warn' else 'ok' end)::social.component_health,
    (select count(*)::text from social.content_items where status = 'qa_failed' and created_at > now() - interval '7 days') || ' QA fails in 7d', now())
 on conflict (component) do update set status = excluded.status, detail = excluded.detail, checked_at = excluded.checked_at;
 ```
