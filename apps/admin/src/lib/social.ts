@@ -75,6 +75,13 @@ export interface Asset {
   created_at: string;
 }
 
+export interface HealthRow {
+  component: string;
+  status: string; // ok | warn | broken
+  detail: string | null;
+  checked_at: string;
+}
+
 export async function getBrands(): Promise<Brand[]> {
   const { data, error } = await social()
     .from('brands')
@@ -137,6 +144,16 @@ export async function setAssetStatus(id: string, status: string) {
     .update({ status, updated_at: new Date().toISOString() })
     .eq('id', id);
   if (error) throw error;
+}
+
+/** Run 5 heartbeat rows — is the machine healthy? Empty until Run 5 has run once. */
+export async function getHealth(): Promise<HealthRow[]> {
+  const { data, error } = await social()
+    .from('health_status')
+    .select('component, status, detail, checked_at')
+    .order('component');
+  if (error) throw error;
+  return (data ?? []) as HealthRow[];
 }
 
 /** All post_log rows — tells whether a content_item was actually published (or drafted). */
