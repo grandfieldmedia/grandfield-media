@@ -1,0 +1,414 @@
+# Cursor Rules for Grandfield Media
+## Astro + Vercel + Multi-Site Monorepo
+
+## Project Architecture
+
+This is a **multi-site monorepo** using pnpm workspaces. Each niche has its own independent Astro site, all deployed separately to Vercel.
+
+### Directory Structure
+```
+grandfield-media/
+├── sites/
+│   ├── grandfieldmedia/          # Main brand site
+│   ├── business-entrepreneurship/
+│   ├── career-professional/
+│   ├── events-celebrations/
+│   ├── health-wellness/
+│   ├── home-lifestyle/
+│   └── [other-niche-sites]/
+├── packages/                      # Shared code (utilities, components, types)
+│   ├── shared-ui/
+│   ├── shared-utils/
+│   └── [other-packages]/
+├── package.json                   # Root workspace config
+├── pnpm-workspace.yaml           # Workspace definition
+└── pnpm-lock.yaml               # Dependency lock
+```
+
+## Each Site Structure
+
+Each site in `sites/` follows this pattern:
+
+```
+sites/[site-name]/
+├── src/
+│   ├── components/               # Reusable Astro components
+│   ├── layouts/                  # Page layouts (Base, etc)
+│   ├── pages/                    # Route definitions
+│   ├── styles/                   # Global & component styles
+│   ├── lib/                      # Utilities & helpers
+│   └── assets/                   # Images, icons, etc
+├── public/                       # Static assets
+├── astro.config.mjs              # Astro config (Tailwind integration)
+├── tailwind.config.js            # Tailwind config
+├── tsconfig.json                 # TypeScript config (strict mode)
+└── package.json                  # Site-specific dependencies
+```
+
+## Tech Stack
+
+- **Astro** 4.0.0 — Static site generation
+- **Tailwind CSS** 3.4.0 — Utility-first styling
+- **TypeScript** — Strict mode enabled
+- **pnpm** 11.10.0+ — Package manager with workspaces
+- **Vercel** — Deployment platform (per-site deployment)
+
+## Astro Best Practices
+
+### Component Structure
+```astro
+---
+// Use TypeScript for props
+interface Props {
+  title: string;
+  description?: string;
+  variant?: 'primary' | 'secondary';
+}
+
+const { title, description, variant = 'primary' } = Astro.props;
+// Import utilities
+import { formatDate } from '@/lib/utils';
+---
+
+<section class={`section section--${variant}`}>
+  <h2>{title}</h2>
+  {description && <p>{description}</p>}
+</section>
+
+<style scoped>
+  /* Component-scoped CSS */
+  .section {
+    @apply p-4;
+  }
+  .section--primary {
+    @apply bg-blue-500 text-white;
+  }
+  .section--secondary {
+    @apply bg-gray-200 text-black;
+  }
+</style>
+```
+
+### Using Path Aliases
+- Import with `@/` prefix (maps to `src/`)
+- Examples:
+  ```astro
+  import Button from '@/components/Button.astro';
+  import { getMetadata } from '@/lib/seo';
+  import type { Post } from '@/lib/types';
+  ```
+
+### File Organization Best Practices
+- **pages/** — One `.astro` file per route (file-based routing)
+- **components/** — Reusable UI components
+- **layouts/** — Wrap pages with consistent structure
+- **lib/** — Utilities (`utils.ts`), helpers, constants, types
+- **styles/** — Only global styles; prefer scoped Tailwind
+- **assets/** — Images, logos, icons
+
+### Dynamic Routes
+- Use `[slug].astro` for dynamic pages
+- Implement `getStaticPaths()` for static generation:
+  ```ts
+  export async function getStaticPaths() {
+    const posts = await getAllPosts();
+    return posts.map(post => ({
+      params: { slug: post.slug },
+      props: { post }
+    }));
+  }
+  ```
+
+## Tailwind CSS Integration
+
+### Configuration
+- Each site has its own `tailwind.config.js`
+- Integrated via `@astrojs/tailwind`
+- Tailwind is scoped to `src/` directory only
+
+### Styling Approach
+- **Prefer Tailwind utilities** over custom CSS when possible
+- Use `@apply` for component-specific Tailwind combos
+- Keep scoped component styles minimal
+- Global styles only in `src/styles/globals.css`
+
+### Common Patterns
+```astro
+<!-- Tailwind in className -->
+<button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+  Click me
+</button>
+
+<!-- Using @apply for repeated combinations -->
+<style>
+  .btn-primary {
+    @apply px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600;
+  }
+</style>
+```
+
+## Monorepo Workflow
+
+### Package Manager Commands
+```bash
+# Root level
+pnpm install                          # Install all dependencies
+pnpm run dev                          # Start all sites (if root script)
+
+# Per-site operations
+pnpm --filter business-entrepreneurship run dev
+pnpm --filter business-entrepreneurship run build
+pnpm --filter business-entrepreneurship run preview
+
+# Install dep in a specific site
+pnpm --filter business-entrepreneurship add [package-name]
+
+# Install dev dep in a specific site
+pnpm --filter business-entrepreneurship add -D [package-name]
+
+# Add to shared package
+pnpm --filter @grandfield/shared-ui add [package-name]
+```
+
+### Key pnpm Flags
+- `--filter [workspace]` — Target specific workspace
+- `-D` or `--save-dev` — Add as dev dependency
+- `-w` or `--workspace-root` — Add to root workspace
+- `--shared-workspace-lockfile` — Use workspace-wide lock file (default)
+
+## Shared Code
+
+### Location: `packages/` Directory
+- **shared-ui/** — Reusable Astro components
+- **shared-utils/** — Utility functions & helpers
+- Create new packages for common functionality
+
+### Importing from Shared
+```astro
+// From a site, import from shared package
+import { Button, Card } from '@grandfield/shared-ui';
+import { formatDate, slugify } from '@grandfield/shared-utils';
+```
+
+## TypeScript Configuration
+
+### Base Configuration
+Each site extends `astro/tsconfigs/strict` with:
+- `jsxImportSource: "astro"` — Use Astro for JSX
+- `strictNullChecks: true` — Strict null checking
+- Path aliases via `@/*` → `src/*`
+
+### Type Safety
+- Always use TypeScript interfaces for component props
+- Export types from shared packages
+- Run `tsc --noEmit` to check types before deploy
+
+## Vercel Deployment
+
+### Per-Site Deployment
+Each site deploys independently. Set up Vercel projects for:
+- `grandfieldmedia.com`
+- `business-entrepreneurship-[domain]`
+- `career-professional-[domain]`
+- etc.
+
+### Configuration
+For each Vercel project (no `vercel.json` needed if using defaults):
+
+**Build Command:**
+```bash
+pnpm --filter [site-name] run build
+```
+
+**Output Directory:**
+```
+sites/[site-name]/dist
+```
+
+**Environment Variables:**
+- Set in Vercel project settings
+- Use `PUBLIC_` prefix for public env vars
+- Access via `import.meta.env.PUBLIC_*` in Astro
+
+### Sample vercel.json (create per site if needed)
+```json
+{
+  "buildCommand": "pnpm --filter business-entrepreneurship run build",
+  "outputDirectory": "sites/business-entrepreneurship/dist",
+  "env": [
+    "PUBLIC_API_URL",
+    "PUBLIC_SITE_NAME"
+  ]
+}
+```
+
+## Development Workflow
+
+### Starting Development
+```bash
+# For a specific site
+cd sites/[site-name]
+pnpm run dev
+
+# OR from root (if you add root dev script)
+pnpm --filter [site-name] run dev
+```
+
+### Development Best Practices
+1. **One terminal per site** — Each site runs on different port
+2. **Astro Hot Reload** — Changes auto-refresh in browser
+3. **TypeScript Checking** — Run `tsc --noEmit` before committing
+4. **Build Locally First** — Test `pnpm run build` before pushing
+
+## Code Standards
+
+### Naming Conventions
+- **Components:** `PascalCase.astro` → `Button.astro`, `HeroSection.astro`
+- **Files/folders:** `kebab-case` → `src/components/nav-header/`
+- **Functions/utils:** `camelCase` → `formatDate()`, `getPostData()`
+- **Constants:** `UPPER_SNAKE_CASE` → `API_BASE_URL`, `MAX_ITEMS`
+- **Types/interfaces:** `PascalCase` → `type Post`, `interface Props`
+
+### Commit Messages
+Use conventional commits format:
+```
+type(scope): description
+
+type: feat, fix, docs, refactor, style, perf, test, chore
+scope: which site or package (e.g., "business-entrepreneurship", "shared-ui")
+description: what changed, why it changed
+
+Examples:
+- feat(business-entrepreneurship): add hero section component
+- fix(career-professional): resolve nav menu alignment
+- refactor(shared-ui): extract button styles to tailwind
+- docs: update README with deployment steps
+```
+
+### Comments & Documentation
+- Use JSDoc for functions with multiple parameters
+- Comment complex logic inline
+- Keep each site's README updated
+- Document decisions in git commit messages
+
+## Git Workflow
+
+### Branch Strategy
+```
+main                 # Production-ready
+├── feature/[description]     # New features
+├── fix/[description]         # Bug fixes
+├── refactor/[description]    # Code improvements
+└── docs/[description]        # Documentation
+```
+
+### Before Committing
+```bash
+# Type check
+tsc --noEmit
+
+# Optional: lint (if eslint configured)
+pnpm run lint
+
+# Test build for the site you modified
+pnpm --filter [site-name] run build
+```
+
+### Deployment via Vercel
+1. Push to main
+2. Each site auto-deploys via Vercel (one project per site)
+3. Check preview deployments on PRs
+4. Production deployment on main merge
+
+## Performance Optimization
+
+### Bundle & Build
+- **Minimize JS** — Astro ships zero JS by default (keep it that way)
+- **Use Islands Architecture** — Only hydrate interactive components
+- **Image Optimization** — Use Astro's `<Image />` component
+- **CSS Efficiency** — Tailwind auto-purges unused styles
+
+### Caching Strategies (Vercel)
+- Static files cache indefinitely (`.js`, `.css`, `.woff2`)
+- HTML pages cache 1 hour default (configure via headers)
+- Set cache headers for different asset types in `vercel.json` if needed
+
+### Monitoring
+- Check Vercel Analytics for Core Web Vitals
+- Monitor Lighthouse scores in CI if configured
+- Profile build times: `pnpm --filter [site] run build` locally
+
+## Troubleshooting
+
+### Common Issues
+
+**Build Fails Locally but Passes Tests**
+- Clear cache: `rm -rf dist/ node_modules/.vite`
+- Rebuild: `pnpm install && pnpm --filter [site] run build`
+
+**Astro Not Recognizing Changes**
+- Restart dev server: `Ctrl+C`, then `pnpm run dev` again
+- Clear Astro cache: `rm -rf .astro/`
+
+**TypeScript Errors in Editor**
+- Ensure `astro/tsconfigs/strict` is extended in `tsconfig.json`
+- Restart VS Code/Cursor
+- Run `pnpm install` to sync types
+
+**Tailwind Classes Not Applying**
+- Verify `tailwind.config.js` has correct `content` paths
+- Restart dev server
+- Check scoped styles don't override Tailwind
+
+**Dependency Issues**
+- Clear lock file and reinstall: `rm pnpm-lock.yaml && pnpm install`
+- Check pnpm version: `pnpm -v` (should be 11.10.0+)
+
+## Quick Reference
+
+### Essential Commands
+```bash
+# Development
+pnpm --filter [site] run dev           # Start dev server
+pnpm --filter [site] run build         # Build for production
+pnpm --filter [site] run preview       # Preview production build
+
+# Management
+pnpm install                           # Install all deps
+pnpm update                            # Update deps
+pnpm --filter [site] add [package]    # Add dependency to site
+pnpm store prune                       # Clean pnpm cache
+
+# Utilities
+tsc --noEmit                           # Type check
+pnpm --filter [site] run build --stats # Build with stats
+```
+
+### Path Aliases
+- `@/*` → `src/*` (use for all imports within a site)
+
+### Key Files Per Site
+- `astro.config.mjs` — Astro configuration
+- `tailwind.config.js` — Tailwind configuration
+- `tsconfig.json` — TypeScript configuration
+- `src/pages/` — Routes
+- `src/components/` — Reusable components
+- `src/layouts/` — Page layouts
+
+## Deployment Checklist
+
+- [ ] Run type check: `tsc --noEmit`
+- [ ] Build locally: `pnpm --filter [site] run build`
+- [ ] Preview: `pnpm --filter [site] run preview`
+- [ ] Commit with conventional message
+- [ ] Push to feature branch
+- [ ] Create PR, test Vercel preview
+- [ ] Merge to main → Auto-deploys to Vercel
+- [ ] Verify production at site domain
+
+## Resources
+
+- Astro Docs: https://docs.astro.build
+- Vercel Astro: https://vercel.com/docs/frameworks/astro
+- pnpm Workspaces: https://pnpm.io/workspaces
+- Tailwind CSS: https://tailwindcss.com/docs
