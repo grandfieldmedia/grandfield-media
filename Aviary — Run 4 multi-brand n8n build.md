@@ -176,7 +176,7 @@ const postizBody = {
   tags: []
 };
 
-return { json: { brand_id: g.brand_id, channel_id: g.channel_id, contentItemId, postizBody } };
+return { json: { brand_id: g.brand_id, channel_id: g.channel_id, contentItemId, postType: postizBody.type, postizBody } };
 ```
 
 ---
@@ -192,14 +192,15 @@ return { json: { brand_id: g.brand_id, channel_id: g.channel_id, contentItemId, 
 
 ```javascript
 const pub = $input.item.json;                 // Postiz response { postId, integration }
-const p   = $('Prepare Postiz').item.json;    // brand_id, channel_id, contentItemId
+const p   = $('Prepare Postiz').item.json;    // brand_id, channel_id, contentItemId, postType
 const esc = s => String(s).replace(/'/g, "''");
+const status = p.postType === 'now' ? 'published' : 'draft';   // honest publish state
 
 const sql = `insert into social.post_log
   (content_item_id, brand_id, channel_id, postiz_post_id, lane, published_at, status)
 values (
   '${p.contentItemId}', '${p.brand_id}', '${p.channel_id}',
-  '${esc(pub.postId)}', 'run4_entertainer', now(), 'published'
+  '${esc(pub.postId)}', 'run4_entertainer', now(), '${status}'
 ) returning id;`;
 
 return { json: { sql } };
