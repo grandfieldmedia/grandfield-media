@@ -50,8 +50,10 @@ function fmtRel(iso: string | null) {
   if (h < 24) return `${h}h ago`;
   return `${Math.floor(h / 24)}d ago`;
 }
+const firstText = (p: { copy_by_platform: Record<string, string> | null }) =>
+  Object.values(p.copy_by_platform ?? {})[0] ?? '';
 const snippet = (p: { copy_by_platform: Record<string, string> | null }) =>
-  (p.copy_by_platform?.linkedin ?? '').split('\n')[0].slice(0, 90);
+  firstText(p).split('\n')[0].slice(0, 90);
 
 const cards = [
   { label: 'Total posts', value: String(stats.total) },
@@ -62,6 +64,10 @@ const cards = [
 ---
 
 <AdminLayout title="Social">
+  <div class="mb-4 flex justify-end">
+    <a href="/social/controls" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">⚙ Controls</a>
+  </div>
+
   <!-- Filters (generic — lists whatever brands / lanes exist) -->
   <form method="GET" class="mb-6 flex flex-wrap items-end gap-3">
     <div>
@@ -155,7 +161,7 @@ const cards = [
               <span class="ml-auto whitespace-nowrap text-slate-400">{fmtDate(p.created_at)}</span>
             </summary>
             <p class="whitespace-pre-line border-t border-slate-50 bg-slate-50/50 px-5 py-4 text-sm leading-relaxed text-slate-800">
-              {p.copy_by_platform?.linkedin ?? '(no content)'}
+              {firstText(p) || '(no content)'}
             </p>
           </details>
         ))}

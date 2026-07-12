@@ -1,0 +1,103 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getControls, getBrands } from '../../lib/social';
+
+const [controls, brands] = await Promise.all([getControls(), getBrands()]);
+
+const globalControl = controls.find((c) => c.scope === 'global');
+const globalOn = globalControl?.enabled ?? false;
+
+// One row per brand, paired with its control (if any).
+const rows = brands.map((b) => {
+  const c = controls.find((x) => x.scope === 'brand' && x.brand_id === b.id);
+  return { brand: b, enabled: c?.enabled ?? false, hasRow: !!c, reason: c?.reason ?? null };
+});
+
+function fmt(iso: string | null | undefined) {
+  return iso ? new Date(iso).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) : '—';
+}
+---
+
+<AdminLayout title="Social — Controls">
+  <div class="mb-6 flex items-center justify-between">
+    <a href="/social" class="text-sm font-medium text-accent hover:underline">&larr; Back to Social</a>
+  </div>
+
+  <p class="mb-6 max-w-2xl text-sm text-slate-500">
+    Kill switches. A brand posts only when the <strong>master</strong> is ON <em>and</em> that
+    <strong>brand</strong> is ON <em>and</em> it has an active channel connected in Postiz. Flip any
+    switch off to stop that scope on the next run — nothing else is affected.
+  </p>
+
+  <!-- Master switch -->
+  <div class={`rounded-xl p-6 shadow-sm ${globalOn ? 'bg-white' : 'bg-red-50 ring-1 ring-red-200'}`}>
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="text-sm text-slate-500">Master switch (all brands)</div>
+        <div class={`mt-1 text-2xl font-bold ${globalOn ? 'text-green-600' : 'text-red-600'}`}>
+          {globalOn ? 'ON — machine running' : 'OFF — everything stopped'}
+        </div>
+        <div class="mt-1 text-xs text-slate-400">Updated {fmt(globalControl?.updated_at)} · {globalControl?.reason ?? '—'}</div>
+      </div>
+      <form method="POST" action="/api/social/controls">
+        <input type="hidden" name="scope" value="global" />
+        <input type="hidden" name="enabled" value={String(!globalOn)} />
+        <button class={`rounded-lg px-5 py-2.5 text-sm font-semibold text-white ${globalOn ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'}`}>
+          {globalOn ? 'Turn OFF' : 'Turn ON'}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Per-brand switches -->
+  <div class="mt-8 rounded-xl bg-white shadow-sm">
+    <div class="border-b border-slate-100 px-5 py-3">
+      <h2 class="text-sm font-semibold text-primary">Per-brand</h2>
+    </div>
+    {rows.length === 0 ? (
+      <p class="px-5 py-8 text-center text-sm text-slate-500">No brands yet.</p>
+    ) : (
+      <table class="w-full text-sm">
+        <thead class="text-left text-xs uppercase text-slate-400">
+          <tr>
+            <th class="px-5 py-2 font-medium">Brand</th>
+            <th class="px-5 py-2 font-medium">Niche</th>
+            <th class="px-5 py-2 font-medium">Status</th>
+            <th class="px-5 py-2 font-medium text-right">Action</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {rows.map((r) => (
+            <tr class="hover:bg-slate-50">
+              <td class="px-5 py-3 font-medium text-primary">{r.brand.name}</td>
+              <td class="px-5 py-3 text-slate-500">{r.brand.niche ?? '—'}</td>
+              <td class="px-5 py-3">
+                <span class={`rounded-full px-2.5 py-0.5 text-xs font-medium ${r.enabled ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
+                  {r.enabled ? 'ON' : 'OFF'}
+                </span>
+                {!globalOn && r.enabled && (
+                  <span class="ml-2 text-xs text-red-500">(master off — not posting)</span>
+                )}
+              </td>
+              <td class="px-5 py-3 text-right">
+                {r.hasRow ? (
+                  <form method="POST" action="/api/social/controls" class="inline">
+                    <input type="hidden" name="scope" value="brand" />
+                    <input type="hidden" name="brand_id" value={r.brand.id} />
+                    <input type="hidden" name="enabled" value={String(!r.enabled)} />
+                    <button class={`rounded-lg px-4 py-1.5 text-xs font-semibold ${r.enabled ? 'bg-red-50 text-red-700 hover:bg-red-100' : 'bg-green-50 text-green-700 hover:bg-green-100'}`}>
+                      {r.enabled ? 'Turn off' : 'Turn on'}
+                    </button>
+                  </form>
+                ) : (
+                  <span class="text-xs text-slate-400">no switch row</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

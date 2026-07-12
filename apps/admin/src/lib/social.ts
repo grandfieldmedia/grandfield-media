@@ -47,6 +47,14 @@ export interface BrandSummary {
   lastAt: string | null;
 }
 
+export interface Control {
+  scope: string;
+  brand_id: string | null;
+  enabled: boolean;
+  reason: string | null;
+  updated_at: string | null;
+}
+
 export async function getBrands(): Promise<Brand[]> {
   const { data, error } = await social()
     .from('brands')
@@ -81,6 +89,26 @@ export async function getSocialStats(f: PostFilters = {}): Promise<SocialStats> 
     today: posts.filter((p) => new Date(p.created_at) >= startOfToday).length,
     brands: brands.length,
   };
+}
+
+/** Kill switches: the `global` row + one row per brand. */
+export async function getControls(): Promise<Control[]> {
+  const { data, error } = await social()
+    .from('automation_controls')
+    .select('scope, brand_id, enabled, reason, updated_at');
+  if (error) throw error;
+  return (data ?? []) as Control[];
+}
+
+/** Flip a kill switch on/off. brandId = null for the global (master) switch. */
+export async function setControl(scope: string, brandId: string | null, enabled: boolean, reason: string) {
+  let q = social()
+    .from('automation_controls')
+    .update({ enabled, reason, updated_at: new Date().toISOString() })
+    .eq('scope', scope);
+  q = brandId ? q.eq('brand_id', brandId) : q.is('brand_id', null);
+  const { error } = await q;
+  if (error) throw error;
 }
 
 /** Per-brand rollup for the dashboard summary (all brands, newest-first activity). */
