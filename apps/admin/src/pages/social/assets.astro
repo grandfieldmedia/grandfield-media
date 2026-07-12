@@ -16,11 +16,12 @@ function price(cents: number | null) {
     <a href="/social" class="text-sm font-medium text-accent hover:underline">&larr; Back to Social</a>
   </div>
 
-  <p class="mb-6 max-w-2xl text-sm text-slate-500">
-    Your products — what <strong>Run 1 (Assets)</strong> promotes. Add a product with its link; the
-    machine writes the promo posts. Flip <strong>Promote</strong> off to pull it from rotation
-    (never deletes — history stays). Drop a link, that's the whole job.
-  </p>
+  <div class="mb-6 max-w-2xl rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+    <strong>Products live in the Google Sheet.</strong> Run 1 &amp; Run 2 promote from the
+    <em>Grandfield Media — Assets</em> sheet (the <code>Assets</code> tab) — that's the source of truth.
+    Add, edit, and switch products <strong>ON/OFF there</strong>. This page is a separate database
+    registry and is <strong>not</strong> wired to the automation, so anything added below won't post.
+  </div>
 
   <!-- Add asset -->
   <form method="POST" action="/api/social/assets" class="mb-8 rounded-xl bg-white p-5 shadow-sm">
