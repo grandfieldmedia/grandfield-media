@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Tech makes practical digital productivity toolkits, workflow templates, and AI prompt packs that help you work faster and get more out of the tools you already use.',
   contactEmail: 'hello@grandfieldtech.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },

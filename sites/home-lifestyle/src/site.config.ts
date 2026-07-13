@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Life makes simple, ready-to-use home planners, meal-planning templates, cleaning schedules, and organization systems that help you run a calmer, more organized home.',
   contactEmail: 'hello@grandfieldlife.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },

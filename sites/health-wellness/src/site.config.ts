@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Wellness makes simple, ready-to-use fitness planners, wellness journals, and habit trackers to help you build healthier routines — practical tools for everyday wellbeing, not medical advice.',
   contactEmail: 'hello@grandfieldwellness.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },

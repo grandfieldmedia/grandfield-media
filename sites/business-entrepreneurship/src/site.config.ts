@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Business makes practical, ready-to-use business plan templates, pitch decks, and operations tools — everything a founder needs to start and run a small business without the guesswork.',
   contactEmail: 'hello@grandfieldbusiness.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },

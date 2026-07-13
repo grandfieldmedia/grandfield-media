@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Learning makes practical study-skills workbooks, note-taking templates, and revision planners that help students and lifelong learners study smarter and remember more.',
   contactEmail: 'hello@grandfieldlearning.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },

@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Family makes practical family organizers, communication guides, chore and routine charts, and connection activities that help busy families stay organized and close.',
   contactEmail: 'hello@grandfieldfamily.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },

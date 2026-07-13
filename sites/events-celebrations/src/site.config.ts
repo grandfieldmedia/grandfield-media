@@ -11,6 +11,8 @@ export const siteConfig: SiteConfig = {
     'Grandfield Events makes ready-to-use party planning checklists, budgets, timelines, and invitation templates — everything you need to plan birthdays, weddings, and celebrations without the stress.',
   contactEmail: 'hello@grandfieldevents.com',
   logo: '/logo.png',
+  operator: 'Grandfield Media™',
+  operatorUrl: 'https://grandfieldmedia.com',
 
   nav: [
     { text: 'Home', href: '/' },
