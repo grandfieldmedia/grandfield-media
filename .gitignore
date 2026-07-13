@@ -19,3 +19,6 @@ _vendor-review/
 .DS_Store
 
 # NOTE: pnpm-lock.yaml IS committed (required for reproducible Vercel installs).
+
+# Generated book output (DOCX/HTML) — not source
+_book-output/
