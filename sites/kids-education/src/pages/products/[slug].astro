@@ -17,7 +17,9 @@ const PADDLE_PRICE_IDS: Record<string, string> = {
   'abc-activity-coloring-pack': 'pri_01kxdvnv9kktwbttgt9vz3232n',
 };
 const priceId = PADDLE_PRICE_IDS[slug ?? ''] ?? '';
-const clientToken = import.meta.env.PADDLE_CLIENT_TOKEN ?? '';
+// Read at RUNTIME from process.env (Vercel injects it there) — not import.meta.env,
+// which Vite would inline at build time as undefined if the var wasn't in the build.
+const clientToken = process.env.PADDLE_CLIENT_TOKEN ?? '';
 // Environment is derived from the token: `test_…` = Paddle sandbox, `live_…` = production.
 const isSandbox = clientToken.startsWith('test_');
 const checkoutEnabled = !!clientToken && !!priceId;
