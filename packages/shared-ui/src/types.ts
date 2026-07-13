@@ -47,6 +47,10 @@ export interface SiteConfig {
   /** Path (in /public) to logo + favicon assets. */
   logo?: string;
   favicon?: string;
+  /** Legal operator behind the site, e.g. 'Grandfield Media™'. Shown in the footer when set. */
+  operator?: string;
+  /** Operator's website, e.g. 'https://grandfieldmedia.com'. */
+  operatorUrl?: string;
 }
 
 /** Per-page SEO/meta overrides accepted by PageLayout. */

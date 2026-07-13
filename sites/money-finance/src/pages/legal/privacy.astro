@@ -2,7 +2,7 @@
 export const prerender = true;
 import Layout from '../../layouts/Layout.astro';
 import Prose from '@grandfield/shared-ui/components/Prose.astro';
-const updated = 'July 10, 2026';
+const updated = 'July 13, 2026';
 ---
 
 <Layout title="Privacy Policy" description="How Grandfield Money handles your data." noindex={true}>
@@ -11,10 +11,9 @@ const updated = 'July 10, 2026';
     <p class="mt-2 text-sm text-slate-500">Last updated: {updated}</p>
     <div class="mt-8">
       <Prose>
-        <p><em>This is a starter template — have it reviewed before launch.</em></p>
         <h2>What we collect</h2>
         <p>When you buy a product, we collect your email address and payment
-          confirmation (processed securely by our payment provider, Stripe). We do
+          confirmation (processed securely by our merchant of record, Paddle). We do
           not store card details. We use privacy-friendly analytics to understand
           how the site is used.</p>
         <h2>How we use it</h2>
