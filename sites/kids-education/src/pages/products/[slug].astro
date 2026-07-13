@@ -2,7 +2,6 @@
 export const prerender = false;
 import Layout from '../../layouts/Layout.astro';
 import ProductSalesLayout from '@grandfield/shared-ui/layouts/ProductSalesLayout.astro';
-import { isStripeConfigured } from '@grandfield/shared-backend';
 import { getProductBySlug, toSummary } from '../../lib/products';
 
 const { slug } = Astro.params;
@@ -12,7 +11,16 @@ if (!product) {
   return new Response('Product not found', { status: 404 });
 }
 
-const checkoutEnabled = isStripeConfigured();
+// Paddle price IDs per product slug. Public-safe (used in the browser by Paddle.js).
+// TODO: move to a `paddle_price_id` column on the products table as the catalog grows.
+const PADDLE_PRICE_IDS: Record<string, string> = {
+  'abc-activity-coloring-pack': 'pri_01kxdvnv9kktwbttgt9vz3232n',
+};
+const priceId = PADDLE_PRICE_IDS[slug ?? ''] ?? '';
+const clientToken = import.meta.env.PADDLE_CLIENT_TOKEN ?? '';
+// Environment is derived from the token: `test_…` = Paddle sandbox, `live_…` = production.
+const isSandbox = clientToken.startsWith('test_');
+const checkoutEnabled = !!clientToken && !!priceId;
 
 // Generic benefits/FAQ for a printable kids pack (per-product content can move to
 // a content collection later; kept here so the sales page is complete now).
@@ -30,10 +38,52 @@ const faqs = [
 ---
 
 <Layout title={product.name} description={product.description ?? 'A Grandfield Kids printable download.'} ogType="product">
+  {isSandbox && checkoutEnabled && (
+    <div class="bg-yellow-100 px-4 py-3 text-center text-sm font-medium text-yellow-800">
+      🧪 Paddle Sandbox — this is a test checkout. No real charges will occur.
+    </div>
+  )}
   <ProductSalesLayout
     product={toSummary(product)}
     benefits={benefits}
     faqs={faqs}
     checkoutEnabled={checkoutEnabled}
   />
+
+  {checkoutEnabled && (
+    <Fragment>
+      <script src="https://cdn.paddle.com/paddle/v2/paddle.js" is:inline></script>
+      <script is:inline define:vars={{ clientToken, isSandbox, priceId }}>
+        (function () {
+          function ready(fn) {
+            if (document.readyState !== 'loading') fn();
+            else document.addEventListener('DOMContentLoaded', fn);
+          }
+          function whenPaddle(cb, tries) {
+            tries = tries || 0;
+            if (window.Paddle) return cb();
+            if (tries > 60) return; // ~12s then give up
+            setTimeout(function () { whenPaddle(cb, tries + 1); }, 200);
+          }
+          ready(function () {
+            whenPaddle(function () {
+              if (isSandbox) window.Paddle.Environment.set('sandbox');
+              window.Paddle.Initialize({ token: clientToken });
+              // The shared sales layout renders form(s) posting to /api/checkout.
+              // Intercept the submit and open Paddle's hosted overlay instead.
+              document.querySelectorAll('form[action="/api/checkout"]').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
+                  e.preventDefault();
+                  window.Paddle.Checkout.open({
+                    items: [{ priceId: priceId, quantity: 1 }],
+                    settings: { successUrl: window.location.origin + '/thank-you' },
+                  });
+                });
+              });
+            });
+          });
+        })();
+      </script>
+    </Fragment>
+  )}
 </Layout>
