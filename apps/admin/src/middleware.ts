@@ -11,6 +11,8 @@ const PUBLIC_PATHS = new Set([
   '/api/auth/logout',
   '/api/kdp/assemble',
   '/api/kdp/steps/run',
+  '/api/kdp/steps/claim',
+  '/api/kdp/steps/done',
 ]);
 
 export const onRequest = defineMiddleware(async (context, next) => {

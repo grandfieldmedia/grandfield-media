@@ -281,6 +281,35 @@ async function runKdpCheck(bookId: string): Promise<void> {
 }
 
 // ===========================================================================
+// Orchestration (so n8n never touches Supabase — no Bearer headers in n8n)
+// ===========================================================================
+
+/** Atomically claim the next pending step (claim_next_step RPC). null step_type = nothing pending. */
+export async function claimNextStep(bookId: string): Promise<{ step_type: string | null; index: number | null }> {
+  const { data, error } = await db().rpc('claim_next_step', { p_book_id: bookId });
+  if (error) throw error;
+  const row = data as { id?: string | null; step_type?: string | null; index?: number | null } | null;
+  if (!row || !row.id) return { step_type: null, index: null };
+  return { step_type: row.step_type ?? null, index: row.index ?? null };
+}
+
+/** Mark the book's running step done; finalize the book when nothing remains. */
+export async function completeStep(bookId: string): Promise<{ has_more: boolean }> {
+  await db().from('book_steps')
+    .update({ status: 'done', finished_at: new Date().toISOString() })
+    .eq('book_id', bookId).eq('status', 'running');
+  const { data, error } = await db().rpc('has_pending_steps', { p_book_id: bookId });
+  if (error) throw error;
+  const hasMore = Boolean(data);
+  if (!hasMore) {
+    await db().from('books')
+      .update({ status: 'ready', completed_at: new Date().toISOString() })
+      .eq('id', bookId);
+  }
+  return { has_more: hasMore };
+}
+
+// ===========================================================================
 // Dispatch
 // ===========================================================================
 export type StepType = 'contract' | 'outline' | 'chapter' | 'metadata' | 'kdp_check' | 'polish';
