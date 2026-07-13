@@ -17,7 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
   if (!body.book_id) return json({ ok: false, error: 'missing book_id' }, 400);
   try {
     const claimed = await claimNextStep(body.book_id);
-    return json({ ok: true, ...claimed });
+    return json({ ok: true, book_id: body.book_id, ...claimed });
   } catch (e) {
     return json({ ok: false, error: e instanceof Error ? e.message : 'error' }, 500);
   }
