@@ -106,7 +106,6 @@ const {
   <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
     <h2 class="text-2xl font-bold text-primary">Get {product.name} today</h2>
     <p class="mt-3 text-slate-600 dark:text-slate-400">Instant download, yours to keep, {formatPrice(product.price)}.</p>
-    {priceNote && <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{priceNote}</p>}
     {checkoutEnabled ? (
       <form method="POST" action={checkoutAction} class="mt-6">
         <input type="hidden" name="slug" value={product.slug} />
@@ -117,5 +116,6 @@ const {
     ) : (
       <p class="mt-6 text-sm text-slate-500">Checkout coming soon.</p>
     )}
+    {priceNote && <p class="mt-4 text-sm text-slate-500 dark:text-slate-400">{priceNote}</p>}
   </section>
 </article>
