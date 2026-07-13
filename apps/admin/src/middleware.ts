@@ -3,7 +3,14 @@ import { isAllowedAdmin } from '@grandfield/shared-backend';
 import { createSupabaseServer } from './lib/supabase-server';
 
 // Routes reachable without a session.
-const PUBLIC_PATHS = new Set(['/login', '/api/auth/login', '/api/auth/logout']);
+// /api/kdp/assemble is machine-to-machine (n8n) — it guards itself with a
+// shared secret, so it must bypass the interactive login wall.
+const PUBLIC_PATHS = new Set([
+  '/login',
+  '/api/auth/login',
+  '/api/auth/logout',
+  '/api/kdp/assemble',
+]);
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;

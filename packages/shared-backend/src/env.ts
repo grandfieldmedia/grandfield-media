@@ -48,4 +48,17 @@ export const env = {
   get ADMIN_EMAILS() {
     return optional('ADMIN_EMAILS') ?? '';
   },
+
+  // KDPFactory
+  get ANTHROPIC_API_KEY() {
+    return optional('ANTHROPIC_API_KEY');
+  },
+  // The n8n KDPFactory Runner webhook (Run/Resume post {book_id} here).
+  get KDP_RUN_WEBHOOK_URL() {
+    return optional('KDP_RUN_WEBHOOK_URL');
+  },
+  // Shared secret guarding the /api/kdp/assemble endpoint (n8n sends it).
+  get KDP_ASSEMBLE_SECRET() {
+    return optional('KDP_ASSEMBLE_SECRET');
+  },
 };

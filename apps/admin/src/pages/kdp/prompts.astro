@@ -1,0 +1,54 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getActivePrompts } from '../../lib/factory-config';
+
+const prompts = await getActivePrompts();
+const roleOf: Record<string, string> = {
+  B1: 'Two-box brainstorm (Haiku)', B1F: 'Blueprint finalize + TOC (Fable)',
+  B2: 'Style contract + fact sheet (Fable)', B3: 'Production outline (Fable)',
+  B4: 'Chapter draft (Sonnet)', B5: 'Chapter summary (Haiku)',
+  B6: 'Continuity & polish (Sonnet)', B7: 'Metadata pack (Fable)',
+  B8: 'KDP Check (Opus)',
+};
+---
+
+<AdminLayout title="🏭 KDPFactory — Prompt Editor">
+  <div class="mb-4 flex justify-end gap-2">
+    <a href="/kdp/dashboard" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">📊 Dashboard</a>
+    <a href="/kdp" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">💡 Workbench</a>
+  </div>
+  <p class="mb-6 text-sm text-slate-500">Prompts are the product. Editing saves a <strong>new version</strong> (old versions are kept); the n8n Runner and the app always use the latest active one.</p>
+
+  <div class="space-y-4">
+    {prompts.map((p) => (
+      <details class="rounded-xl bg-white shadow-sm">
+        <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3">
+          <span class="text-slate-300 transition group-open:rotate-90">▸</span>
+          <span class="font-mono text-sm font-bold text-primary">{p.key}</span>
+          <span class="text-xs text-slate-500">{roleOf[p.key] ?? ''}</span>
+          <span class="ml-auto rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-500">v{p.version} · {p.model}</span>
+        </summary>
+        <form method="POST" action="/api/kdp/config" class="space-y-3 border-t border-slate-100 px-5 py-4">
+          <input type="hidden" name="action" value="save_prompt" />
+          <input type="hidden" name="key" value={p.key} />
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label class="block text-xs font-medium text-slate-500">Model</label>
+              <input name="model" value={p.model ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 font-mono text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium text-slate-500">Notes</label>
+              <input name="notes" value={p.notes ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-500">Prompt text</label>
+            <textarea name="text" rows="16" class="mt-1 w-full rounded-lg border border-slate-300 p-3 font-mono text-xs">{p.text}</textarea>
+          </div>
+          <button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Save as v{p.version + 1}</button>
+        </form>
+      </details>
+    ))}
+  </div>
+</AdminLayout>

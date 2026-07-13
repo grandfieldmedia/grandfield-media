@@ -1,0 +1,79 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getReferenceBooks } from '../../lib/factory-config';
+import { getNicheTree } from '../../lib/registry';
+import { aiEnabled } from '../../lib/factory';
+
+const [refs, tree] = await Promise.all([getReferenceBooks(), getNicheTree()]);
+const ai = aiEnabled();
+const hasProfile = (r: { reference_profile: Record<string, unknown> }) =>
+  r.reference_profile && Object.keys(r.reference_profile).length > 0;
+---
+
+<AdminLayout title="🏭 KDPFactory — Reference Library">
+  <div class="mb-4 flex justify-end gap-2">
+    <a href="/kdp/dashboard" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">📊 Dashboard</a>
+    <a href="/kdp" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">💡 Workbench</a>
+  </div>
+  <p class="mb-6 text-sm text-slate-500">The gold standard each book is graded against. Add a real, successful KDP book; Claude distills it into a <strong>reference profile</strong> (structure/tone/pacing) — never its text.</p>
+
+  <!-- Add reference -->
+  <details class="mb-6 rounded-xl bg-white shadow-sm">
+    <summary class="cursor-pointer list-none px-5 py-3 text-sm font-semibold text-primary">＋ Add reference book</summary>
+    <form method="POST" action="/api/kdp/config" class="grid gap-3 border-t border-slate-100 px-5 py-4 sm:grid-cols-2">
+      <input type="hidden" name="action" value="create_reference" />
+      <div><label class="block text-xs font-medium text-slate-500">Title</label><input name="title" required class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+      <div><label class="block text-xs font-medium text-slate-500">Author</label><input name="author" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Niche (blank = general)</label>
+        <select name="niche_slug" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="">— general-purpose —</option>
+          {tree.map((p) => (<optgroup label={p.name}><option value={p.slug}>{p.name}</option>{p.children.map((c) => <option value={c.slug}>{'   ↳ ' + c.name}</option>)}</optgroup>))}
+        </select>
+      </div>
+      <div><label class="block text-xs font-medium text-slate-500">Book type (guide/workbook…)</label><input name="book_type" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+      <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">Why this is the benchmark</label><textarea name="notes" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-3 text-sm"></textarea></div>
+      <div class="sm:col-span-2"><button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Add</button></div>
+    </form>
+  </details>
+
+  {refs.length === 0 ? (
+    <p class="rounded-xl bg-white px-5 py-12 text-center text-sm text-slate-500 shadow-sm">No reference books yet.</p>
+  ) : (
+    <div class="space-y-4">
+      {refs.map((r) => (
+        <div class="rounded-xl bg-white p-5 shadow-sm">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-semibold text-primary">{r.title}</span>
+            {r.author && <span class="text-sm text-slate-400">by {r.author}</span>}
+            {r.niche_slug && <span class="rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">{r.niche_slug}</span>}
+            {r.book_type && <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">{r.book_type}</span>}
+            <span class={`rounded-full px-2 py-0.5 text-xs ${hasProfile(r) ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>{hasProfile(r) ? 'profiled' : 'no profile'}</span>
+            <span class={`ml-auto rounded-full px-2 py-0.5 text-xs ${r.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-400'}`}>{r.status}</span>
+          </div>
+          {r.notes && <p class="mt-2 text-sm text-slate-500">{r.notes}</p>}
+          {hasProfile(r) && (
+            <details class="mt-2"><summary class="cursor-pointer text-xs font-medium text-slate-500">Reference profile</summary>
+              <pre class="mt-2 max-h-64 overflow-auto whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-xs text-slate-700">{JSON.stringify(r.reference_profile, null, 2)}</pre>
+            </details>
+          )}
+          <div class="mt-3 flex flex-wrap items-end gap-2 border-t border-slate-100 pt-3">
+            <form method="POST" action="/api/kdp/config" class="flex flex-1 items-end gap-2">
+              <input type="hidden" name="action" value="analyze_reference" /><input type="hidden" name="id" value={r.id} />
+              <div class="flex-1"><label class="block text-xs font-medium text-slate-500">Describe the book's structure/tone (Claude distills it)</label>
+                <input name="description" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="TOC shape, how chapters open/close, examples, tone…" /></div>
+              <button disabled={!ai} class="rounded-lg border border-purple-300 bg-purple-50 px-3 py-2 text-sm font-medium text-purple-700 hover:bg-purple-100 disabled:opacity-40">🎯 Analyze</button>
+            </form>
+            <form method="POST" action="/api/kdp/config">
+              <input type="hidden" name="action" value="archive_reference" /><input type="hidden" name="id" value={r.id} />
+              <input type="hidden" name="status" value={r.status === 'active' ? 'archived' : 'active'} />
+              <button class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 hover:bg-slate-50">{r.status === 'active' ? 'Archive' : 'Restore'}</button>
+            </form>
+          </div>
+          {!ai && <p class="mt-1 text-xs text-amber-600">Set ANTHROPIC_API_KEY to enable Analyze.</p>}
+        </div>
+      ))}
+    </div>
+  )}
+</AdminLayout>

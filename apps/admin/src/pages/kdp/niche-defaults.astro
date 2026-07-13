@@ -1,0 +1,69 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getNicheDefaults, getKdpRules } from '../../lib/factory-config';
+import { getNicheTree } from '../../lib/registry';
+
+const [defaults, rules, tree] = await Promise.all([getNicheDefaults(), getKdpRules(), getNicheTree()]);
+const parents = tree; // parent niches carry defaults
+const byslug = new Map(defaults.map((d) => [d.niche_slug, d]));
+---
+
+<AdminLayout title="🏭 KDPFactory — Niche Defaults & KDP Rules">
+  <div class="mb-4 flex justify-end gap-2">
+    <a href="/kdp/dashboard" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">📊 Dashboard</a>
+    <a href="/kdp" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">💡 Workbench</a>
+  </div>
+
+  <!-- Niche defaults -->
+  <h2 class="mb-1 text-sm font-semibold text-primary">Per-niche format defaults</h2>
+  <p class="mb-4 text-xs text-slate-400">Structural defaults the wizard pre-fills per niche (loose slug key — no FK to the registry).</p>
+  <div class="space-y-3">
+    {parents.map((p) => {
+      const d = byslug.get(p.slug);
+      return (
+        <details class="rounded-xl bg-white shadow-sm">
+          <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3 text-sm">
+            <span class="font-semibold text-primary">{p.name}</span>
+            <span class="font-mono text-xs text-slate-400">{p.slug}</span>
+            {d && <span class="ml-auto rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-700">set</span>}
+          </summary>
+          <form method="POST" action="/api/kdp/config" class="grid gap-3 border-t border-slate-100 px-5 py-4 sm:grid-cols-2">
+            <input type="hidden" name="action" value="save_niche_default" />
+            <input type="hidden" name="niche_slug" value={p.slug} />
+            <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">KDP categories (comma-separated, 2–3)</label>
+              <input name="categories" value={(d?.default_kdp_categories ?? []).join(', ')} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+            <div><label class="block text-xs font-medium text-slate-500">Default word count</label>
+              <input name="word_count" type="number" value={d?.default_word_count ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="e.g. 20000" /></div>
+            <div><label class="block text-xs font-medium text-slate-500">Default chapter length</label>
+              <input name="chapter_length" type="number" value={d?.default_chapter_length ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="e.g. 1800" /></div>
+            <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">Format notes</label>
+              <textarea name="notes" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-3 text-sm" placeholder="e.g. Kids workbook layout vs Money guide prose…">{d?.book_format_notes ?? ''}</textarea></div>
+            <div class="sm:col-span-2"><button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Save defaults</button></div>
+          </form>
+        </details>
+      );
+    })}
+  </div>
+
+  <!-- KDP rules (read-only contract) -->
+  <h2 class="mb-1 mt-8 text-sm font-semibold text-primary">KDP Output Contract (kdp_rules)</h2>
+  <p class="mb-4 text-xs text-amber-600">⚠ Directional values — re-verify against KDP's live docs at build time. Edit rows in the DB when Amazon changes a rule.</p>
+  <div class="overflow-hidden rounded-xl bg-white shadow-sm">
+    <table class="w-full text-sm">
+      <thead class="text-left text-xs uppercase text-slate-400"><tr>
+        <th class="px-5 py-2 font-medium">Rule</th><th class="px-5 py-2 font-medium">Type</th>
+        <th class="px-5 py-2 font-medium">Value</th>
+      </tr></thead>
+      <tbody class="divide-y divide-slate-100">
+        {rules.map((r) => (
+          <tr class="hover:bg-slate-50">
+            <td class="px-5 py-2 font-mono text-xs text-slate-700">{r.rule_key}</td>
+            <td class="px-5 py-2 text-slate-500">{r.rule_type}</td>
+            <td class="px-5 py-2 text-slate-700"><code class="text-xs">{JSON.stringify(r.value)}</code></td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</AdminLayout>

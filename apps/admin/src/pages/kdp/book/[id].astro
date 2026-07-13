@@ -1,0 +1,184 @@
+---
+export const prerender = false;
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { getBook, getChapters, getBookSteps, runWebhookConfigured } from '../../../lib/factory';
+
+const { id } = Astro.params;
+const book = id ? await getBook(id) : null;
+if (!book) return Astro.redirect('/kdp');
+const [chapters, steps] = await Promise.all([getChapters(book.id), getBookSteps(book.id)]);
+
+const canRun = runWebhookConfigured();
+const bp = book.blueprint as Record<string, any>;
+const listing = book.listing as Record<string, any>;
+const qa = book.qa as Record<string, any>;
+const sc = book.style_contract as Record<string, any>;
+const hasListing = listing && Object.keys(listing).length > 0;
+const hasQa = qa && Object.keys(qa).length > 0;
+
+const notStarted = book.status === 'draft';
+const isFailed = book.status === 'failed';
+const isReady = book.status === 'ready';
+
+const statusColor: Record<string, string> = {
+  draft: 'bg-slate-100 text-slate-600', ready: 'bg-green-100 text-green-700',
+  failed: 'bg-red-100 text-red-700',
+};
+const stepColor: Record<string, string> = {
+  done: 'bg-green-100 text-green-700', running: 'bg-amber-100 text-amber-700',
+  pending: 'bg-slate-100 text-slate-500', failed: 'bg-red-100 text-red-700',
+};
+const chColor: Record<string, string> = {
+  done: 'bg-green-100 text-green-700', drafting: 'bg-amber-100 text-amber-700',
+  pending: 'bg-slate-100 text-slate-500', failed: 'bg-red-100 text-red-700',
+};
+const money = (n: number) => `$${n.toFixed(2)}`;
+const chapterCost = chapters.reduce((a, c) => a + Number(c.cost_usd ?? 0), 0);
+const totalWords = chapters.reduce((a, c) => a + Number(c.actual_words ?? 0), 0);
+const asArray = (v: any): any[] => Array.isArray(v) ? v : (v == null ? [] : [v]);
+const links = [
+  { label: 'Google Doc', url: book.master_doc_url },
+  { label: 'DOCX (KDP upload)', url: book.docx_url },
+  { label: 'Drive folder', url: book.drive_folder_url },
+].filter((l) => l.url);
+const qaVerdict = String(qa?.verdict ?? '').toLowerCase();
+---
+
+<AdminLayout title="🏭 Production">
+  {book.idea_id && <a href={`/kdp/${book.idea_id}`} class="mb-3 inline-block text-sm text-accent hover:underline">← Back to idea</a>}
+  <a href="/kdp/dashboard" class="mb-3 ml-3 inline-block text-sm text-accent hover:underline">Dashboard</a>
+
+  <!-- Header -->
+  <div class="mb-4 flex flex-wrap items-center gap-2">
+    <h2 class="text-lg font-bold text-primary">{book.chosen_title || book.title_suggestion || book.topic || '(untitled)'}</h2>
+    <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">v{book.version}</span>
+    <span class="rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">{book.run_type}</span>
+    <span class={`rounded-full px-2 py-0.5 text-xs font-medium ${statusColor[book.status] ?? 'bg-amber-100 text-amber-700'}`}>{book.status}</span>
+    {book.niche_name && <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">{book.niche_name}</span>}
+  </div>
+  {book.subtitle && <p class="-mt-2 mb-4 text-sm text-slate-500">{book.subtitle}</p>}
+
+  {isFailed && book.error && (
+    <div class="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700"><strong>Failed:</strong> {book.error}</div>
+  )}
+
+  <!-- Stat cards -->
+  <div class="mb-6 grid gap-4 sm:grid-cols-4">
+    <div class="rounded-xl bg-white p-4 shadow-sm"><div class="text-xs text-slate-500">Chapters</div><div class="mt-1 text-xl font-bold text-primary">{chapters.filter(c=>c.status==='done').length}/{chapters.length}</div></div>
+    <div class="rounded-xl bg-white p-4 shadow-sm"><div class="text-xs text-slate-500">Words</div><div class="mt-1 text-xl font-bold text-primary">{totalWords.toLocaleString()}</div></div>
+    <div class="rounded-xl bg-white p-4 shadow-sm"><div class="text-xs text-slate-500">Target</div><div class="mt-1 text-xl font-bold text-slate-400">{(book.target_words ?? 0).toLocaleString()}</div></div>
+    <div class="rounded-xl bg-white p-4 shadow-sm"><div class="text-xs text-slate-500">Cost</div><div class="mt-1 text-xl font-bold text-primary">{money(chapterCost)}</div></div>
+  </div>
+
+  <!-- Run / Resume + downloads -->
+  <div class="mb-6 flex flex-wrap items-center gap-3 rounded-xl bg-white p-4 shadow-sm">
+    {notStarted && (
+      <form method="POST" action="/api/kdp/books"><input type="hidden" name="action" value="run" /><input type="hidden" name="id" value={book.id} />
+        <button disabled={!canRun} class="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-white hover:bg-primary-light disabled:opacity-40">▶ Run {book.run_type}</button></form>
+    )}
+    {isFailed && (
+      <form method="POST" action="/api/kdp/books"><input type="hidden" name="action" value="resume" /><input type="hidden" name="id" value={book.id} />
+        <button disabled={!canRun} class="rounded-lg bg-amber-600 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-700 disabled:opacity-40">↻ Resume</button></form>
+    )}
+    {!notStarted && !isFailed && !isReady && <span class="text-sm text-slate-500">Producing… <strong>{book.current_step ?? book.status}</strong></span>}
+    {isReady && <span class="text-sm font-medium text-green-700">✓ Ready</span>}
+    {links.map((l) => <a href={l.url} target="_blank" rel="noopener" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">{l.label} ↗</a>)}
+    {!canRun && notStarted && <span class="text-xs text-amber-600">Set KDP_RUN_WEBHOOK_URL to enable Run.</span>}
+  </div>
+
+  <!-- Step timeline -->
+  <div class="mb-6 rounded-xl bg-white p-4 shadow-sm">
+    <h3 class="mb-3 text-sm font-semibold text-primary">Pipeline</h3>
+    <div class="flex flex-wrap gap-2">
+      {steps.map((s) => (
+        <span class={`rounded-full px-2.5 py-1 text-xs font-medium ${stepColor[s.status] ?? 'bg-slate-100'}`}>
+          {s.step_type}{s.step_type === 'chapter' ? ` ${s.index - 100}` : ''} · {s.status}
+        </span>
+      ))}
+    </div>
+  </div>
+
+  <!-- Chapters -->
+  <div class="mb-6 rounded-xl bg-white shadow-sm">
+    <div class="border-b border-slate-100 px-5 py-3"><h3 class="text-sm font-semibold text-primary">Chapters</h3></div>
+    {chapters.length === 0 ? (
+      <p class="px-5 py-8 text-center text-sm text-slate-500">No chapters yet.</p>
+    ) : (
+      <div class="divide-y divide-slate-100">
+        {chapters.map((c) => (
+          <details class="group">
+            <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3 text-sm hover:bg-slate-50">
+              <span class="text-slate-300 transition group-open:rotate-90">▸</span>
+              <span class="font-mono text-xs text-slate-400">{c.index}</span>
+              <span class="font-medium text-slate-800">{c.title}</span>
+              <span class={`rounded-full px-2 py-0.5 text-xs ${chColor[c.status] ?? 'bg-slate-100'}`}>{c.status}</span>
+              <span class="ml-auto text-xs text-slate-400">{(c.actual_words ?? 0).toLocaleString()} words</span>
+            </summary>
+            <div class="border-t border-slate-50 bg-slate-50/50 px-5 py-4">
+              <p class="prose-sm whitespace-pre-wrap text-sm leading-relaxed text-slate-800">{c.draft_md || '(not written yet)'}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <!-- KDP Listing -->
+  {hasListing && (
+    <div class="mb-6 rounded-xl bg-white p-5 shadow-sm">
+      <h3 class="mb-3 text-sm font-semibold text-primary">KDP Listing</h3>
+      <dl class="grid gap-3 text-sm sm:grid-cols-2">
+        <div><dt class="text-xs text-slate-400">Title</dt><dd class="text-slate-800">{listing.title}</dd></div>
+        <div><dt class="text-xs text-slate-400">Subtitle</dt><dd class="text-slate-800">{listing.subtitle}</dd></div>
+        <div class="sm:col-span-2"><dt class="text-xs text-slate-400">Description</dt><dd class="whitespace-pre-wrap text-slate-700" set:html={String(listing.description ?? '')}></dd></div>
+        <div><dt class="text-xs text-slate-400">Keywords (7)</dt><dd class="flex flex-wrap gap-1">{asArray(listing.keywords).map((k)=><span class="rounded bg-slate-100 px-2 py-0.5 text-xs">{k}</span>)}</dd></div>
+        <div><dt class="text-xs text-slate-400">Categories</dt><dd class="flex flex-wrap gap-1">{asArray(listing.categories).map((k)=><span class="rounded bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">{typeof k==='string'?k:JSON.stringify(k)}</span>)}</dd></div>
+        {listing.price_suggestion && <div class="sm:col-span-2"><dt class="text-xs text-slate-400">Price</dt><dd class="text-slate-700">{typeof listing.price_suggestion==='string'?listing.price_suggestion:JSON.stringify(listing.price_suggestion)}</dd></div>}
+        {listing.cover_brief && <div class="sm:col-span-2"><dt class="text-xs text-slate-400">Cover brief</dt><dd class="whitespace-pre-wrap text-slate-700">{typeof listing.cover_brief==='string'?listing.cover_brief:JSON.stringify(listing.cover_brief,null,2)}</dd></div>}
+      </dl>
+    </div>
+  )}
+
+  <!-- QA verdict -->
+  {hasQa && (
+    <div class={`mb-6 rounded-xl border-2 p-5 shadow-sm ${qaVerdict==='pass'?'border-green-200 bg-green-50/40':'border-amber-200 bg-amber-50/40'}`}>
+      <h3 class="mb-2 text-sm font-semibold text-primary">KDP Check (Opus)
+        <span class={`ml-2 rounded-full px-2 py-0.5 text-xs ${qaVerdict==='pass'?'bg-green-100 text-green-700':'bg-amber-100 text-amber-700'}`}>{qa.verdict}</span>
+      </h3>
+      {asArray(qa.blocking_reasons).length > 0 && (
+        <div class="mb-2"><div class="text-xs text-slate-400">Blocking reasons</div>
+          <ul class="ml-4 list-disc text-sm text-slate-700">{asArray(qa.blocking_reasons).map((r)=><li>{typeof r==='string'?r:JSON.stringify(r)}</li>)}</ul></div>
+      )}
+      <details><summary class="cursor-pointer text-xs font-medium text-slate-500">Full verdict</summary>
+        <pre class="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg bg-white p-3 text-xs text-slate-700">{JSON.stringify(qa, null, 2)}</pre></details>
+    </div>
+  )}
+
+  <!-- Blueprint + style contract (collapsed) -->
+  <div class="grid gap-4 lg:grid-cols-2">
+    <details class="rounded-xl bg-white p-4 shadow-sm">
+      <summary class="cursor-pointer text-sm font-semibold text-primary">Blueprint (immutable)</summary>
+      <pre class="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-xs text-slate-700">{JSON.stringify(bp, null, 2)}</pre>
+    </details>
+    {sc && Object.keys(sc).length > 0 && (
+      <details class="rounded-xl bg-white p-4 shadow-sm">
+        <summary class="cursor-pointer text-sm font-semibold text-primary">Style contract</summary>
+        <pre class="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-xs text-slate-700">{JSON.stringify(sc, null, 2)}</pre>
+      </details>
+    )}
+  </div>
+
+  <!-- Upload checklist -->
+  {isReady && (
+    <div class="mt-6 rounded-xl border border-primary/20 bg-white p-5 shadow-sm">
+      <h3 class="mb-2 text-sm font-semibold text-primary">Upload checklist</h3>
+      <ul class="space-y-1 text-sm text-slate-700">
+        <li>☐ <strong>Declare AI-generated content</strong> at upload (standing decision)</li>
+        <li>☐ Open the DOCX in KDP's online previewer</li>
+        <li>☐ Set 7 keywords + 3 categories (from the listing above)</li>
+        <li>☐ Decide KDP Select (KU) enrollment</li>
+        <li>☐ Upload the manual cover (from the cover brief)</li>
+      </ul>
+    </div>
+  )}
+</AdminLayout>

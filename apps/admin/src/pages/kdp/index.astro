@@ -1,0 +1,151 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getIdeas, type IdeaFilters } from '../../lib/factory';
+import { getNicheTree } from '../../lib/registry';
+
+const params = Astro.url.searchParams;
+const filters: IdeaFilters = {
+  nicheSlug: params.get('niche') ?? undefined,
+  status: params.get('status') ?? undefined,
+  q: params.get('q') ?? undefined,
+};
+
+const [ideas, tree] = await Promise.all([getIdeas(filters), getNicheTree()]);
+
+const statuses = ['draft', 'researching', 'ready', 'in_production', 'produced', 'parked'];
+const statusColor: Record<string, string> = {
+  draft: 'bg-slate-100 text-slate-600',
+  researching: 'bg-amber-100 text-amber-700',
+  ready: 'bg-green-100 text-green-700',
+  in_production: 'bg-indigo-100 text-indigo-700',
+  produced: 'bg-blue-100 text-blue-700',
+  parked: 'bg-slate-100 text-slate-400',
+};
+function fmtRel(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const h = Math.floor(diff / 3.6e6);
+  if (h < 1) return 'just now';
+  if (h < 24) return `${h}h ago`;
+  return `${Math.floor(h / 24)}d ago`;
+}
+const cards = [
+  { label: 'Total ideas', value: String(ideas.length) },
+  { label: 'Ready', value: String(ideas.filter((i) => i.status === 'ready').length) },
+  { label: 'In production', value: String(ideas.filter((i) => i.status === 'in_production').length) },
+  { label: 'Parked', value: String(ideas.filter((i) => i.status === 'parked').length) },
+];
+---
+
+<AdminLayout title="🏭 KDPFactory — Idea Workbench">
+  <div class="mb-4 flex justify-end gap-2">
+    <a href="/kdp/dashboard" class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50">📊 Dashboard</a>
+  </div>
+
+  <!-- New idea -->
+  <details class="mb-6 rounded-xl bg-white shadow-sm">
+    <summary class="cursor-pointer list-none px-5 py-3 text-sm font-semibold text-primary">＋ New idea</summary>
+    <form method="POST" action="/api/kdp/ideas" class="grid gap-3 border-t border-slate-100 px-5 py-4 sm:grid-cols-2">
+      <input type="hidden" name="action" value="create" />
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Niche</label>
+        <select name="niche_slug" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="">— pick a niche —</option>
+          {tree.map((p) => (
+            <optgroup label={p.name}>
+              <option value={p.slug}>{p.name} (whole niche)</option>
+              {p.children.map((c) => <option value={c.slug}>{'   ↳ ' + c.name}</option>)}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Topic</label>
+        <input name="topic" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="e.g. Freelance pricing for beginners" />
+      </div>
+      <div class="sm:col-span-2">
+        <label class="block text-xs font-medium text-slate-500">Working title (optional)</label>
+        <input name="working_title" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </div>
+      <div class="sm:col-span-2">
+        <button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Create idea</button>
+      </div>
+    </form>
+  </details>
+
+  <!-- Filters -->
+  <form method="GET" class="mb-6 flex flex-wrap items-end gap-3">
+    <div>
+      <label class="block text-xs font-medium text-slate-500">Niche</label>
+      <select name="niche" class="mt-1 rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <option value="">All niches</option>
+        {tree.map((p) => (
+          <optgroup label={p.name}>
+            <option value={p.slug} selected={filters.nicheSlug === p.slug}>{p.name}</option>
+            {p.children.map((c) => <option value={c.slug} selected={filters.nicheSlug === c.slug}>{'   ↳ ' + c.name}</option>)}
+          </optgroup>
+        ))}
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-500">Status</label>
+      <select name="status" class="mt-1 rounded-lg border border-slate-300 px-3 py-2 text-sm">
+        <option value="">Any</option>
+        {statuses.map((st) => <option value={st} selected={filters.status === st}>{st}</option>)}
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-500">Search</label>
+      <input name="q" value={filters.q ?? ''} class="mt-1 rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="topic or title…" />
+    </div>
+    <button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Filter</button>
+  </form>
+
+  <!-- Stat cards -->
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    {cards.map((c) => (
+      <div class="rounded-xl bg-white p-6 shadow-sm">
+        <div class="text-sm text-slate-500">{c.label}</div>
+        <div class="mt-2 text-2xl font-bold text-primary">{c.value}</div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Ideas list -->
+  <div class="mt-8 rounded-xl bg-white shadow-sm">
+    <div class="border-b border-slate-100 px-5 py-3">
+      <h2 class="text-sm font-semibold text-primary">Ideas</h2>
+    </div>
+    {ideas.length === 0 ? (
+      <p class="px-5 py-12 text-center text-sm text-slate-500">No ideas yet — create one above.</p>
+    ) : (
+      <table class="w-full text-sm">
+        <thead class="text-left text-xs uppercase text-slate-400">
+          <tr>
+            <th class="px-5 py-2 font-medium">Topic / Title</th>
+            <th class="px-5 py-2 font-medium">Niche</th>
+            <th class="px-5 py-2 font-medium">Status</th>
+            <th class="px-5 py-2 font-medium">Updated</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          {ideas.map((i) => (
+            <tr class="hover:bg-slate-50">
+              <td class="px-5 py-2">
+                <a href={`/kdp/${i.id}`} class="font-medium text-accent hover:underline">
+                  {i.working_title || i.topic || '(untitled idea)'}
+                </a>
+                {i.working_title && i.topic && <div class="text-xs text-slate-400">{i.topic}</div>}
+              </td>
+              <td class="px-5 py-2 text-slate-500">{i.niche_name || i.niche_slug || '—'}</td>
+              <td class="px-5 py-2">
+                <span class={`rounded-full px-2 py-0.5 text-xs font-medium ${statusColor[i.status] ?? 'bg-slate-100 text-slate-600'}`}>{i.status}</span>
+              </td>
+              <td class="px-5 py-2 text-slate-500">{fmtRel(i.updated_at)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</AdminLayout>

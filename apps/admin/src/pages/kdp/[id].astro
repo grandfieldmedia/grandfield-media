@@ -1,0 +1,152 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getIdea, aiEnabled } from '../../lib/factory';
+import { getNicheTree, getNicheContext } from '../../lib/registry';
+
+const { id } = Astro.params;
+const idea = id ? await getIdea(id) : null;
+if (!idea) return Astro.redirect('/kdp');
+
+const [tree, ctx] = await Promise.all([
+  getNicheTree(),
+  idea.niche_slug ? getNicheContext(idea.niche_slug) : Promise.resolve(null),
+]);
+const ai = aiEnabled();
+const ready = idea.status === 'ready';
+---
+
+<AdminLayout title="🏭 Idea Workbench">
+  <a href="/kdp" class="mb-4 inline-block text-sm text-accent hover:underline">← All ideas</a>
+
+  <div class="mb-4 flex flex-wrap items-center gap-2">
+    <h2 class="text-lg font-bold text-primary">{idea.working_title || idea.topic || '(untitled idea)'}</h2>
+    <span class="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600">{idea.status}</span>
+    {ctx && <span class="rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">{ctx.niche_name}</span>}
+  </div>
+
+  <form method="POST" action="/api/kdp/ideas" class="space-y-5">
+    <input type="hidden" name="action" value="save" />
+    <input type="hidden" name="id" value={idea.id} />
+
+    <!-- Meta row -->
+    <div class="grid gap-3 sm:grid-cols-3">
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Niche</label>
+        <select name="niche_slug" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm">
+          <option value="">— none —</option>
+          {tree.map((p) => (
+            <optgroup label={p.name}>
+              <option value={p.slug} selected={idea.niche_slug === p.slug}>{p.name}</option>
+              {p.children.map((c) => <option value={c.slug} selected={idea.niche_slug === c.slug}>{'   ↳ ' + c.name}</option>)}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Working title</label>
+        <input name="working_title" value={idea.working_title ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Target words</label>
+        <input name="target_words" type="number" value={idea.target_words ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" placeholder="e.g. 25000" />
+      </div>
+    </div>
+    <div>
+      <label class="block text-xs font-medium text-slate-500">Topic</label>
+      <input name="topic" value={idea.topic ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" />
+    </div>
+
+    <!-- The two boxes -->
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="rounded-xl border border-slate-200 bg-white p-4">
+        <div class="mb-2 text-sm font-semibold text-primary">Your box</div>
+        <p class="mb-2 text-xs text-slate-400">Your own thinking — what the book is, who it's for, what it must cover.</p>
+        <textarea name="user_draft" rows="14" class="w-full rounded-lg border border-slate-300 p-3 text-sm">{idea.user_draft ?? ''}</textarea>
+      </div>
+      <div class="rounded-xl border border-slate-200 bg-slate-50 p-4">
+        <div class="mb-2 text-sm font-semibold text-primary">Claude's box</div>
+        <p class="mb-2 text-xs text-slate-400">The improved, structured version: titles, angle, proposed TOC, gaps.</p>
+        <div class="min-h-[20rem] whitespace-pre-line rounded-lg border border-slate-200 bg-white p-3 text-sm text-slate-800">
+          {idea.claude_draft || <span class="text-slate-400">Nothing yet — write your box, Save, then Improve.</span>}
+        </div>
+      </div>
+    </div>
+
+    <!-- Differentiation + notes -->
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Differentiation (required before Ready)</label>
+        <textarea name="differentiation" rows="4" class="mt-1 w-full rounded-lg border border-slate-300 p-3 text-sm" placeholder="What exists on KDP, its weaknesses, why ours wins…">{idea.differentiation ?? ''}</textarea>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500">Research notes / pasted comps</label>
+        <textarea name="notes" rows="4" class="mt-1 w-full rounded-lg border border-slate-300 p-3 text-sm" placeholder="Paste competitor titles you found on Amazon (Claude reads these — never invents comps)…">{idea.notes ?? ''}</textarea>
+      </div>
+    </div>
+
+    <button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Save</button>
+  </form>
+
+  <!-- Improve / Finalize (separate forms so Save isn't required to run them) -->
+  <div class="mt-4 flex flex-wrap items-center gap-2">
+    <form method="POST" action="/api/kdp/ideas">
+      <input type="hidden" name="action" value="improve" /><input type="hidden" name="id" value={idea.id} />
+      <button disabled={!ai} class="rounded-lg border border-indigo-300 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-700 hover:bg-indigo-100 disabled:opacity-40">✨ Improve (Haiku)</button>
+    </form>
+    <form method="POST" action="/api/kdp/ideas">
+      <input type="hidden" name="action" value="finalize" /><input type="hidden" name="id" value={idea.id} />
+      <button disabled={!ai} class="rounded-lg border border-purple-300 bg-purple-50 px-4 py-2 text-sm font-medium text-purple-700 hover:bg-purple-100 disabled:opacity-40">🎯 Finalize blueprint (Fable)</button>
+    </form>
+    {!ai && <span class="text-xs text-amber-600">Set ANTHROPIC_API_KEY to enable the AI boxes.</span>}
+    <span class="text-xs text-slate-400">Tip: Save first so Claude reads your latest box.</span>
+  </div>
+
+  <!-- Lifecycle -->
+  <div class="mt-6 flex flex-wrap items-center gap-2 border-t border-slate-200 pt-4">
+    {idea.status !== 'ready' && (
+      <form method="POST" action="/api/kdp/ideas">
+        <input type="hidden" name="action" value="status" /><input type="hidden" name="id" value={idea.id} /><input type="hidden" name="status" value="ready" />
+        <button class="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700">Mark Ready</button>
+      </form>
+    )}
+    <form method="POST" action="/api/kdp/ideas">
+      <input type="hidden" name="action" value="status" /><input type="hidden" name="id" value={idea.id} />
+      <input type="hidden" name="status" value={idea.status === 'parked' ? 'draft' : 'parked'} />
+      <button class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">{idea.status === 'parked' ? 'Revive' : 'Park'}</button>
+    </form>
+    <form method="POST" action="/api/kdp/ideas" onsubmit="return confirm('Delete this idea?')">
+      <input type="hidden" name="action" value="delete" /><input type="hidden" name="id" value={idea.id} />
+      <button class="rounded-lg border border-red-200 bg-white px-4 py-2 text-sm text-red-600 hover:bg-red-50">Delete</button>
+    </form>
+  </div>
+
+  <!-- Verify & Approve (Stage 2) -->
+  <div class="mt-8 rounded-xl border-2 border-primary/20 bg-white p-5">
+    <h3 class="mb-1 text-sm font-semibold text-primary">Verify & Approve</h3>
+    <p class="mb-4 text-xs text-slate-400">Approving snapshots this design into an immutable Blueprint and creates a book to produce.</p>
+
+    {!ready ? (
+      <p class="rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700">Mark the idea <strong>Ready</strong> first (needs a filled-in differentiation).</p>
+    ) : (
+      <div class="space-y-3">
+        <dl class="grid gap-2 text-sm sm:grid-cols-2">
+          <div><dt class="text-xs text-slate-400">Title direction</dt><dd class="text-slate-800">{idea.working_title || idea.topic || '—'}</dd></div>
+          <div><dt class="text-xs text-slate-400">Niche</dt><dd class="text-slate-800">{ctx?.niche_name ?? '—'}</dd></div>
+          <div><dt class="text-xs text-slate-400">Author / Publisher</dt><dd class="text-slate-800">{ctx?.pen_name ?? '—'} · {ctx?.publisher_name ?? '—'}</dd></div>
+          <div><dt class="text-xs text-slate-400">Target words</dt><dd class="text-slate-800">{idea.target_words ?? '—'}</dd></div>
+        </dl>
+        <div class="flex flex-wrap gap-2 pt-2">
+          <form method="POST" action="/api/kdp/ideas">
+            <input type="hidden" name="action" value="approve" /><input type="hidden" name="id" value={idea.id} /><input type="hidden" name="run_type" value="sample" />
+            <button class="rounded-lg border border-primary/40 bg-white px-4 py-2 text-sm font-semibold text-primary hover:bg-primary/5">Approve → Sample</button>
+          </form>
+          <form method="POST" action="/api/kdp/ideas">
+            <input type="hidden" name="action" value="approve" /><input type="hidden" name="id" value={idea.id} /><input type="hidden" name="run_type" value="full" />
+            <button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Approve → Full book</button>
+          </form>
+        </div>
+      </div>
+    )}
+  </div>
+</AdminLayout>

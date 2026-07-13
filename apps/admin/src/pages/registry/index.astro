@@ -1,0 +1,80 @@
+---
+export const prerender = false;
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { getNicheTree } from '../../lib/registry';
+
+const tree = await getNicheTree();
+const asLines = (a: string[]) => (a ?? []).join('\n');
+---
+
+<AdminLayout title="🗂 Niche Master Registry">
+  <p class="mb-6 text-sm text-slate-500">Shared company infrastructure — the niche knowledge every Factory reads. Pen name / publisher live on the <strong>parent</strong> (sub-niches inherit). Arrays: one item per line.</p>
+
+  <div class="space-y-4">
+    {tree.map((parent) => (
+      <div class="rounded-xl bg-white shadow-sm">
+        <!-- Parent niche editor -->
+        <details>
+          <summary class="flex cursor-pointer list-none items-center gap-3 px-5 py-3">
+            <span class="font-semibold text-primary">{parent.name}</span>
+            <span class="font-mono text-xs text-slate-400">{parent.slug}</span>
+            {parent.pen_name && <span class="rounded-full bg-indigo-50 px-2 py-0.5 text-xs text-indigo-700">✍ {parent.pen_name}</span>}
+            <span class="ml-auto text-xs text-slate-400">{parent.children.length} sub-niches</span>
+          </summary>
+          <form method="POST" action="/api/registry" class="grid gap-3 border-t border-slate-100 px-5 py-4 sm:grid-cols-2">
+            <input type="hidden" name="action" value="update_niche" />
+            <input type="hidden" name="id" value={parent.id} />
+            <input type="hidden" name="is_parent" value="1" />
+            <div><label class="block text-xs font-medium text-slate-500">Pen name</label><input name="pen_name" value={parent.pen_name ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+            <div><label class="block text-xs font-medium text-slate-500">Publisher</label><input name="publisher_name" value={parent.publisher_name ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+            <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">Pen name bio</label><textarea name="pen_name_bio" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{parent.pen_name_bio ?? ''}</textarea></div>
+            <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">Audience</label><textarea name="audience" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{parent.audience ?? ''}</textarea></div>
+            <div><label class="block text-xs font-medium text-slate-500">Buying motivation</label><textarea name="buying_motivation" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{parent.buying_motivation ?? ''}</textarea></div>
+            <div><label class="block text-xs font-medium text-slate-500">Voice / tone</label><textarea name="voice_tone" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{parent.voice_tone ?? ''}</textarea></div>
+            <div><label class="block text-xs font-medium text-slate-500">Reading level</label><input name="reading_level" value={parent.reading_level ?? ''} class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm" /></div>
+            <div><label class="block text-xs font-medium text-slate-500">Compliance rules</label><textarea name="compliance_rules" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{parent.compliance_rules ?? ''}</textarea></div>
+            <div><label class="block text-xs font-medium text-slate-500">Do's (one per line)</label><textarea name="dos" rows="4" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{asLines(parent.dos)}</textarea></div>
+            <div><label class="block text-xs font-medium text-slate-500">Don'ts (one per line)</label><textarea name="donts" rows="4" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{asLines(parent.donts)}</textarea></div>
+            <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">Keywords (one per line)</label><textarea name="keywords" rows="3" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{asLines(parent.keywords)}</textarea></div>
+            <div class="sm:col-span-2"><label class="block text-xs font-medium text-slate-500">Context notes</label><textarea name="context_notes" rows="2" class="mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm">{parent.context_notes ?? ''}</textarea></div>
+            <div class="sm:col-span-2"><button class="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary-light">Save {parent.name}</button></div>
+          </form>
+        </details>
+
+        <!-- Sub-niches -->
+        <div class="border-t border-slate-100 px-5 py-3">
+          <div class="mb-2 text-xs font-semibold uppercase text-slate-400">Sub-niches</div>
+          <div class="flex flex-wrap gap-2">
+            {parent.children.map((c) => (
+              <details class="rounded-lg border border-slate-200 bg-slate-50">
+                <summary class="cursor-pointer list-none px-3 py-1.5 text-sm text-slate-700">{c.name}</summary>
+                <form method="POST" action="/api/registry" class="grid w-80 gap-2 border-t border-slate-200 p-3 sm:w-96">
+                  <input type="hidden" name="action" value="update_niche" /><input type="hidden" name="id" value={c.id} />
+                  <div><label class="block text-xs text-slate-500">Audience</label><textarea name="audience" rows="2" class="mt-1 w-full rounded border border-slate-300 p-2 text-xs">{c.audience ?? ''}</textarea></div>
+                  <div><label class="block text-xs text-slate-500">Reading level</label><input name="reading_level" value={c.reading_level ?? ''} class="mt-1 w-full rounded border border-slate-300 px-2 py-1 text-xs" /></div>
+                  <div><label class="block text-xs text-slate-500">Voice / tone</label><textarea name="voice_tone" rows="2" class="mt-1 w-full rounded border border-slate-300 p-2 text-xs">{c.voice_tone ?? ''}</textarea></div>
+                  <div><label class="block text-xs text-slate-500">Compliance (adds to parent)</label><textarea name="compliance_rules" rows="2" class="mt-1 w-full rounded border border-slate-300 p-2 text-xs">{c.compliance_rules ?? ''}</textarea></div>
+                  <div><label class="block text-xs text-slate-500">Do's (one/line)</label><textarea name="dos" rows="3" class="mt-1 w-full rounded border border-slate-300 p-2 text-xs">{asLines(c.dos)}</textarea></div>
+                  <div><label class="block text-xs text-slate-500">Don'ts (one/line)</label><textarea name="donts" rows="2" class="mt-1 w-full rounded border border-slate-300 p-2 text-xs">{asLines(c.donts)}</textarea></div>
+                  <div><label class="block text-xs text-slate-500">Keywords (one/line)</label><textarea name="keywords" rows="3" class="mt-1 w-full rounded border border-slate-300 p-2 text-xs">{asLines(c.keywords)}</textarea></div>
+                  <button class="rounded bg-primary px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary-light">Save</button>
+                </form>
+              </details>
+            ))}
+            <!-- add sub-niche -->
+            <details class="rounded-lg border border-dashed border-slate-300 bg-white">
+              <summary class="cursor-pointer list-none px-3 py-1.5 text-sm text-accent">＋ add</summary>
+              <form method="POST" action="/api/registry" class="grid w-72 gap-2 border-t border-slate-200 p-3">
+                <input type="hidden" name="action" value="add_subniche" /><input type="hidden" name="parent_id" value={parent.id} />
+                <div><label class="block text-xs text-slate-500">Name</label><input name="name" required class="mt-1 w-full rounded border border-slate-300 px-2 py-1 text-xs" /></div>
+                <div><label class="block text-xs text-slate-500">Slug (unique)</label><input name="slug" required placeholder={parent.slug + '-…'} class="mt-1 w-full rounded border border-slate-300 px-2 py-1 font-mono text-xs" /></div>
+                <div><label class="block text-xs text-slate-500">Sort order</label><input name="sort_order" type="number" class="mt-1 w-full rounded border border-slate-300 px-2 py-1 text-xs" /></div>
+                <button class="rounded bg-primary px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary-light">Add sub-niche</button>
+              </form>
+            </details>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</AdminLayout>
