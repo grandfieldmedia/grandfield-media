@@ -25,6 +25,7 @@ export interface AssembleBook {
   niche_slug: string | null;
   niche_name: string | null;
   blueprint: Record<string, unknown> | null;
+  listing: Record<string, unknown> | null;
 }
 export interface AssembledFile {
   name: string;
@@ -195,6 +196,44 @@ const safeName = (t: string | null): string =>
   ((t ?? 'Untitled') + '').replace(/[\\/:*?"<>|]/g, ' ').replace(/^\s+|\s+$/g, '') || 'Untitled';
 const pad2 = (n: number): string => ('0' + n).slice(-2);
 
+/** KDP listing metadata sheet (Markdown) from the B7 `listing` output. */
+function buildMetadata(
+  meta: { title: string; subtitle: string; pen: string; publisher: string },
+  listing: Record<string, unknown> | null,
+): string {
+  const L = listing ?? {};
+  const g = (k: string): unknown => (L as Record<string, unknown>)[k];
+  const str = (v: unknown): string => (v == null ? '' : String(v));
+  const arr = (v: unknown): string[] => (Array.isArray(v) ? v.map((x) => String(x)) : []);
+  const kw = arr(g('keywords'));
+  const cats = arr(g('categories'));
+  const cover = (g('cover_brief') as Record<string, unknown>) ?? {};
+  const out: string[] = [
+    `# ${meta.title} — KDP Listing Metadata`,
+    '',
+    `**Title:** ${str(g('title')) || meta.title}`,
+    `**Subtitle:** ${str(g('subtitle')) || meta.subtitle}`,
+    `**Author (pen name):** ${meta.pen}`,
+    `**Publisher / imprint:** ${meta.publisher}`,
+  ];
+  if (g('series_name_idea')) out.push(`**Series idea:** ${str(g('series_name_idea'))}`);
+  if (g('price_suggestion')) out.push(`**Suggested price:** ${str(g('price_suggestion'))}`);
+  out.push('', '## Description (KDP-supported HTML — paste into the description field)', '',
+    str(g('description')) || '_(not generated yet — run the metadata step)_');
+  out.push('', '## Keywords (7 slots)', ...(kw.length ? kw.map((k, i) => `${i + 1}. ${k}`) : ['_(none)_']));
+  out.push('', '## Categories', ...(cats.length ? cats.map((c, i) => `${i + 1}. ${c}`) : ['_(none)_']));
+  if (g('back_cover_blurb')) out.push('', '## Back-cover blurb', '', str(g('back_cover_blurb')));
+  const cv: string[] = [];
+  if (cover.title_treatment) cv.push(`- **Title treatment:** ${str(cover.title_treatment)}`);
+  if (cover.mood) cv.push(`- **Mood:** ${str(cover.mood)}`);
+  if (cover.imagery_direction) cv.push(`- **Imagery:** ${str(cover.imagery_direction)}`);
+  if (cover.comp_covers) cv.push(`- **Comp covers:** ${str(cover.comp_covers)}`);
+  if (cv.length) out.push('', '## Cover brief (for the manual cover step)', ...cv);
+  out.push('', '---',
+    "_AI-generated content — declare at KDP upload. Re-verify all fields against KDP's current character limits and category list before publishing._");
+  return out.join('\n');
+}
+
 /**
  * Assemble the package. Returns the niche folder path and the files (base64):
  * full styled .docx (KDP master, fonts embedded), full .html, and one
@@ -241,6 +280,12 @@ export async function assembleBook(
   fullZip.file('word/document.xml', buildFull(templateXml, s, fields, chapters));
   files.push({ name: `${safeName(title)}.docx`, mime: DOCX_MIME, encoding: 'base64', content: await gen(fullZip) });
 
+  const meta = {
+    title, subtitle: fields['{{BOOK_SUBTITLE}}'], pen: fields['{{PEN_NAME}}'],
+    publisher: fields['{{PUBLISHER_NAME}}'], bio: fields['{{AUTHOR_BIO}}'],
+    legal: fields['{{LEGAL_DISCLAIMER}}'], year: fields['{{YEAR}}'],
+  };
+
   // full book PDF (the sellable digital product) — embeds the template's fonts
   const fontBuf = async (n: string): Promise<Buffer> =>
     (await tpl.file(`word/fonts/${n}`)!.async('nodebuffer'));
@@ -253,14 +298,16 @@ export async function assembleBook(
       dispB: await fontBuf('EBGaramond-bold.ttf'),
       dispI: await fontBuf('EBGaramond-italic.ttf'),
     },
-    {
-      title, subtitle: fields['{{BOOK_SUBTITLE}}'], pen: fields['{{PEN_NAME}}'],
-      publisher: fields['{{PUBLISHER_NAME}}'], bio: fields['{{AUTHOR_BIO}}'],
-      legal: fields['{{LEGAL_DISCLAIMER}}'], year: fields['{{YEAR}}'],
-    },
+    meta,
     chapters,
   );
   files.push({ name: `${safeName(title)}.pdf`, mime: 'application/pdf', encoding: 'base64', content: pdfB64 });
+
+  // KDP listing metadata (from the B7 step) — the upload sheet for KDP + the site
+  files.push({
+    name: `${safeName(title)} — Metadata.md`, mime: 'text/markdown', encoding: 'utf8',
+    content: buildMetadata(meta, book.listing),
+  });
 
   // full book HTML (plain text — n8n uploads it directly)
   files.push({ name: `${safeName(title)}.html`, mime: 'text/html', encoding: 'utf8', content: buildHtml(fields, chapters) });
