@@ -17,6 +17,14 @@ const PADDLE_PRICE_IDS: Record<string, string> = {
   'abc-activity-coloring-pack': 'pri_01kxdvnv9kktwbttgt9vz3232n',
 };
 const priceId = PADDLE_PRICE_IDS[slug ?? ''] ?? '';
+
+// Product hero/mockup images live in /public/images and are keyed by slug.
+// Falls back to the DB `image` field (or the letter placeholder) when unset.
+// TODO: move to a `paddle_price_id`/`image` column on products as the catalog grows.
+const PRODUCT_IMAGES: Record<string, string> = {
+  'abc-activity-coloring-pack': '/images/abc-activity-coloring-pack.png',
+};
+const summary = { ...toSummary(product), image: PRODUCT_IMAGES[slug ?? ''] ?? toSummary(product).image };
 // Read at RUNTIME from process.env (Vercel injects it there) — not import.meta.env,
 // which Vite would inline at build time as undefined if the var wasn't in the build.
 const clientToken = process.env.PADDLE_CLIENT_TOKEN ?? '';
@@ -46,7 +54,7 @@ const faqs = [
     </div>
   )}
   <ProductSalesLayout
-    product={toSummary(product)}
+    product={summary}
     benefits={benefits}
     faqs={faqs}
     checkoutEnabled={checkoutEnabled}
