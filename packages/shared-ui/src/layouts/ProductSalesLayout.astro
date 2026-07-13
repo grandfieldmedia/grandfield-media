@@ -11,9 +11,11 @@ interface Props {
   product: ProductSummary;
   benefits?: FeatureItem[];
   faqs?: FaqItem[];
-  /** True once Stripe keys are configured; gates the buy button. */
+  /** True once payment keys are configured; gates the buy button. */
   checkoutEnabled: boolean;
   checkoutAction?: string; // POST endpoint, default /api/checkout
+  /** Optional line under the price — e.g. a tax-transparency note. */
+  priceNote?: string;
 }
 
 const {
@@ -22,6 +24,7 @@ const {
   faqs = [],
   checkoutEnabled,
   checkoutAction = '/api/checkout',
+  priceNote,
 } = Astro.props;
 ---
 
@@ -38,6 +41,7 @@ const {
           <span class="text-3xl font-bold">{formatPrice(product.price)}</span>
           <span class="text-sm text-slate-300">one-time · instant download</span>
         </div>
+        {priceNote && <p class="mt-2 text-sm text-slate-300">{priceNote}</p>}
 
         <div class="mt-8">
           {checkoutEnabled ? (
@@ -102,6 +106,7 @@ const {
   <section class="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
     <h2 class="text-2xl font-bold text-primary">Get {product.name} today</h2>
     <p class="mt-3 text-slate-600 dark:text-slate-400">Instant download, yours to keep, {formatPrice(product.price)}.</p>
+    {priceNote && <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{priceNote}</p>}
     {checkoutEnabled ? (
       <form method="POST" action={checkoutAction} class="mt-6">
         <input type="hidden" name="slug" value={product.slug} />
