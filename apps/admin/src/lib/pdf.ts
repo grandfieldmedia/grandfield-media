@@ -34,6 +34,9 @@ export function buildBookPdf(fonts: BookFonts, meta: BookMeta, chapters: PdfChap
         margins: { top: 54, bottom: 54, left: 54, right: 54 }, // 0.75"
         autoFirstPage: false,
         info: { Title: meta.title, Author: meta.pen },
+        // Pass a TTF as the default font so pdfkit never reads its built-in
+        // Helvetica.afm — avoids a serverless font-metrics bundling dependency.
+        font: fonts.body as unknown as string,
       });
       doc.registerFont('body', fonts.body);
       doc.registerFont('bodyB', fonts.bodyB);
