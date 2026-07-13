@@ -11,6 +11,7 @@
  * (kdp-factory-assemble-local.py).
  */
 import JSZip from 'jszip';
+import { buildBookPdf } from './pdf';
 
 export interface AssembleChapter {
   index: number;
@@ -239,6 +240,27 @@ export async function assembleBook(
   const fullZip = await load();
   fullZip.file('word/document.xml', buildFull(templateXml, s, fields, chapters));
   files.push({ name: `${safeName(title)}.docx`, mime: DOCX_MIME, encoding: 'base64', content: await gen(fullZip) });
+
+  // full book PDF (the sellable digital product) — embeds the template's fonts
+  const fontBuf = async (n: string): Promise<Buffer> =>
+    (await tpl.file(`word/fonts/${n}`)!.async('nodebuffer'));
+  const pdfB64 = await buildBookPdf(
+    {
+      body: await fontBuf('LibreBaskerville-regular.ttf'),
+      bodyB: await fontBuf('LibreBaskerville-bold.ttf'),
+      bodyI: await fontBuf('LibreBaskerville-italic.ttf'),
+      disp: await fontBuf('EBGaramond-regular.ttf'),
+      dispB: await fontBuf('EBGaramond-bold.ttf'),
+      dispI: await fontBuf('EBGaramond-italic.ttf'),
+    },
+    {
+      title, subtitle: fields['{{BOOK_SUBTITLE}}'], pen: fields['{{PEN_NAME}}'],
+      publisher: fields['{{PUBLISHER_NAME}}'], bio: fields['{{AUTHOR_BIO}}'],
+      legal: fields['{{LEGAL_DISCLAIMER}}'], year: fields['{{YEAR}}'],
+    },
+    chapters,
+  );
+  files.push({ name: `${safeName(title)}.pdf`, mime: 'application/pdf', encoding: 'base64', content: pdfB64 });
 
   // full book HTML (plain text — n8n uploads it directly)
   files.push({ name: `${safeName(title)}.html`, mime: 'text/html', encoding: 'utf8', content: buildHtml(fields, chapters) });

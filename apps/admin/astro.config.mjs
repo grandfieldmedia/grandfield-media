@@ -18,7 +18,9 @@ loadEnv({ path: fileURLToPath(new URL('./.env.local', import.meta.url)), overrid
 // Grandfield Media — shared admin panel for all 10 niche sites.
 export default defineConfig({
   output: 'server',
-  adapter: vercel(),
+  // Bundle pdfkit's built-in font metrics (.afm) into the serverless function —
+  // pdfkit reads Helvetica.afm at construction, so it must ship or PDF gen 500s.
+  adapter: vercel({ includeFiles: ['node_modules/pdfkit/js/data/*.afm'] }),
   vite: {
     plugins: [tailwindcss()],
     cacheDir: join(tmpdir(), 'vite-gf-admin'),
